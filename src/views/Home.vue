@@ -1,9 +1,53 @@
 <template>
-  <div class="home"></div>
+  <div class="home">
+    <h1>Home</h1>
+    <InfoBlock :id="1" />
+    <InfoBlock :id="2" imgLocation="right" />
+    <Bestsellers />
+    <h2>“There are always flowers for those who want to see them.”</h2>
+    <div class="horizontal-line--small"></div>
+    <h3>~ Henri Matisse</h3>
+    <div class="parent">
+      <PhotoCollage />
+    </div>
+  </div>
 </template>
 
 <script>
+import InfoBlock from '@/components/home/InfoBlock.vue';
+import PhotoCollage from '@/components/home/PhotoCollage.vue';
+import Bestsellers from '@/components/home/Bestsellers.vue';
 export default {
   name: 'Home',
+  components: {
+    InfoBlock,
+    PhotoCollage,
+    Bestsellers,
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '@/style/variables.scss';
+
+.parent {
+  margin-bottom: 130px;
+}
+
+h2 {
+  font-family: Italianno, cursive;
+  font-size: 45px;
+  text-align: center;
+  color: $font-color;
+
+  margin-top: 120px;
+  margin-bottom: 30px;
+}
+
+h3 {
+  text-align: center;
+  color: $primary-color-dark;
+  margin: -25px 0 100px;
+  font-weight: 300;
+}
+</style>

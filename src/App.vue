@@ -6,10 +6,13 @@
       </div>
       <Header />
       <div class="nav">
-        <router-link :to="{ name: 'Home' }"> Home </router-link>
-        <router-link to="/active">About</router-link>
-        <router-link to="/active">Shop</router-link>
-        <router-link to="/active">My Card</router-link>
+        <router-link
+          v-for="(item, index) of menu"
+          :key="index"
+          :to="{ name: item }"
+        >
+          {{ item }}
+        </router-link>
       </div>
     </div>
 
@@ -24,28 +27,31 @@
 
 <script>
 import Header from '@/components/page/Header.vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   components: {
     Header,
+  },
+
+  setup() {
+    const store = useStore();
+
+    return {
+      menu: computed(() => store.state.menu),
+    };
   },
 };
 </script>
 
 <style lang="scss">
 @import '../src/style/reset.css';
+@import '../src/style/index.scss';
+</style>
+
+<style scoped lang="scss">
 @import '../src/style/variables.scss';
-
-body {
-  background-color: $background-color;
-  color: $font-color;
-  font-size: $font-size;
-}
-
-.container {
-  width: 880px;
-  // border: 1px solid black;
-  margin: 0 auto;
-}
 
 .header {
   display: flex;
@@ -57,23 +63,23 @@ body {
     justify-content: space-between;
 
     width: 60%;
-    margin-bottom: 7px;
+    margin-bottom: 5px;
 
     a {
       padding: 10px 15px;
       border-radius: 10px;
       color: $font-color;
 
-      transition: background-color 0.2s linear;
+      transition: all 0.2s linear;
     }
 
-    a.router-link-active:after {
+    a.router-link-active::after {
       content: '';
       display: block;
       width: 100%;
       min-height: 2px;
       background-color: $primary-color;
-      margin-top: 3px;
+      margin-top: 5px;
     }
 
     a.router-link-active:hover {
@@ -113,11 +119,5 @@ body {
       rgba(247, 246, 241, 0.5172443977591037) 100%
     );
   }
-}
-
-.horizontal-line {
-  width: 100%;
-  height: 1px;
-  background-color: $primary-color-light;
 }
 </style>
