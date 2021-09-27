@@ -7,9 +7,6 @@
           <span class="margin-bottom--15"
             >Flower delivery and assembly service</span
           >
-          <!-- <span class="margin-bottom--15 bold"
-            >TERMS OF SERVICE PRIVACY POLICY</span
-          > -->
         </div>
         <div class="footer-item">
           <h3>GET IN TOUCH</h3>
