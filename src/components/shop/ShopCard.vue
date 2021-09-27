@@ -3,13 +3,19 @@
     <div
       class="image"
       :style="
-        `background: url(${bestsellersProp.image}) center center no-repeat; background-size: cover;`
+        `background: url(${product.image}) center center no-repeat; background-size: cover;`
+      "
+      @click="
+        $router.push({
+          name: 'About Bouquet',
+          params: { bouquet: toKebabCase(product.title) },
+        })
       "
     ></div>
     <div class="info">
-      <h3>{{ bestsellersProp.title }}</h3>
+      <h3>{{ product.title }}</h3>
       <div class="price-and-add">
-        <div class="price">{{ bestsellersProp.price }}$</div>
+        <div class="price">{{ product.price }}$</div>
         <button>Add to card</button>
       </div>
     </div>
@@ -17,14 +23,17 @@
 </template>
 
 <script>
+import { toKebabCase } from '@/modules/toKebabCase.js';
 export default {
   props: {
-    bestsellersProp: {
+    product: {
       type: Object,
     },
   },
   setup() {
-    return {};
+    return {
+      toKebabCase,
+    };
   },
 };
 </script>

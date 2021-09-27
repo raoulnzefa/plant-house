@@ -2,21 +2,21 @@
   <div class="bestsellers">
     <h2>Our Bestsellers</h2>
     <div class="inner">
-      <ShopCart
+      <ShopCard
         v-for="(item, index) of bestsellers"
         :key="index"
-        :bestsellersProp="item"
+        :product="item"
       />
     </div>
   </div>
 </template>
 
 <script>
-import ShopCart from '@/components/shop/ShopCart.vue';
+import ShopCard from '@/components/shop/ShopCard.vue';
 export default {
   name: 'Bestsellers',
   components: {
-    ShopCart,
+    ShopCard,
   },
 
   setup() {

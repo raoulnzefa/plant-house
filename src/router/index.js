@@ -1,5 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import { toKebabCase } from '../modules/toKebabCase.js';
+import store from '../store'
+
+const findProductByBouquet = (route) => {
+  const bouquet = route.params.bouquet;
+
+  return {
+    product: store.state.products.find(item => toKebabCase(item.title) === bouquet)
+  }
+}
 
 const routes = [
   {
@@ -15,7 +25,13 @@ const routes = [
   {
     path: '/shop',
     name: 'Shop',
-    component: () => import('@/views/Shop.vue')
+    component: () => import('@/views/Shop.vue'),
+  },
+  {
+    path: '/shop/:bouquet',
+    name: 'About Bouquet',
+    component: () => import('@/views/AboutBouquet.vue'),
+    props: findProductByBouquet
   },
   {
     path: '/my-card',
