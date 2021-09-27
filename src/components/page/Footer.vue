@@ -78,6 +78,7 @@ export default {
 
   setup() {
     const store = useStore();
+
     return {
       menu: computed(() => store.state.menu),
     };
