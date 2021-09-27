@@ -71,6 +71,7 @@ export default {
 
   width: 100vw;
   z-index: 1;
+  opacity: 0.65;
 
   img {
     flex: 1 1 150px;

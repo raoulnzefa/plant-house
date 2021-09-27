@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="name">
+    <div class="logo">
       ~ Flower Home ~
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.name {
+<style lang="scss">
+.logo {
   font-size: 65px;
   padding: 55px 15px 40px;
 

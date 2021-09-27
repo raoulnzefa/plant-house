@@ -23,16 +23,19 @@
       </keep-alive>
     </router-view>
   </div>
+  <Footer />
 </template>
 
 <script>
 import Header from '@/components/page/Header.vue';
+import Footer from '@/components/page/Footer.vue';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   components: {
     Header,
+    Footer,
   },
 
   setup() {
@@ -111,12 +114,12 @@ export default {
   }
 
   .gradient {
+    background: rgb(238, 237, 233);
     background: linear-gradient(
       0deg,
-      rgba(247, 246, 241, 1) 17%,
-      rgba(247, 246, 241, 0.8449754901960784) 56%,
-      rgba(247, 246, 241, 0.738532913165266) 79%,
-      rgba(247, 246, 241, 0.5172443977591037) 100%
+      rgba(238, 237, 233, 1) 11%,
+      rgba(238, 237, 233, 0.7441351540616247) 68%,
+      rgba(238, 237, 233, 0.5144432773109244) 100%
     );
   }
 }
