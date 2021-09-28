@@ -93,7 +93,6 @@ export default {
   width: 100vw;
   height: 400px;
 
-  // background-color: $primary-color;
   border-top: 1px solid lightgray;
 
   background: url('../../assets/img/back-flowers.jpeg');
@@ -162,20 +161,6 @@ export default {
 
 .margin-bottom--35 {
   margin-bottom: 35px;
-}
-
-button {
-  display: block;
-  background-color: inherit;
-
-  padding: 10px 8px;
-  border: 2px solid $accent-color;
-
-  transition: all 0.2s linear;
-}
-
-button:hover {
-  background-color: $accent-color;
 }
 
 h3 {

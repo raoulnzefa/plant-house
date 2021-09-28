@@ -74,6 +74,8 @@ export default {
     button {
       background-color: inherit;
       transition: color 0.2s linear;
+      border: none;
+      padding: 0;
     }
 
     button:hover {

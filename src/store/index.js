@@ -25,11 +25,9 @@ export default createStore({
         "price": 23,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [ "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://www.ikea.com/kr/en/images/products/smycka-artificial-bouquet-in-outdoor-green__0948705_pe799223_s5.jpg?f=xl",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -38,11 +36,10 @@ export default createStore({
         "price": 30,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -51,11 +48,10 @@ export default createStore({
         "price": 50,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -64,11 +60,10 @@ export default createStore({
         "price": 35,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -77,11 +72,10 @@ export default createStore({
         "price": 45,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -90,11 +84,10 @@ export default createStore({
         "price": 35,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -103,11 +96,10 @@ export default createStore({
         "price": 60,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -116,11 +108,10 @@ export default createStore({
         "price": 38,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -129,11 +120,10 @@ export default createStore({
         "price": 50,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -142,11 +132,10 @@ export default createStore({
         "price": 25,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -155,11 +144,10 @@ export default createStore({
         "price": 48,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -168,11 +156,10 @@ export default createStore({
         "price": 150,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -181,11 +168,10 @@ export default createStore({
         "price": 25,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       },
       {
@@ -194,11 +180,10 @@ export default createStore({
         "price": 20,
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.",
         "image": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-        "images": [{
-          "0": "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
-          "1": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
-          "2": "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-          }
+        "images": [
+          "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
+          "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ]
       }
     ]
