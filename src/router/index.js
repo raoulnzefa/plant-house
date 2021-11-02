@@ -34,8 +34,8 @@ const routes = [
     props: findProductByBouquet
   },
   {
-    path: '/my-card',
-    name: 'My Card',
+    path: '/my-cart',
+    name: 'My Cart',
     component: () => import('@/views/MyCard.vue')
   }
 ]

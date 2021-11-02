@@ -13,6 +13,14 @@
         >
           {{ item }}
         </router-link>
+        <router-link :to="{ name: 'My Cart' }">
+          <div class="cart-menu">
+            <img src="./assets/icons/cart-icon.png" alt="" />
+            <div class="cart-menu--counter" v-show="cartMenuCounter">
+              {{ cartMenuCounter }}
+            </div>
+          </div>
+        </router-link>
       </div>
     </div>
 
@@ -43,6 +51,7 @@ export default {
 
     return {
       menu: computed(() => store.state.menu),
+      cartMenuCounter: computed(() => store.state.cart.length),
     };
   },
 };
@@ -95,6 +104,33 @@ export default {
 
     a:hover {
       color: $accent-color;
+    }
+  }
+
+  .cart-menu {
+    position: relative;
+
+    img {
+      width: 21px;
+    }
+
+    &--counter {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      height: 12px;
+      width: 12px;
+
+      font-size: 8px;
+      color: rgb(238, 237, 233);
+
+      border-radius: 50%;
+      background-color: red;
     }
   }
 
