@@ -13,7 +13,7 @@
         <p>
           {{ product.description }}
         </p>
-        <button class="button">Add to the Cart</button>
+        <button class="button" @click="onAddToCart">Add to the Cart</button>
       </div>
 
       <div class="slider">
@@ -68,7 +68,20 @@ export default {
     Breadcrumb,
   },
 
-  setup(props) {
+  setup(prop) {
+    const store = useStore();
+
+    const title = prop.product.title;
+    const price = prop.product.price;
+    const image = prop.product.image;
+    const id = prop.product.id;
+
+    let payload = { title, price, image, id };
+
+    const onAddToCart = () => {
+      store.commit('addCartItem', payload);
+    };
+
     const prepareSlider = (direction) => {
       const slidesContainer = document.querySelector('.slider-items');
 
@@ -96,7 +109,6 @@ export default {
 
     const moveSlide = (arrow = 'right') => {
       const slidesContainer = document.querySelector('.slider-items');
-      // slidesContainer.style.transition = 'all 0.2s ease-in';
 
       let sliderItem = document.querySelector('.slider-item');
       const itemWidth = sliderItem.clientWidth;
@@ -116,6 +128,7 @@ export default {
 
     return {
       moveSlide,
+      onAddToCart,
     };
   },
 };

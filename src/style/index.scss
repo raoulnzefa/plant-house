@@ -13,7 +13,7 @@ body {
 .container {
   width: $container-width;
   // border: 1px solid black;
-  margin: 0 auto 200px;
+  margin: 0 auto 65px;
   // height: 5000px;
 }
 
@@ -63,12 +63,25 @@ button {
   display: block;
   background-color: inherit;
 
-  padding: 10px 8px;
   border: 2px solid $accent-color;
+  border-radius: 25px;
+  padding: 10px 15px;
 
   transition: all 0.2s linear;
 
   &:hover {
-    background-color: $accent-color;
+    background-color: $hover-button;
   }
+
+  &:focus {
+    border-color: $primary-color-dark;
+  }
+}
+
+.delete-button {
+  transition: all 0.2s linear;
+}
+
+.delete-button:hover {
+  color: $primary-color;
 }

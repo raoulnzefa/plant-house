@@ -1,8 +1,10 @@
 <template>
   <div class="shop">
     <h1>Shop</h1>
-    <FilterBlock />
-    <!-- <p>the entire assortment of bouquets can be viewed in this tab</p> -->
+    <FilterBlock @onSelectOption="getSelectedOptions" />
+    {{ filteredProducts }}
+    <!-- <p>the entire assortment of bouquets can be viewed on this page</p> -->
+    <!-- {{ filteredProducts.length !== 0 ? filteredProducts : products }} -->
     <div class="products-area">
       <ShopCard
         v-for="(product, index) in products"
@@ -18,7 +20,8 @@
 import ShopCard from '@/components/shop/ShopCard.vue';
 import FilterBlock from '@/components/shop/FilterBlock.vue';
 import { useStore } from 'vuex';
-import { computed, onBeforeMount } from 'vue';
+import { computed, ref } from 'vue';
+// import { filterProducts } from '@/modules/shop/filterProducts.js';
 
 export default {
   name: 'Shop',
@@ -28,11 +31,27 @@ export default {
   },
   setup() {
     const store = useStore();
-    // onBeforeMount(() => {
-    //   store.dispatch('getProducts');
-    // });
+    const products = computed(() => store.state.products);
+
+    const selectedOptions = ref([]);
+    let filteredProducts = [];
+
+    const getSelectedOptions = (selected) => {
+      selectedOptions.value = selected;
+
+      // console.log(Array.from(products.value));
+
+      filteredProducts = filterProducts(
+        selectedOptions.value,
+        Array.from(products.value)
+      );
+    };
+
     return {
-      products: computed(() => store.state.products),
+      getSelectedOptions,
+      filteredProducts,
+      products,
+      selectedOptions,
     };
   },
 };
@@ -41,7 +60,7 @@ export default {
 <style lang="scss" scoped>
 .shop {
   h1 {
-    margin-bottom: 35px;
+    margin-bottom: 15px;
   }
 }
 

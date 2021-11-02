@@ -16,7 +16,9 @@
       <h3>{{ product.title }}</h3>
       <div class="price-and-add">
         <div class="price">{{ product.price }}$</div>
-        <button>Add to card</button>
+        <button @click="onAddToCart">
+          Add to cart
+        </button>
       </div>
     </div>
   </div>
@@ -24,15 +26,33 @@
 
 <script>
 import { toKebabCase } from '@/modules/toKebabCase.js';
+import { useStore } from 'vuex';
+
 export default {
   props: {
     product: {
       type: Object,
     },
   },
-  setup() {
+
+  setup(prop) {
+    const store = useStore();
+
+    const title = prop.product.title;
+    const price = prop.product.price;
+    const image = prop.product.image;
+    const id = prop.product.id;
+
+    let payload = { title, price, image, id };
+
+    const onAddToCart = () => {
+      store.commit('addCartItem', payload);
+    };
+
     return {
       toKebabCase,
+      onAddToCart,
+      store,
     };
   },
 };

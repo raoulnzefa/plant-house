@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    menu: ['Home', 'Shop', 'About', 'My Card'],
+    menu: ['Home', 'Shop', 'About'],
     infoData: [
       {
         id: 1,
@@ -15,9 +15,10 @@ export default createStore({
         id: 2,
         img: 'https://www.ikea.com/kr/en/images/products/smycka-artificial-bouquet-in-outdoor-green__0948705_pe799223_s5.jpg?f=xl',
         title: 'This is a good choice for your home',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus.'
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus.',
       },
     ],
+
     products: [
       {
         "id": 0,
@@ -28,7 +29,8 @@ export default createStore({
         "images": [ "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://www.ikea.com/kr/en/images/products/smycka-artificial-bouquet-in-outdoor-green__0948705_pe799223_s5.jpg?f=xl",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 1,
@@ -40,7 +42,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 2,
@@ -52,7 +55,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 3,
@@ -64,7 +68,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 4,
@@ -76,7 +81,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 5,
@@ -88,7 +94,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 6,
@@ -100,7 +107,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 7,
@@ -112,7 +120,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 9,
@@ -124,7 +133,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 10,
@@ -136,7 +146,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 11,
@@ -148,7 +159,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 12,
@@ -160,7 +172,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Any day']
       },
       {
         "id": 13,
@@ -172,7 +185,8 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Lilacs', 'Orchids', 'Any day', 'Large']
       },
       {
         "id": 14,
@@ -184,30 +198,43 @@ export default createStore({
           "https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg",
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
-        ]
+        ],
+        tags: ['Daisies', 'Any day', 'Small', 'Date']
+      }
+    ],
+
+    cart: [],
+    cartID: 0,
+
+    promocodes: [
+      {
+        id: 0,
+        name: 'SALE25',
+        sum: 25
       }
     ]
       
   },
   mutations: {
-    // setProducts(state, payload) {
-    //   state.products = payload;
-    // }
+    setQuantity(state, payload) {
+      state.cart = payload;
+    },
+
+    deleteCartItem(state, id) {
+      state.cart = state.cart.filter(item => item.cartID != id);
+    },
+
+    addCartItem(state, payload) {
+      payload.cartID = state.cartID;
+      payload.quantity = 1;
+      state.cart.push(payload);
+
+      state.cartID++;
+    }
+
   },
   actions: {
-    // async getProducts({ commit }) {
-    //   try {
-    //     const response = await fetch('../products.json');
-    //     const data = await response.json();
-    //     console.log(data);
-    //     commit(setProducts, data);
 
-    //   } catch(e) {
-    //     console.error(e);
-    //     throw e;
-    //   }
-      
-    // }
   },
   getters: {
     getInfo: (state) => (id) => {
