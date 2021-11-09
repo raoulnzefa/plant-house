@@ -63,7 +63,8 @@ button {
   display: block;
   background-color: inherit;
 
-  border: 2px solid $accent-color;
+  border: 2px solid black;
+  border-color: none;
   border-radius: 25px;
   padding: 10px 15px;
 
@@ -84,4 +85,70 @@ button {
 
 .delete-button:hover {
   color: $primary-color;
+}
+
+.button--go-back {
+  display: block;
+  margin-bottom: 25px;
+
+  a {
+    padding: 5px 0;
+    border-bottom: 2px solid $accent-color;
+
+    transition: color 0.2s linear;
+    cursor: pointer;
+  }
+
+  a:hover {
+    color: $accent-color;
+  }
+}
+
+.button--continue {
+  button {
+    border-color: $primary-color;
+    padding: 15px 30px;
+  }
+
+  button:focus {
+    border-color: $accent-color;
+    background-color: $accent-color-light;
+  }
+}
+
+input[type='text'], input[type='email'] {
+  width: 110px;
+
+  margin-left: 15px;
+  padding: 5px 10px;
+
+  border-radius: 5px;
+  border: 2px solid $primary-color;
+
+  background-color: $background-color;
+  background-image: linear-gradient(
+      to top,
+      $primary-color-light,
+      $background-color 33%
+    );
+
+  transition: all 0.2s linear;
+}
+
+input:focus {
+  border-color: $accent-color;
+}
+
+input::placeholder {
+  font-weight: 300;
+}
+
+.horizontal-line {
+  background-color: lightgray;
+}
+
+.vertical-line {
+  height: inherit;
+  width: 1px;
+  background-color: lightgray;
 }

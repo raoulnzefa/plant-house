@@ -2,13 +2,13 @@ $background-color: #eeede9;
 $primary-color: #9f87af;
 $primary-color-light: #d5cbdc4d;
 $primary-color-dark: #7d4f82;
+$primary-color-opacity: #9f87afa8;
 
 $accent-color: #03b5aa;
 $accent-color-light: #03b5a93a;
 $accent-color-dark: #00a398;
 
 $hover-button: #d1c0dd57;
-// $hover-button: #d1c0dd57;
 
 $font-color: #1b101c;
 $font-size: 16px;
@@ -19,3 +19,23 @@ $container-width: 900px;
 // AboutBouquet
 
 $slider-width-ab: 480px;
+
+// const orderDetails = ref({
+//   firstName: '',
+//   lastName: '',
+//   phoneNum: '',
+//   deliveryType: '',
+//   email: '',
+
+//   mailDelivery: {
+//     lastNameDelivery: '',
+//     firstNameDelivery: '',
+//     phoneNumDelivery: '',
+
+//     branchNum: '',
+//     cityName: '',
+//   },
+//   pickupDelivery: {
+//     branchPickup: '',
+//   },
+// });
