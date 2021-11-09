@@ -3,106 +3,137 @@
     <h1>Shopping bag</h1>
     <div class="cart-inner" v-if="cart.length">
       <div class="tasks-list">
-        <div class="circle active">1</div>
-        <div class="line"></div>
-        <div class="circle">2</div>
-        <div class="line"></div>
-        <div class="circle">3</div>
-      </div>
-      <div
-        class="cart-item"
-        v-for="(item, index) in cart"
-        :key="index"
-        :data-cart-id="item.cartID"
-      >
-        <div class="cart-item--info">
-          <div class="cart-item--image">
-            <img :src="item.image" :alt="item.id" />
-          </div>
-
-          <div class="cart-item--title">
-            <h3>{{ item.title }}</h3>
-          </div>
+        <div class="circle active" :class="{ 'done-task': isDeliveryPath }">
+          {{ isDeliveryPath ? '' : 1 }}
         </div>
-
-        <div class="cart-item--info cart-item--edit">
-          <div class="cart-item--quantity">
-            <div class="cart-item--button">
-              <button @click="onMinusToQuantity">-</button>
-            </div>
-            <div class="cart-item--input">
-              <input
-                type="text"
-                :value="item.quantity"
-                @change="onChangeQuantity"
-              />
-            </div>
-
-            <div class="cart-item--button">
-              <button @click="onPlusToQuantity">+</button>
-            </div>
-          </div>
-
-          <div class="cart-item--price">
-            <span>{{ item.price }}$</span>
-          </div>
-
-          <div class="remove-button delete-button" @click="onRemoveCartItem">
-            X
-          </div>
+        <div class="line" :class="{ active: isDeliveryPath }"></div>
+        <div
+          class="circle"
+          :class="{
+            active: isDeliveryPath,
+            'done-task': isOrderConfirmationPath,
+          }"
+        >
+          {{ isOrderConfirmationPath ? '' : 2 }}
         </div>
+        <div class="line" :class="{ active: isOrderConfirmationPath }"></div>
+        <div class="circle" :class="{ active: isOrderConfirmationPath }">3</div>
       </div>
 
-      <div class="subtotal-container">
-        <div class="subtotal">
-          <div class="subtotal--info">
-            <span>Subtotal:</span>
-            <span class="price">{{ ' ' + subtotal }} $</span>
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+
+      <div v-if="isCart">
+        <div
+          class="cart-item"
+          v-for="(item, index) in cart"
+          :key="index"
+          :data-cart-id="item.cartID"
+        >
+          <div class="cart-item--info">
+            <div class="cart-item--image">
+              <img :src="item.image" :alt="item.id" />
+            </div>
+
+            <div class="cart-item--title">
+              <h3>{{ item.title }}</h3>
+            </div>
           </div>
-          <div class="promocode">
-            <span>Promo code: </span>
-            <div class="promocode--inner">
-              <input
-                type="text"
-                placeholder="Your code"
-                @change="onGetPromocode"
-              />
-              <div class="promocode--error" v-show="!isCodeExist">
-                This code is not exist
+
+          <div class="cart-item--info cart-item--edit">
+            <div class="cart-item--quantity">
+              <div class="cart-item--button">
+                <button @click="onMinusToQuantity">-</button>
+              </div>
+              <div class="cart-item--input">
+                <input
+                  type="text"
+                  :value="item.quantity"
+                  @change="onChangeQuantity"
+                  @input="onValidNum"
+                />
+              </div>
+
+              <div class="cart-item--button">
+                <button @click="onPlusToQuantity">+</button>
               </div>
             </div>
-          </div>
-          <div class="sale" v-if="discountSum">
-            <span>Your sale:</span>
-            <span>-{{ (subtotal * discountSum) / 100 }}$</span>
-          </div>
-          <div class="horizontal-line"></div>
 
-          <div class="summary">
-            <span>Summary: </span>
-            <span>{{ summary }}$</span>
-          </div>
+            <div class="cart-item--price">
+              <span>{{ item.price }}$</span>
+            </div>
 
-          <div class="next-page">
-            <button>Continue</button>
+            <div class="remove-button delete-button" @click="onRemoveCartItem">
+              X
+            </div>
+          </div>
+        </div>
+
+        <div class="subtotal-container">
+          <div class="subtotal">
+            <div class="subtotal--info">
+              <span>Subtotal:</span>
+              <span class="price">{{ ' ' + subtotal }} $</span>
+            </div>
+            <div class="promocode">
+              <span>Promo code: </span>
+              <div class="promocode--inner">
+                <input
+                  type="text"
+                  placeholder="Your code"
+                  @change="onGetPromocode"
+                />
+                <div class="promocode--error" v-show="!isCodeExist">
+                  This code is not exist
+                </div>
+              </div>
+            </div>
+            <div class="sale" v-if="discountSum">
+              <span>Your sale:</span>
+              <span>-{{ (subtotal * discountSum) / 100 }}$</span>
+            </div>
+            <div class="horizontal-line"></div>
+
+            <div class="summary">
+              <span>Summary: </span>
+              <span>{{ summary }}$</span>
+            </div>
+
+            <div class="next-page">
+              <button @click="onNextPageButton">
+                Continue
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="cart-inner" v-else>Your cart is empty.</div>
+    <div class="cart-inner" v-else>Your shopping bag is empty.</div>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex';
-import { computed, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { computed, ref, watch } from 'vue';
 
 export default {
   name: 'MyCart',
   setup() {
     const store = useStore();
+    const router = useRouter(),
+      route = useRoute();
+
     const cart = computed(() => store.state.cart);
+    const isCart = ref(true);
+
+    const isDeliveryPath = ref(false),
+      isOrderConfirmationPath = ref(false);
+
     const subtotal = computed(() =>
       cart.value.reduce((sum, item) => (sum += +item.price * +item.quantity), 0)
     );
@@ -115,6 +146,28 @@ export default {
     const summary = computed(
       () => subtotal.value - (subtotal.value * discountSum.value) / 100
     );
+
+    watch(
+      () => route.name,
+      (value) => {
+        if (value === 'My Cart') {
+          isCart.value = true;
+          isDeliveryPath.value = false;
+          isOrderConfirmationPath.value = false;
+        } else if (value === 'Delivery') {
+          isCart.value = false;
+
+          isDeliveryPath.value = true;
+          isOrderConfirmationPath.value = false;
+        } else {
+          isCart.value = false;
+
+          isOrderConfirmationPath.value = true;
+        }
+      }
+    );
+
+    // QUANTITY
 
     const changeQuantity = (target, quantityValue) => {
       const cartItem = target.closest('.cart-item');
@@ -155,11 +208,15 @@ export default {
       changeQuantity(target, input.value);
     };
 
+    //CART
+
     const onRemoveCartItem = ({ target }) => {
       const cartID = target.closest('.cart-item').dataset.cartId;
 
       store.commit('deleteCartItem', cartID);
     };
+
+    //PROMOCODE
 
     const onGetPromocode = ({ target }) => {
       isCodeExist.value = false;
@@ -179,18 +236,46 @@ export default {
       target.value = '';
     };
 
+    //BUTTONS
+
+    const onNextPageButton = () => {
+      isCart.value = false;
+
+      store.commit('setOrderPrice', {
+        subtotal: subtotal.value,
+        discount: discountSum.value,
+        summary: summary.value,
+      });
+      router.push({ name: 'Delivery' });
+    };
+
+    // VALID INPUT
+
+    const onValidNum = ({ target, data }) => {
+      if (+target.value > 10) {
+        target.value = target.value.replace(data, '');
+      }
+
+      target.value = target.value.replace(/[^\d]/g, '');
+    };
+
     return {
       cart,
       subtotal,
       summary,
       discountSum,
       isCodeExist,
+      isCart,
+      isDeliveryPath,
+      isOrderConfirmationPath,
 
       onChangeQuantity,
       onPlusToQuantity,
       onMinusToQuantity,
       onRemoveCartItem,
       onGetPromocode,
+      onNextPageButton,
+      onValidNum,
     };
   },
 };
@@ -235,6 +320,15 @@ h1 {
   .active {
     background-color: $primary-color;
     opacity: 1;
+  }
+
+  .done-task {
+    background-image: url('../assets/icons/done.png');
+    background-size: contain;
+
+    background-color: inherit;
+
+    transform: scale(1.2);
   }
 }
 
@@ -394,9 +488,5 @@ h1 {
       color: red;
     }
   }
-}
-
-.horizontal-line {
-  background-color: lightgray;
 }
 </style>

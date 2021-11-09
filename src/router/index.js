@@ -36,19 +36,58 @@ const routes = [
   {
     path: '/my-cart',
     name: 'My Cart',
-    component: () => import('@/views/MyCard.vue')
-  }
+    component: () => import('@/views/MyCard.vue'),
+    children: [
+      {
+        path: 'delivery',
+        name: 'Delivery',
+        component: () => import('@/components/cart/Delivery.vue')
+      },
+      {
+        path: 'order-confirmation',
+        name: 'Order Confirmation',
+        component: () => import('@/components/cart/ConfirmBlock.vue')
+      }
+    ]
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    return {
-      top: 0,
-      behavior: 'smooth'
+    if (to.name === 'Delivery' || to.name === 'Order Confirmation') {
+      return {
+        el: 'h1',
+        top: '10',
+        behavior: 'smooth'
+      }
+
+    } else if (to.name === 'Home' && from.name === 'Order Confirmation') {
+      return {
+        top: 0
+      }
+
+    } else {
+      return {
+        top: 0,
+        behavior: 'smooth'
+      }
     }
   }
+});
+
+router.beforeEach((to, from) => {
+  
+  //SHOPPING CART
+  if (from.name === 'Order Confirmation' && to.name === 'Delivery') {
+    return true;
+
+  } else if ((from.name !== 'My Cart' && to.name === 'Delivery') || 
+    (from.name !== 'Delivery' && to.name === 'Order Confirmation')){
+    return { name: 'My Cart' };
+  }
+
 })
 
 export default router

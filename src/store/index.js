@@ -203,7 +203,7 @@ export default createStore({
       }
     ],
 
-    cart: [],
+    cart: [{"title":"Gorgeous","price":23,"image":"https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg","id":0,"cartID":0,"quantity":1}],
     cartID: 0,
 
     promocodes: [
@@ -212,8 +212,14 @@ export default createStore({
         name: 'SALE25',
         sum: 25
       }
-    ]
-      
+    ],
+
+    order: {
+      price: {},
+      orderDetails: {}
+    },
+
+    isShowModal: true,
   },
   mutations: {
     setQuantity(state, payload) {
@@ -230,12 +236,47 @@ export default createStore({
       state.cart.push(payload);
 
       state.cartID++;
+    },
+
+    // ORDER
+
+    setOrderPrice(state, payload) {
+      state.order.price = payload;
+    },
+
+    setDeliveryPrice(state, payload) {
+      state.order.price.delivery = payload;
+    },
+
+    setOrderDetails(state, payload) {
+      state.order.orderDetails = payload;
+    },
+
+    clearOrder(state) {
+      state.order.orderDetails = {};
+      state.order.price = {};
+    },
+
+    // MODAL
+
+    changeModalValue(state) {
+      state.isShowModal = !state.isShowModal;
+    },
+
+    
+
+    // CART
+
+    clearCart(state) {
+      state.cart = [];
     }
 
   },
+  
   actions: {
 
   },
+
   getters: {
     getInfo: (state) => (id) => {
       return state.infoData.find((item) => item.id === id);
@@ -245,6 +286,5 @@ export default createStore({
     // homePage
   }
 })
-
 
 
