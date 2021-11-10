@@ -88,6 +88,10 @@ router.beforeEach((to, from) => {
     return { name: 'My Cart' };
   }
 
+  if (store.state.isShowModal && from.name === 'Home') {
+    store.commit('changeModalValue');
+  }
+
 })
 
 export default router

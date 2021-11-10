@@ -7,14 +7,16 @@
       ></div>
       <h2>Thank you for your order!</h2>
       <p>We already sent you e-mail list with your order details</p>
-      <div class="confirmed-dilivery-icon"></div>
+      <div class="bouquet-image">
+        <img src="../../assets/img/bouquet.png" alt="" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex';
-import { watch, computed, onMounted } from 'vue';
+import { watch, computed } from 'vue';
 
 export default {
   name: 'Delivery Confirmed Modal',
@@ -22,15 +24,20 @@ export default {
     const store = useStore();
     const isShowModal = computed(() => store.state.isShowModal);
 
-    // let modalWindow = {};
+    const onCloseModal = ({ target }) => {
+      console.log('inner');
+      if (target.closest('.delivery-modal--inner')) return;
 
-    // onMounted(() => {
-    //   modalWindow = document.querySelector('.delivery-modal--inner');
-    // });
+      console.log('inner 2');
+
+      store.commit('changeModalValue');
+      document.body.removeEventListener('mouseup', onCloseModal);
+    };
 
     watch(isShowModal, () => {
       if (isShowModal.value) {
         document.body.style.overflow = 'hidden';
+        document.body.addEventListener('mouseup', onCloseModal);
       } else {
         document.body.style.overflow = 'auto';
       }
@@ -43,6 +50,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+
+h2 {
+  margin-bottom: 10px;
+}
 
 .delivery-modal {
   position: absolute;
@@ -85,7 +96,7 @@ export default {
   flex-direction: column;
   align-items: center;
 
-  width: 35vw;
+  width: 45vw;
 
   padding: 35px 0;
 
@@ -97,31 +108,36 @@ export default {
   transition: all 0.2s ease-out;
 
   z-index: 1000;
+
+  .bouquet-image {
+    position: absolute;
+    bottom: -20px;
+    left: -55px;
+
+    animation: blockUp 2s;
+  }
+
+  .bouquet-image img {
+    height: 210px;
+
+    transform: rotate(-25deg);
+  }
 }
 
-.confirmed-dilivery-icon {
-  width: 100px;
-  height: 100px;
-
-  margin-top: 25px;
-
-  background-image: url('../../assets/icons/confirmed-delivery.png');
-  background-size: contain;
-
-  animation: scalingInfinity 2s infinite;
-}
-
-@keyframes scalingInfinity {
+@keyframes blockUp {
   0% {
-    transform: scale(1);
+    bottom: -35px;
+    opacity: 0;
   }
-
-  50% {
-    transform: scale(0.8);
+  49% {
+    opacity: 0.49;
   }
-
+  51% {
+    opacity: 0.51;
+  }
   100% {
-    transform: scale(1);
+    bottom: -20px;
+    opacity: 1;
   }
 }
 </style>
