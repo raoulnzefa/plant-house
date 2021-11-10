@@ -59,7 +59,7 @@ const router = createRouter({
     if (to.name === 'Delivery' || to.name === 'Order Confirmation') {
       return {
         el: 'h1',
-        top: '10',
+        top: '100',
         behavior: 'smooth'
       }
 
@@ -88,8 +88,21 @@ router.beforeEach((to, from) => {
     return { name: 'My Cart' };
   }
 
+  //  ORDER MODAL WINDOW
+
   if (store.state.isShowModal && from.name === 'Home') {
     store.commit('changeModalValue');
+  }
+
+  // MENU STYLE
+
+  if (to.name !== 'Home') {
+    store.commit('changeMenuValue', true);
+    store.commit('changeIsHomePage', false);
+
+  } else {
+    store.commit('changeMenuValue', false);
+    store.commit('changeIsHomePage', true);
   }
 
 })

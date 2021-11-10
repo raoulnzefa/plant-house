@@ -219,7 +219,10 @@ export default createStore({
       orderDetails: {}
     },
 
-    isShowModal: true,
+    isShowModal: false,
+    isScrollMenu: false,
+    isHomePage: true,
+
   },
   mutations: {
     setQuantity(state, payload) {
@@ -269,7 +272,19 @@ export default createStore({
 
     clearCart(state) {
       state.cart = [];
+    },
+    
+    // MENU SETTINGS
+
+    changeMenuValue(state, payload) {
+      state.isScrollMenu = payload;
+    },
+
+    changeIsHomePage(state, payload) {
+      state.isHomePage = payload;
     }
+
+    
 
   },
   

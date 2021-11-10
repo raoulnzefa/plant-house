@@ -1,30 +1,17 @@
 <template>
   <div class="container">
-    <div class="header">
-      <div class="bgc">
+    <header class="header">
+      <div class="bgc" v-show="$store.state.isHomePage">
         <div class="gradient"></div>
       </div>
-      <Header />
-      <div class="nav">
-        <router-link
-          v-for="(item, index) of menu"
-          :key="index"
-          :to="{ name: item }"
-        >
-          {{ item }}
-        </router-link>
-        <router-link :to="{ name: 'My Cart' }">
-          <div class="cart-menu">
-            <img src="./assets/icons/cart-icon.png" alt="" />
-            <div class="cart-menu--counter" v-show="cartMenuCounter">
-              {{ cartMenuCounter }}
-            </div>
-          </div>
-        </router-link>
+      <div v-show="$store.state.isHomePage">
+        <div class="logo">
+          ~ Flower Home ~
+        </div>
       </div>
-    </div>
+      <Menu />
+    </header>
 
-    <div class="horizontal-line"></div>
     <router-view v-slot="{ Component }">
       <keep-alive>
         <component :is="Component" />
@@ -35,24 +22,13 @@
 </template>
 
 <script>
-import Header from '@/components/page/Header.vue';
 import Footer from '@/components/page/Footer.vue';
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import Menu from '@/components/page/Menu.vue';
 
 export default {
   components: {
-    Header,
     Footer,
-  },
-
-  setup() {
-    const store = useStore();
-
-    return {
-      menu: computed(() => store.state.menu),
-      cartMenuCounter: computed(() => store.state.cart.length),
-    };
+    Menu,
   },
 };
 </script>
@@ -62,77 +38,13 @@ export default {
 @import '../src/style/index.scss';
 </style>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '../src/style/variables.scss';
 
 .header {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .nav {
-    display: flex;
-    justify-content: space-between;
-
-    width: 60%;
-    margin-bottom: 5px;
-
-    a {
-      padding: 10px 15px;
-      border-radius: 10px;
-      color: $font-color;
-
-      transition: all 0.2s linear;
-    }
-
-    a.router-link-active::after {
-      content: '';
-      display: block;
-      width: 100%;
-      min-height: 2px;
-      background-color: $primary-color;
-      margin-top: 5px;
-    }
-
-    a.router-link-active:hover {
-      color: $font-color;
-    }
-
-    a:visited {
-      color: $font-color;
-    }
-
-    a:hover {
-      color: $accent-color;
-    }
-  }
-
-  .cart-menu {
-    position: relative;
-
-    img {
-      width: 21px;
-    }
-
-    &--counter {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      height: 12px;
-      width: 12px;
-
-      font-size: 8px;
-      color: rgb(238, 237, 233);
-
-      border-radius: 50%;
-      background-color: red;
-    }
-  }
 
   .bgc,
   .gradient {

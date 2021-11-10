@@ -8,8 +8,9 @@
     <div class="horizontal-line--small"></div>
     <h3>~ Henri Matisse</h3>
     <div class="parent">
-      <PhotoCollage />
+      <!-- <PhotoCollage /> -->
     </div>
+    <DeliveryConfirmedModal v-show="$store.state.isShowModal" />
   </div>
 </template>
 
@@ -17,12 +18,14 @@
 import InfoBlock from '@/components/home/InfoBlock.vue';
 import PhotoCollage from '@/components/home/PhotoCollage.vue';
 import Bestsellers from '@/components/home/Bestsellers.vue';
+import DeliveryConfirmedModal from '@/components/home/DeliveryConfirmedModal.vue';
 export default {
   name: 'Home',
   components: {
     InfoBlock,
     PhotoCollage,
     Bestsellers,
+    DeliveryConfirmedModal,
   },
 };
 </script>
