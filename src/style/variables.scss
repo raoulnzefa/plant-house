@@ -1,4 +1,6 @@
 $background-color: #eeede9;
+$background-color-light: #eeede962;
+
 $primary-color: #9f87af;
 $primary-color-light: #d5cbdc4d;
 $primary-color-dark: #7d4f82;
@@ -14,7 +16,13 @@ $font-color: #1b101c;
 $font-size: 16px;
 $font-stack: Helvetica, sans-serif;
 
-$container-width: 900px;
+$container-width: 930px;
+$container-width-930: 768px;
+$container-width-tablet: 600px;
+$container-width-phone: 360px;
+
+$menu-width-tablet: 300px;
+$menu-width-phone: 320px;
 
 // AboutBouquet
 

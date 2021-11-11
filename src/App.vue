@@ -5,7 +5,7 @@
         <div class="gradient"></div>
       </div>
       <div v-show="$store.state.isHomePage">
-        <div class="logo">
+        <div class="logo" style="padding-bottom: 25px;">
           ~ Flower Home ~
         </div>
       </div>

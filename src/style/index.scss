@@ -1,6 +1,9 @@
 @import '../src/style/variables.scss';
+@import './src/style/media/breakpoints';
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;1,100;1,300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Italianno&display=swap');
+
 
 body {
   background-color: $background-color;
@@ -12,9 +15,20 @@ body {
 
 .container {
   width: $container-width;
-  // border: 1px solid black;
   margin: 0 auto 65px;
-  // height: 5000px;
+  padding: 0 15px;
+
+  @include media('<=930px', '>tablet') {
+    width: $container-width-930;
+  }
+
+  @include media('<=tablet', '>phone') {
+    width: $container-width-tablet;
+  }
+
+  @include media('<=phone') {
+    width: $container-width-phone;
+  }
 }
 
 .horizontal-line, .horizontal-line--small {

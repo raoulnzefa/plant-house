@@ -1,13 +1,20 @@
 <template>
-  <div :class="{ 'filler-block': isScrollMenu }"></div>
+  <div :class="{ 'filler-block': isScrollMenu && !isTabletScreen }"></div>
 
-  <div class="nav" :class="{ 'nav-scroll': isScrollMenu }">
-    <div class="nav--inner" :class="{ 'nav--inner--scroll': isScrollMenu }">
-      <div class="nav-item" :class="{ 'nav-item--scroll': isScrollMenu }">
+  <div class="nav" :class="{ 'nav-scroll': isScrollMenu && !isTabletScreen }">
+    <div v-show="isTabletScreen" class="menu-icon" @click="onOpenMenu"></div>
+    <div
+      class="nav--inner"
+      :class="{ 'nav--inner--scroll': isScrollMenu && !isTabletScreen }"
+    >
+      <div
+        class="nav-item"
+        :class="{ 'nav-item--scroll': isScrollMenu && !isTabletScreen }"
+      >
         <div
           class="logo"
           @click="$router.push({ name: 'Home' })"
-          v-if="isScrollMenu"
+          v-if="isScrollMenu || isTabletScreen"
         >
           ~ Flower Home ~
         </div>
@@ -19,18 +26,26 @@
           {{ item }}
         </router-link>
 
-        <router-link :to="{ name: 'My Cart' }" v-if="!isScrollMenu">
+        <router-link
+          :to="{ name: 'My Cart' }"
+          v-if="!isScrollMenu || isTabletScreen"
+        >
           <div class="cart-menu display-flex">
             <span style="margin-right: 5px">Cart</span>
-            <div class="cart-icon-container"></div>
-            <div class="cart-menu--counter" v-show="cartMenuCounter">
-              {{ cartMenuCounter }}
+            <div class="cart-icon--relative">
+              <div class="cart-icon-container"></div>
+              <div class="cart-menu--counter" v-show="cartMenuCounter">
+                {{ cartMenuCounter }}
+              </div>
             </div>
           </div>
         </router-link>
       </div>
 
-      <div v-if="isScrollMenu" class="nav-item nav-item--scroll">
+      <div
+        v-if="isScrollMenu && !isTabletScreen"
+        class="nav-item nav-item--scroll"
+      >
         <router-link :to="{ name: 'My Cart' }">
           <div class="cart-menu display-flex">
             <span style="margin-right: 5px">Cart</span>
@@ -47,21 +62,27 @@
       class="horizontal-line horizontal-line--scroll"
     ></div> -->
   </div>
-  <div v-if="!isScrollMenu" class="horizontal-line"></div>
+  <div v-if="!isScrollMenu && !isTabletScreen" class="horizontal-line"></div>
   <div id="menu-observer" v-show="isHomePage"></div>
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'Menu',
 
   setup() {
     const store = useStore();
+    const route = useRoute();
+
     const isScrollMenu = computed(() => store.state.isScrollMenu);
     const isHomePage = computed(() => store.state.isHomePage);
+    const isTabletScreen = ref(innerWidth <= 768);
+
+    let menuBlock = {};
 
     onMounted(() => {
       const callbackObserverMenu = (entries) => {
@@ -75,13 +96,37 @@ export default {
       });
 
       observer.observe(document.querySelector('#menu-observer'));
+
+      menuBlock = document.querySelector('.nav');
+
+      window.addEventListener('resize', () => {
+        isTabletScreen.value = innerWidth <= 768;
+      });
     });
+
+    const onOpenMenu = ({ target }) => {
+      menuBlock.classList.toggle('open-menu');
+      target.classList.toggle('menu-icon--open');
+    };
+
+    watch(
+      () => route.path,
+      () => {
+        menuBlock.classList.remove('open-menu');
+        document
+          .querySelector('.menu-icon')
+          .classList.remove('menu-icon--open');
+      }
+    );
 
     return {
       menu: computed(() => store.state.menu),
       cartMenuCounter: computed(() => store.state.cart.length),
       isScrollMenu,
       isHomePage,
+      isTabletScreen,
+
+      onOpenMenu,
     };
   },
 };
@@ -89,6 +134,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 #menu-observer {
   height: 1px;
@@ -110,6 +156,8 @@ export default {
 
   font-weight: bolder;
 
+  z-index: 10000;
+
   &-scroll {
     position: fixed;
     top: 0;
@@ -121,8 +169,6 @@ export default {
     backdrop-filter: blur(0.5rem);
     animation: fromToptoBottom 1s;
   }
-
-  z-index: 10000;
 
   &--inner--scroll {
     display: flex;
@@ -145,7 +191,6 @@ export default {
 
   a {
     padding: 10px 15px;
-    border-radius: 10px;
     color: $font-color;
 
     transition: all 0.2s linear;
@@ -175,6 +220,115 @@ export default {
   a:hover {
     color: $accent-color;
   }
+
+  @include media('<=tablet') {
+    position: fixed;
+    top: 0;
+    left: -$menu-width-tablet - 10px;
+
+    width: $menu-width-tablet;
+    min-height: 100vh;
+    margin: 0;
+
+    background-color: $primary-color-light;
+
+    // background-image: url('../../assets/img/back-flowers-menu.jpeg');
+    background-size: cover;
+
+    transition: left 0.4s ease-out;
+
+    &--inner {
+      backdrop-filter: blur(0.3rem);
+      height: 100vh;
+    }
+
+    &-item {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    a {
+      padding: 20px 15px;
+    }
+
+    a:hover {
+      color: $font-color;
+    }
+
+    a::after {
+      min-height: 0px;
+    }
+
+    a:last-of-type {
+      align-self: center !important;
+      width: 100%;
+
+      cursor: pointer;
+    }
+
+    a.router-link-active {
+      color: $primary-color-dark;
+    }
+
+    a.router-link-active:hover {
+      color: $primary-color-dark;
+    }
+
+    a.router-link-active::after {
+      min-height: 0;
+    }
+
+    .logo {
+      margin: 45px 0 25px;
+    }
+
+    .display-flex {
+      justify-content: center;
+    }
+
+    .cart-icon--relative {
+      position: relative;
+    }
+  }
+
+  @include media('<=phone') {
+    left: -$menu-width-phone - 10px;
+
+    width: $menu-width-phone;
+  }
+}
+
+.menu-icon {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+
+  width: 35px;
+  height: 35px;
+
+  background-image: url('../../assets/icons/menu.png');
+
+  background-size: contain;
+
+  border-radius: 8px;
+  transition: all 0.4s ease-out;
+
+  cursor: pointer;
+
+  z-index: 1000;
+}
+
+.menu-icon--open {
+  left: 10px + $menu-width-tablet;
+  background-color: $background-color-light;
+
+  @include media('<=phone') {
+    left: 10px + $menu-width-phone;
+  }
+}
+
+.open-menu {
+  left: 0px;
 }
 
 .cart-menu {
@@ -221,7 +375,7 @@ export default {
   font-size: 35px;
   font-weight: normal;
   color: $font-color;
-  padding: 10px 15px;
+  padding: 0 15px;
 
   font-family: Italianno, cursive;
   cursor: pointer;
@@ -269,4 +423,12 @@ export default {
 }
 </style>
 
-<style></style>
+<style>
+.bgc--green {
+  background-color: green;
+}
+
+.bgc--red {
+  background-color: red;
+}
+</style>
