@@ -2,14 +2,13 @@
   <div class="home">
     <h1>Home</h1>
     <InfoBlock :id="1" />
+    <Bestsellers class="bestsellers" />
     <InfoBlock :id="2" imgLocation="right" />
-    <Bestsellers />
+
     <h2>“There are always flowers for those who want to see them.”</h2>
     <div class="horizontal-line--small"></div>
     <h3>~ Henri Matisse</h3>
-    <div class="parent">
-      <!-- <PhotoCollage /> -->
-    </div>
+    <div class="parent"></div>
     <DeliveryConfirmedModal v-show="$store.state.isShowModal" />
   </div>
 </template>
@@ -32,9 +31,17 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 .parent {
   margin-bottom: 130px;
+}
+
+h1 {
+  @include media('<=phone') {
+    font-size: 32px;
+    margin-bottom: 35px;
+  }
 }
 
 h2 {
@@ -52,5 +59,9 @@ h3 {
   color: $primary-color-dark;
   margin: -25px 0 100px;
   font-weight: 300;
+}
+
+.bestsellers {
+  margin: 100px 0;
 }
 </style>
