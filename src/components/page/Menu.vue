@@ -2,7 +2,12 @@
   <div :class="{ 'filler-block': isScrollMenu && !isTabletScreen }"></div>
 
   <div class="nav" :class="{ 'nav-scroll': isScrollMenu && !isTabletScreen }">
-    <div v-show="isTabletScreen" class="menu-icon" @click="onOpenMenu"></div>
+    <div v-show="isTabletScreen" class="menu-icon--block">
+      <div class="menu-icon--container">
+        <div class="menu-icon" @click="onOpenMenu"></div>
+        <div class="logo logo--mobile">~ Flower Home ~</div>
+      </div>
+    </div>
     <div
       class="nav--inner"
       :class="{ 'nav--inner--scroll': isScrollMenu && !isTabletScreen }"
@@ -100,9 +105,63 @@ export default {
       });
     });
 
+    let isMenuOpen = false;
+
     const onOpenMenu = ({ target }) => {
+      isMenuOpen = !isMenuOpen;
+
+      let xStart = null,
+        yStart = null;
+      let leftSwipe = false;
+
+      const onTouchStart = (event) => {
+        xStart = event.touches[0].clientX;
+        yStart = event.touches[0].clientY;
+      };
+
+      const onTouchMove = (event) => {
+        let xEnd = event.touches[0].clientX,
+          yEnd = event.touches[0].clientY;
+
+        let xDiff = xStart - xEnd,
+          yDiff = yStart - yEnd;
+
+        if (Math.abs(xDiff) > Math.abs(yDiff)) {
+          leftSwipe = xDiff > 0;
+        }
+      };
+
+      const onTouchEnd = () => {
+        if (leftSwipe) {
+          menuBlock.classList.toggle('open-menu');
+          target
+            .closest('.menu-icon--container')
+            .classList.toggle('menu-icon--open');
+
+          removeListeners();
+        }
+      };
+
+      const removeListeners = () => {
+        document.body.removeEventListener('touchstart', onTouchStart);
+        document.body.removeEventListener('touchmove', onTouchMove);
+        document.body.removeEventListener('touchend', onTouchEnd);
+
+        isMenuOpen = false;
+      };
+
+      if (isMenuOpen) {
+        document.body.addEventListener('touchstart', onTouchStart);
+        document.body.addEventListener('touchmove', onTouchMove);
+        document.body.addEventListener('touchend', onTouchEnd);
+      } else {
+        removeListeners();
+      }
+
       menuBlock.classList.toggle('open-menu');
-      target.classList.toggle('menu-icon--open');
+      target
+        .closest('.menu-icon--container')
+        .classList.toggle('menu-icon--open');
     };
 
     watch(
@@ -227,14 +286,12 @@ export default {
     margin: 0;
 
     background-color: $primary-color-light;
-
-    // background-image: url('../../assets/img/back-flowers-menu.jpeg');
     background-size: cover;
 
     transition: left 0.4s ease-out;
 
     &--inner {
-      backdrop-filter: blur(0.3rem);
+      backdrop-filter: blur(0.8rem);
       height: 100vh;
     }
 
@@ -294,11 +351,32 @@ export default {
   }
 }
 
-.menu-icon {
+.menu-icon--block {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 0;
+  left: 0;
 
+  background-color: $background-color-light;
+  backdrop-filter: blur(0.2rem);
+}
+
+.menu-icon--container {
+  position: relative;
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100vw;
+
+  padding: 10px 15px;
+
+  transition: all 0.4s ease-out;
+}
+
+.menu-icon {
   width: 35px;
   height: 35px;
 
@@ -307,7 +385,6 @@ export default {
   background-size: contain;
 
   border-radius: 8px;
-  transition: all 0.4s ease-out;
 
   cursor: pointer;
 
@@ -315,11 +392,10 @@ export default {
 }
 
 .menu-icon--open {
-  left: 10px + $menu-width-tablet;
-  background-color: $background-color-light;
+  left: $menu-width-tablet;
 
   @include media('<=phone') {
-    left: 10px + $menu-width-phone;
+    left: $menu-width-phone;
   }
 }
 
@@ -375,6 +451,21 @@ export default {
 
   font-family: Italianno, cursive;
   cursor: pointer;
+
+  &--mobile {
+    @include media('<=tablet') {
+      font-size: 32px;
+      color: $primary-color-dark;
+
+      margin: 0 !important;
+      padding: 0;
+      padding-top: 5px;
+
+      font-weight: bold;
+
+      z-index: 1000;
+    }
+  }
 }
 
 .horizontal-line {
