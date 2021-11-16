@@ -8,13 +8,13 @@
             >Flower delivery and assembly service</span
           >
         </div>
-        <div class="footer-item">
+        <div class="footer-item phone-view--flex-order">
           <h3>GET IN TOUCH</h3>
           <div class="margin-bottom--35">
             <div class="margin-bottom--15">Monday-Friday</div>
             <div>10am-4pm EST</div>
           </div>
-          <div>
+          <div class="phone-view">
             <a
               class="margin-bottom--15"
               href="https://pinterest.com"
@@ -51,7 +51,7 @@
             <button>Subscribe</button>
           </div>
         </div>
-        <div class="footer-item no-grows">
+        <div class="footer-item no-grows" v-if="!$store.state.isTabletScreen">
           <h3>EXPLORE</h3>
           <div>
             <a
@@ -87,15 +87,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../style/variables.scss';
+@import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 .footer {
   width: 100vw;
   height: 400px;
 
   border-top: 1px solid lightgray;
-
   background: url('../../assets/img/back-flowers.jpeg');
+
+  @include media('<=phone') {
+    height: 100%;
+    background-size: cover;
+    background-position: bottom;
+  }
 
   .inner {
     width: 100%;
@@ -114,10 +120,23 @@ export default {
       justify-content: center;
 
       padding-top: 55px;
+
+      @include media('<=phone') {
+        flex-direction: column-reverse;
+        align-items: center;
+
+        padding-top: 45px;
+
+        margin-bottom: 0;
+      }
     }
 
     .logo-item {
       flex-basis: 75px;
+
+      @include media('<=phone') {
+        margin-top: 10px;
+      }
     }
 
     .logo {
@@ -125,6 +144,19 @@ export default {
       margin-top: 65px;
       margin-bottom: 25px;
       padding: 0;
+
+      @include media('<=phone') {
+        text-align: center;
+        margin-top: 0;
+      }
+    }
+
+    button {
+      border-color: $accent-color;
+
+      @include media('<=phone') {
+        margin: 0 auto;
+      }
     }
   }
 
@@ -134,6 +166,11 @@ export default {
     flex-direction: column;
 
     margin-right: 30px;
+
+    @include media('<=phone') {
+      margin: 0 0 20px 0;
+      min-width: 80%;
+    }
 
     label {
       display: block;
@@ -152,6 +189,10 @@ export default {
   .no-grows {
     flex-grow: 0;
     margin-left: 30px;
+
+    @include media('<=phone') {
+      margin-left: 0;
+    }
   }
 }
 
@@ -173,9 +214,10 @@ h3 {
 
 a {
   display: block;
+
   cursor: pointer;
+
   font-weight: 400;
-  color: black;
 
   transition: color 0.2s linear;
 }
@@ -184,13 +226,18 @@ a:hover {
   color: $accent-color;
 }
 
-input {
+input[type='text'],
+input[type='email'] {
   display: block;
 
   font-size: $font-size;
 
   width: 100%;
   background-color: inherit;
+  background-image: none;
+  border: none;
+  margin: 0;
+  padding: 0;
 }
 
 .input::after {
@@ -206,5 +253,27 @@ input {
 
 input::placeholder {
   font-weight: 300;
+}
+
+.phone-view {
+  @include media('<=phone') {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    a {
+      color: $accent-color;
+    }
+  }
+
+  &--flex-order {
+    @include media('<=phone') {
+      order: 1;
+    }
+  }
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  /* код тут будет работать только в iOS Safari */
 }
 </style>
