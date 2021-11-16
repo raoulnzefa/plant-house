@@ -2,8 +2,8 @@
   <div class="home">
     <h1>Home</h1>
     <InfoBlock :id="1" />
-    <Bestsellers class="bestsellers" />
     <InfoBlock :id="2" imgLocation="right" />
+    <Bestsellers class="bestsellers" />
 
     <h2>“There are always flowers for those who want to see them.”</h2>
     <div class="horizontal-line--small"></div>

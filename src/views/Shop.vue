@@ -58,9 +58,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.shop {
-  h1 {
-    margin-bottom: 15px;
+@import '@/style/media/breakpoints.scss';
+
+h1 {
+  @include media('<=phone') {
+    margin-top: 75px;
   }
 }
 
@@ -75,5 +77,10 @@ export default {
 
 .margin-bottom {
   margin-bottom: 25%;
+  @include media('<=tablet') {
+    margin-bottom: 25px;
+  }
 }
 </style>
+
+<style lang="scss"></style>

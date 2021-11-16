@@ -9,7 +9,9 @@ export default createStore({
         id: 1,
         img: 'https://www.ikea.com/kr/en/images/products/smycka-artificial-flower-carnation-pink__0903360_pe685418_s5.jpg?f=xl',
         title: 'Why flowers are a good present?',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.'
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus.',
+        
+        // description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In volutpat massa et nibh porttitor, et tristique urna sagittis. Vestibulum id efficitur risus. Proin accumsan dolor ut orci consectetur consequat. Sed diam tortor, dignissim ut mauris nec, ornare scelerisque risus. Aenean volutpat accumsan neque ac elementum. Vivamus ultricies rhoncus imperdiet. Maecenas id volutpat purus. Curabitur aliquet nibh vel enim lacinia fringilla feugiat at tellus. Proin a aliquet nisl, id fringilla metus. Fusce tempor sapien enim, nec consectetur felis aliquam sed.'
       },
       {
         id: 2,
@@ -222,6 +224,7 @@ export default createStore({
     isShowModal: false,
     isScrollMenu: false,
     isHomePage: true,
+    isTabletScreen: innerWidth <= 768,
 
   },
   mutations: {
@@ -266,8 +269,6 @@ export default createStore({
       state.isShowModal = !state.isShowModal;
     },
 
-    
-
     // CART
 
     clearCart(state) {
@@ -282,8 +283,12 @@ export default createStore({
 
     changeIsHomePage(state, payload) {
       state.isHomePage = payload;
-    }
+    },
 
+    // SCREEN
+    changeIsTabletScreen(state, payload) {
+      state.isTabletScreen = payload;
+    }
     
 
   },

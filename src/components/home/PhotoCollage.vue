@@ -21,7 +21,7 @@ export default {
         parent = document.querySelector('.parent');
       const parentCoords = parent.getBoundingClientRect();
 
-      collage.style.top = parentCoords.top + scrollY + 'px';
+      collage.style.top = parentCoords.top + pageYOffset + 'px';
       parent.style.minHeight = collage.clientHeight + 'px';
     });
 

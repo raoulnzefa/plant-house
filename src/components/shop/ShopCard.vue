@@ -60,12 +60,18 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 .shop-card {
   height: 380px;
   width: 280px;
-  // border: 1px solid black;
+
   cursor: pointer;
+
+  @include media('<=phone') {
+    border-radius: 10px;
+    overflow: hidden;
+  }
 
   h3 {
     padding-top: 15px;
@@ -82,8 +88,10 @@ export default {
 
   .info {
     height: 380px - 280px;
-    border: 1px solid black;
+    border: 1px solid $primary-color-dark;
     border-top: none;
+
+    border-radius: 0 0 10px 10px;
 
     .price-and-add {
       display: flex;
@@ -100,11 +108,17 @@ export default {
 
     button:hover {
       color: $accent-color;
+      @include media('<=phone') {
+        color: inherit;
+      }
     }
   }
 }
 
 .shop-card:hover .image {
   transform: scale(1.05);
+  @include media('<=phone') {
+    transform: none;
+  }
 }
 </style>

@@ -1,20 +1,26 @@
 export const createOptions = (filters) => {
-  const optionBlocks = document.querySelectorAll('.filter-options');
+  const optionBlocks = document.querySelectorAll('.filter-options--create'),
+    sortBlock = document.querySelector('.filter-options--sort');
+
+  const marginTop = -5;
 
   Array.from(optionBlocks).map((optionTab, index) => {
     optionTab.innerHTML =
       '<ul>' +
       filters.value[index].options.reduce((list, option) => {
-        list += `<li class="option-item"><button>${option}</button></li>`;
+        list += `<li class="option-item" data-value="${option}"><button>${option}</button></li>`;
         return list;
       }, '') +
       '</ul>';
 
-    optionTab.style.bottom = -optionTab.clientHeight + 'px';
+    optionTab.style.bottom = -optionTab.clientHeight + marginTop + 'px';
     optionTab.style.display = 'none';
 
     return optionTab;
   });
+
+  sortBlock.style.bottom = -sortBlock.clientHeight + marginTop + 'px';
+  sortBlock.style.display = 'none';
 };
 
 export const openOptions = (event) => {
@@ -36,7 +42,10 @@ export const openOptions = (event) => {
   closeOptionTabs(optionTabs);
   currentFilter.dataset.active = true;
 
-  optionTabs[currentFilter.dataset.index].classList.add('active');
+  optionTabs[currentFilter.dataset.index].style.display = 'block';
+  setTimeout(() => {
+    optionTabs[currentFilter.dataset.index].classList.add('active');
+  }, 0)
 
   const closeWithinDocument = (e) => {
     const targetItem = e.target.closest('.filter-item');
@@ -52,9 +61,17 @@ export const openOptions = (event) => {
   document.addEventListener('click', closeWithinDocument);
 };
 
-const closeOptionTabs = (tabs) => {
+const closeOptionTabs = async (tabs) => {
   Array.from(tabs).map((tab) => {
+    if (!tab.classList.contains('active')) {
+      return tab;
+    }
+
     tab.classList.remove('active');
+    setTimeout(() => tab.style.display = 'none', 1000);
     tab.closest('.filter-item').dataset.active = false;
+
+    return tab;
   });
+
 };

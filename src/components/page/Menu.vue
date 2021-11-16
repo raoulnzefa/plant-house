@@ -57,10 +57,6 @@
         </router-link>
       </div>
     </div>
-    <!-- <div
-      v-if="isScrollMenu"
-      class="horizontal-line horizontal-line--scroll"
-    ></div> -->
   </div>
   <div v-if="!isScrollMenu && !isTabletScreen" class="horizontal-line"></div>
   <div id="menu-observer" v-show="isHomePage"></div>
@@ -80,7 +76,7 @@ export default {
 
     const isScrollMenu = computed(() => store.state.isScrollMenu);
     const isHomePage = computed(() => store.state.isHomePage);
-    const isTabletScreen = ref(innerWidth <= 768);
+    const isTabletScreen = computed(() => store.state.isTabletScreen);
 
     let menuBlock = {};
 
@@ -100,7 +96,7 @@ export default {
       menuBlock = document.querySelector('.nav');
 
       window.addEventListener('resize', () => {
-        isTabletScreen.value = innerWidth <= 768;
+        store.commit('changeIsTabletScreen', innerWidth <= 768);
       });
     });
 

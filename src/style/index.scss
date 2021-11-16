@@ -28,6 +28,7 @@ body {
 
   @include media('<=phone') {
     width: $container-width-phone;
+    // padding: 0;
   }
 }
 
@@ -54,6 +55,13 @@ h1 {
   padding: 55px 15px 40px;
 
   font-family: Italianno, cursive;
+
+  @include media('<=phone') {
+    font-size: 55px;
+    padding-bottom: 0 !important;
+    padding-top: 25px;
+
+  }
 }
 
 h2 {
