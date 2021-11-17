@@ -1,48 +1,49 @@
 <template>
   <div class="about-bouquet">
-    <Breadcrumb
-      :routeInfo="{
-        mainPage: 'Shop',
-        currentPage: product.title,
-      }"
-    />
-
     <div class="info">
-      <div class="description">
-        <h1>{{ product.title }}</h1>
-        <p>
-          {{ product.description }}
-        </p>
-        <button class="button" @click="onAddToCart">Add to the Cart</button>
-      </div>
+      <Breadcrumb
+        :routeInfo="{
+          mainPage: 'Shop',
+          currentPage: product.title,
+        }"
+      />
 
-      <div class="slider">
-        <div class="arrows">
-          <img
-            src="../assets/icons/arrow-left.png"
-            alt="Arrow Left"
-            class="arrow"
-            @click="moveSlide('left')"
-          />
-          <img
-            src="../assets/icons/arrow-left.png"
-            alt="Arrow Right"
-            class="arrow arrow-right"
-            @click="moveSlide('right')"
-          />
-        </div>
-        <div class="slider-items">
-          <div
-            class="slider-item"
-            v-for="(image, index) of product.images"
-            :key="index"
-          >
-            <img
-              class="slider-image"
-              :src="image"
-              :alt="product.title + ' ' + index"
-            />
+      <div class="info--inner">
+        <div class="description">
+          <h1>{{ product.title }}</h1>
+          <p>
+            {{ product.description }}
+          </p>
+          <div class="button--continue">
+            <button class="button" @click="onAddToCart">Add to the Cart</button>
           </div>
+        </div>
+
+        <div
+          class="slider"
+          @touchstart="onTouchStart"
+          @touchmove="onTouchMove"
+          @touchend="onTouchEnd"
+        >
+          <div class="slider--container">
+            <div
+              class="slider-item"
+              v-for="(image, index) in product.images"
+              :key="index"
+              :style="`background-image: url('${image}')`"
+            ></div>
+          </div>
+          <div class="slider--images-counter">
+            <div
+              class="image-dot"
+              v-for="(_, index) in product.images"
+              :key="index"
+              :data-count="index"
+              @click="onMoveToDotImage"
+            ></div>
+          </div>
+          <div class="slider--arrow-right" @click="toNextImage"></div>
+          <div class="slider--arrow-left" @click="toPreviousImage"></div>
         </div>
       </div>
     </div>
@@ -82,53 +83,111 @@ export default {
       store.commit('addCartItem', payload);
     };
 
-    const prepareSlider = (direction) => {
-      const slidesContainer = document.querySelector('.slider-items');
+    // SLIDER
 
-      let sliderItems = document.querySelectorAll('.slider-item');
+    let sliderContainer = {};
 
-      if (direction === 'right') {
-        let firstSlide = sliderItems[0];
+    onMounted(() => {
+      sliderContainer = document.querySelector('.slider--container');
 
-        firstSlide.remove();
-        slidesContainer.append(firstSlide);
-      } else {
-        let lastSlide = sliderItems[sliderItems.length - 1];
+      setActiveDot();
+    });
 
-        lastSlide.remove();
-        slidesContainer.prepend(lastSlide);
-      }
+    let xStart = null,
+      yStart = null;
+    let leftSwipe = false,
+      rightSwipe = false;
 
-      // setTimeout(() => {
-      //   slidesContainer.style.transition = 'none';
-      slidesContainer.style.left = -sliderItems[0].clientWidth + 'px';
-      // }, 2000);
+    const onTouchStart = (event) => {
+      xStart = event.touches[0].clientX;
+      yStart = event.touches[0].clientY;
     };
 
-    onMounted(prepareSlider);
+    const onTouchMove = (event) => {
+      let xEnd = event.touches[0].clientX,
+        yEnd = event.touches[0].clientY;
 
-    const moveSlide = (arrow = 'right') => {
-      const slidesContainer = document.querySelector('.slider-items');
+      let xDiff = xStart - xEnd,
+        yDiff = yStart - yEnd;
 
-      let sliderItem = document.querySelector('.slider-item');
-      const itemWidth = sliderItem.clientWidth;
-
-      let slidesContainerLeft = +slidesContainer.style.left.replace('px', '');
-
-      if (arrow === 'left') {
-        slidesContainer.style.left = slidesContainerLeft + itemWidth + 'px';
-
-        prepareSlider(arrow);
-      } else {
-        slidesContainer.style.left = slidesContainerLeft - itemWidth + 'px';
-
-        prepareSlider(arrow);
+      if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        leftSwipe = xDiff > 0;
+        rightSwipe = xDiff < 0;
       }
+
+      if (rightSwipe || leftSwipe) {
+        event.preventDefault();
+      }
+    };
+
+    const onTouchEnd = () => {
+      if (leftSwipe) {
+        toNextImage();
+      } else if (rightSwipe) {
+        toPreviousImage();
+      }
+
+      leftSwipe = false;
+      rightSwipe = false;
+    };
+
+    let counter = 0;
+
+    const toNextImage = () => {
+      if (counter + 1 > prop.product.images.length - 1) {
+        return;
+      }
+
+      let width = document.querySelector('.slider-item').clientWidth;
+
+      counter++;
+      sliderContainer.style.transform = `translate(-${width * counter}px)`;
+
+      setActiveDot();
+    };
+
+    const toPreviousImage = () => {
+      if (counter - 1 < 0) {
+        return;
+      }
+
+      let width = document.querySelector('.slider-item').clientWidth;
+
+      counter--;
+      sliderContainer.style.transform = `translate(-${width * counter}px)`;
+
+      setActiveDot();
+    };
+
+    const setActiveDot = () => {
+      const imageDot = document.querySelectorAll('.image-dot');
+
+      Array.from(imageDot).forEach((dot) => {
+        dot.classList.remove('active');
+
+        if (+dot.dataset.count === counter) {
+          dot.classList.add('active');
+        }
+      });
+    };
+
+    const onMoveToDotImage = ({ target }) => {
+      counter = +target.dataset.count;
+
+      let width = document.querySelector('.slider-item').clientWidth;
+
+      sliderContainer.style.transform = `translate(-${width * counter}px)`;
+      setActiveDot();
     };
 
     return {
-      moveSlide,
       onAddToCart,
+      onTouchStart,
+      onTouchMove,
+      onTouchEnd,
+      onMoveToDotImage,
+      toPreviousImage,
+      toNextImage,
     };
   },
 };
@@ -136,10 +195,21 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
+
 a {
   color: $primary-color;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.about-bouquet {
+  @include media('<=tablet', '>phone') {
+    margin-top: 80px;
+  }
+  @include media('<=phone') {
+    margin-top: 110vw;
+  }
 }
 
 .margin-right {
@@ -151,12 +221,28 @@ h1 {
   color: $primary-color-dark;
 }
 
+h1::before {
+  @include media('<=tablet') {
+    display: none;
+  }
+}
+
 .info {
   display: flex;
   justify-content: space-between;
 
+  flex-direction: column;
+
+  &--inner {
+    display: flex;
+  }
+
   .description {
     margin-right: 65px;
+
+    @include media('<=phone') {
+      margin-right: 0;
+    }
   }
 
   .button {
@@ -166,53 +252,142 @@ h1 {
 
 .slider {
   position: relative;
-
-  display: flex;
-  align-items: center;
-  min-width: $slider-width-ab;
-  height: $slider-width-ab;
   overflow: hidden;
 
-  &-items {
+  min-width: $slider-width-ab;
+  min-height: $slider-width-ab;
+
+  max-width: $slider-width-ab;
+  max-height: $slider-width-ab;
+
+  @include media('<=tablet', '>phone') {
+    min-width: $slider-width-tablet;
+    min-height: $slider-width-tablet;
+
+    max-width: $slider-width-tablet;
+    max-height: $slider-width-tablet;
+  }
+
+  @include media('<=phone') {
     position: absolute;
     top: 0;
     left: 0;
 
-    display: flex;
+    min-width: 100vw;
+    min-height: 100vw;
 
-    // transition: all 0.1s ease-in;
+    max-width: 100vw;
+    max-height: 100vw;
   }
 
-  &-image {
-    width: $slider-width-ab;
-  }
-
-  .arrows {
+  &--container {
     display: flex;
+
     width: 100%;
-    height: 40px;
-    justify-content: space-between;
+    transition: all 0.3s ease-in;
+  }
 
-    .arrow {
-      width: 25px;
-      height: 30px;
-      opacity: 0.2;
+  &-item {
+    min-width: $slider-width-ab;
+    min-height: $slider-width-ab;
 
-      cursor: pointer;
-      z-index: 100;
-      margin-left: 18px;
+    background-size: contain;
 
-      transition: opacity 0.1s linear;
+    @include media('<=tablet', '>phone') {
+      min-width: $slider-width-tablet;
+      min-height: $slider-width-tablet;
 
-      &:hover {
-        opacity: 0.6;
-      }
+      max-width: $slider-width-tablet;
+      max-height: $slider-width-tablet;
+    }
 
-      &-right {
-        transform: rotate(180deg);
-        margin: 0 18px 0 0;
-      }
+    @include media('<=phone') {
+      min-width: 100vw;
+      min-height: 100vw;
+
+      background-size: contain;
     }
   }
+
+  &--images-counter {
+    position: absolute;
+
+    display: flex;
+
+    bottom: 20px;
+    left: 50%;
+
+    transform: translateX(-50%);
+    z-index: 100;
+
+    @include media('<=phone') {
+      top: 93vw;
+      left: 50vw;
+    }
+  }
+
+  .image-dot {
+    height: 8px;
+    width: 8px;
+
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.288);
+
+    margin-right: 8px;
+
+    transition: all 0.3s linear;
+
+    cursor: pointer;
+
+    &.active {
+      background-color: $accent-color;
+    }
+  }
+
+  .image-dot:last-of-type {
+    margin-right: 0;
+  }
+
+  &--arrow-right,
+  &--arrow-left {
+    position: absolute;
+    top: 50%;
+
+    width: 25px;
+    height: 25px;
+    opacity: 0.3;
+
+    background-size: contain;
+
+    cursor: pointer;
+    transition: opacity 0.2s linear;
+
+    @include media('<=phone') {
+      display: none;
+    }
+  }
+
+  &--arrow-left {
+    left: 5px;
+    background-image: url('../assets/icons/arrow-left.png');
+    transform: translateY(-50%);
+  }
+
+  &--arrow-right {
+    right: 5px;
+    background-image: url('../assets/icons/arrow-right.png');
+
+    transform: translateY(-50%);
+  }
+
+  &--arrow-right:hover,
+  &--arrow-left:hover {
+    opacity: 0.8;
+  }
+}
+
+.button--continue {
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -28,7 +28,10 @@ body {
 
   @include media('<=phone') {
     width: $container-width-phone;
-    // padding: 0;
+  }
+
+  @include media('<=320px') {
+    width: 300px;
   }
 }
 
@@ -95,6 +98,9 @@ button {
   border: 2px solid black;
   border-color: none;
   border-radius: 25px;
+
+  color: $font-color;
+
   padding: 10px 15px;
 
   transition: all 0.2s linear;

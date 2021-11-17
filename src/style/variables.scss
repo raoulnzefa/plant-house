@@ -18,7 +18,7 @@ $font-stack: Helvetica, sans-serif;
 
 $container-width: 930px;
 $container-width-930: 768px;
-$container-width-tablet: 600px;
+$container-width-tablet: 700px;
 $container-width-phone: 360px;
 
 $menu-width-tablet: 300px;
@@ -26,24 +26,5 @@ $menu-width-phone: 310px;
 
 // AboutBouquet
 
-$slider-width-ab: 480px;
-
-// const orderDetails = ref({
-//   firstName: '',
-//   lastName: '',
-//   phoneNum: '',
-//   deliveryType: '',
-//   email: '',
-
-//   mailDelivery: {
-//     lastNameDelivery: '',
-//     firstNameDelivery: '',
-//     phoneNumDelivery: '',
-
-//     branchNum: '',
-//     cityName: '',
-//   },
-//   pickupDelivery: {
-//     branchPickup: '',
-//   },
-// });
+$slider-width-ab: 350px;
+$slider-width-tablet: 250px;
