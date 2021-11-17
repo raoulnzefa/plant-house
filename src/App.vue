@@ -1,10 +1,13 @@
 <template class="app">
   <div class="container">
     <header class="header">
-      <div class="bgc" v-show="$store.state.isHomePage">
+      <div
+        class="bgc"
+        v-show="$store.state.isHomePage && !$store.state.isTabletScreen"
+      >
         <div class="gradient"></div>
       </div>
-      <div v-show="$store.state.isHomePage || $store.state.isTabletScreen">
+      <div v-show="$store.state.isHomePage && !$store.state.isTabletScreen">
         <div class="logo" style="padding-bottom: 25px;">
           ~ Flower Home ~
         </div>
@@ -53,6 +56,8 @@ export default {
 html,
 body {
   @include media('<=phone') {
+    position: relative;
+
     overflow-x: hidden;
   }
 }
@@ -115,27 +120,19 @@ h1 {
   @include media('<=tablet') {
     margin: 85px 0 35px;
   }
-}
-</style>
 
-<style lang="scss" scoped>
-@import '../src/style/variables.scss';
-@import '@/style/media/breakpoints.scss';
+  &::before {
+    @include media('<=tablet') {
+      content: '';
+      display: inline-block;
 
-.logo {
-  @include media('<=tablet') {
-    position: fixed;
+      min-height: 25px;
+      width: 2px;
 
-    top: 25px;
-    right: 25px;
+      margin-right: 15px;
 
-    font-size: 35px;
-    color: $primary-color-dark;
-
-    margin: 0;
-    padding: 0;
-
-    z-index: 1000;
+      background-color: $accent-color;
+    }
   }
 }
 </style>

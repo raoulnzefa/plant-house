@@ -5,7 +5,7 @@
     <div v-show="isTabletScreen" class="menu-icon--block">
       <div class="menu-icon--container">
         <div class="menu-icon" @click="onOpenMenu"></div>
-        <div class="logo logo--mobile">~ Flower Home ~</div>
+        <div class="logo--mobile">Flower Home</div>
       </div>
     </div>
     <div
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { computed, onMounted, watch, ref } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -107,48 +107,48 @@ export default {
 
     let isMenuOpen = false;
 
+    let xStart = null,
+      yStart = null;
+    let leftSwipe = false;
+
+    const onTouchStart = (event) => {
+      xStart = event.touches[0].clientX;
+      yStart = event.touches[0].clientY;
+    };
+
+    const onTouchMove = (event) => {
+      let xEnd = event.touches[0].clientX,
+        yEnd = event.touches[0].clientY;
+
+      let xDiff = xStart - xEnd,
+        yDiff = yStart - yEnd;
+
+      if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        leftSwipe = xDiff > 0;
+      }
+    };
+
+    const onTouchEnd = () => {
+      if (leftSwipe) {
+        menuBlock.classList.toggle('open-menu');
+        document
+          .querySelector('.menu-icon--container')
+          .classList.toggle('menu-icon--open');
+
+        removeListeners();
+      }
+    };
+
+    const removeListeners = () => {
+      document.body.removeEventListener('touchstart', onTouchStart);
+      document.body.removeEventListener('touchmove', onTouchMove);
+      document.body.removeEventListener('touchend', onTouchEnd);
+
+      isMenuOpen = false;
+    };
+
     const onOpenMenu = ({ target }) => {
       isMenuOpen = !isMenuOpen;
-
-      let xStart = null,
-        yStart = null;
-      let leftSwipe = false;
-
-      const onTouchStart = (event) => {
-        xStart = event.touches[0].clientX;
-        yStart = event.touches[0].clientY;
-      };
-
-      const onTouchMove = (event) => {
-        let xEnd = event.touches[0].clientX,
-          yEnd = event.touches[0].clientY;
-
-        let xDiff = xStart - xEnd,
-          yDiff = yStart - yEnd;
-
-        if (Math.abs(xDiff) > Math.abs(yDiff)) {
-          leftSwipe = xDiff > 0;
-        }
-      };
-
-      const onTouchEnd = () => {
-        if (leftSwipe) {
-          menuBlock.classList.toggle('open-menu');
-          target
-            .closest('.menu-icon--container')
-            .classList.toggle('menu-icon--open');
-
-          removeListeners();
-        }
-      };
-
-      const removeListeners = () => {
-        document.body.removeEventListener('touchstart', onTouchStart);
-        document.body.removeEventListener('touchmove', onTouchMove);
-        document.body.removeEventListener('touchend', onTouchEnd);
-
-        isMenuOpen = false;
-      };
 
       if (isMenuOpen) {
         document.body.addEventListener('touchstart', onTouchStart);
@@ -162,17 +162,20 @@ export default {
       target
         .closest('.menu-icon--container')
         .classList.toggle('menu-icon--open');
-    };
 
-    watch(
-      () => route.path,
-      () => {
-        menuBlock.classList.remove('open-menu');
-        document
-          .querySelector('.menu-icon')
-          .classList.remove('menu-icon--open');
-      }
-    );
+      watch(
+        () => route.path,
+        () => {
+          menuBlock.classList.remove('open-menu');
+          document
+            .querySelector('.menu-icon--container')
+            .classList.remove('menu-icon--open');
+          isMenuOpen = false;
+
+          removeListeners();
+        }
+      );
+    };
 
     return {
       menu: computed(() => store.state.menu),
@@ -356,8 +359,8 @@ export default {
   top: 0;
   left: 0;
 
-  background-color: $background-color-light;
-  backdrop-filter: blur(0.2rem);
+  // background-color: $background-color-light;
+  backdrop-filter: blur(0.1rem);
 }
 
 .menu-icon--container {
@@ -451,20 +454,19 @@ export default {
 
   font-family: Italianno, cursive;
   cursor: pointer;
+}
 
-  &--mobile {
-    @include media('<=tablet') {
-      font-size: 32px;
-      color: $primary-color-dark;
+.logo--mobile {
+  @include media('<=tablet') {
+    font-size: 20px;
+    color: $font-color;
 
-      margin: 0 !important;
-      padding: 0;
-      padding-top: 5px;
+    margin: 0 !important;
+    padding: 0;
 
-      font-weight: bold;
+    font-weight: bold;
 
-      z-index: 1000;
-    }
+    z-index: 1000;
   }
 }
 
