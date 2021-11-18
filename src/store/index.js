@@ -225,6 +225,7 @@ export default createStore({
     isScrollMenu: false,
     isHomePage: true,
     isTabletScreen: innerWidth <= 768,
+    isMobileScreen: innerWidth <= 425
 
   },
   mutations: {
@@ -288,6 +289,10 @@ export default createStore({
     // SCREEN
     changeIsTabletScreen(state, payload) {
       state.isTabletScreen = payload;
+    },
+
+    changeIsMobileScreen(state, payload) {
+      state.isMobileScreen = payload;
     }
     
 

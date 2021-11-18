@@ -39,7 +39,6 @@
                 type="text"
                 id="phone-number"
                 v-model="phoneNum"
-                @input="onAcceptNumber"
                 @change="onVerifyNumber"
                 placeholder="(111) 111-1111"
                 data-phone-block="contactBlock"
@@ -88,9 +87,6 @@
 
             <label for="delivery-service">Delivery Service</label>
           </div>
-        </div>
-        <div class="go-back">
-          <button @click="$router.go(-1)">{{ '< ' }}Go back</button>
         </div>
       </div>
 
@@ -224,8 +220,8 @@
                 type="text"
                 id="phone-number"
                 v-model="phoneNumDelivery"
-                @input="onAcceptNumber"
                 @change="onVerifyNumber"
+                @input="onAcceptNumber"
                 placeholder="(111) 111-1111"
                 data-phone-block="deliveryBlock"
               />
@@ -297,11 +293,13 @@ export default {
       return !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
     };
 
-    const onAcceptNumber = ({ target }) => {
-      target.dataset.phoneBlock === 'contactBlock'
-        ? (phoneNum.value = acceptNumber(phoneNum.value))
-        : (phoneNumDelivery.value = acceptNumber(phoneNumDelivery.value));
-    };
+    watch(phoneNum, (value) => {
+      phoneNum.value = acceptNumber(value);
+    });
+
+    watch(phoneNumDelivery, (value) => {
+      phoneNumDelivery.value = acceptNumber(value);
+    });
 
     // INPUTS VERIFYING
 
@@ -343,6 +341,7 @@ export default {
 
     const onVerifyNumber = ({ target }) => {
       let errorField = target.nextSibling;
+
       if (target.value.toString().length === 14) {
         target.classList.remove('error-num');
         errorField.textContent = '';
@@ -359,7 +358,6 @@ export default {
       if (!EMAIL_REGEXP.test(email.value) && email.value !== '') {
         errorField.textContent = 'Your e-mail is not correct';
         target.classList.add('error');
-        console.log('into if');
       } else {
         errorField.textContent = '';
         target.classList.remove('error');
@@ -434,7 +432,6 @@ export default {
 
       isRecipient,
 
-      onAcceptNumber,
       onVerifyAllInputs,
       onVerifyNumber,
       onValidateEmail,
@@ -445,6 +442,7 @@ export default {
 
 <style scoped lang="scss">
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 h3 {
   color: $font-color;
@@ -457,12 +455,20 @@ h3 {
 .city,
 .contact-info--inner {
   margin-bottom: 25px;
+
+  @include media('<=phone') {
+    margin-bottom: 35px;
+  }
 }
 
 .delivery {
   &--container {
     display: flex;
     justify-content: space-between;
+
+    @include media('<=phone') {
+      flex-direction: column;
+    }
   }
 
   input[type='text'],
@@ -470,6 +476,10 @@ h3 {
     margin-left: 0;
     width: 170px;
     margin-top: 8px;
+
+    @include media('<=phone') {
+      width: 150px;
+    }
   }
 
   label {
@@ -479,6 +489,10 @@ h3 {
 
 .delivery--inner {
   width: 40%;
+
+  @include media('<=phone') {
+    width: 100%;
+  }
 }
 
 .contact-info--inner {
@@ -487,6 +501,10 @@ h3 {
 
   input {
     margin-top: 8px;
+
+    @include media('<=phone') {
+      max-width: 150px;
+    }
   }
 }
 
@@ -528,6 +546,7 @@ select {
   padding: 0.25em 0.5em;
 
   font-family: 'Lato', sans-serif;
+  color: black;
   cursor: pointer;
   line-height: 1.1;
 
@@ -546,6 +565,11 @@ select {
 
 .continue {
   margin-top: 40px;
+
+  @include media('<=phone') {
+    display: flex;
+    justify-content: center;
+  }
 
   button {
     border-color: $primary-color;
@@ -582,6 +606,10 @@ select {
 .google-map iframe {
   width: 100%;
   height: 300px;
+
+  @include media('<=phone') {
+    margin-top: 25px;
+  }
 }
 
 .radio-button {

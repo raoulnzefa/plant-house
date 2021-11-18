@@ -25,10 +25,7 @@ export default {
     const isShowModal = computed(() => store.state.isShowModal);
 
     const onCloseModal = ({ target }) => {
-      console.log('inner');
       if (target.closest('.delivery-modal--inner')) return;
-
-      console.log('inner 2');
 
       store.commit('changeModalValue');
       document.body.removeEventListener('mouseup', onCloseModal);
@@ -36,10 +33,10 @@ export default {
 
     watch(isShowModal, () => {
       if (isShowModal.value) {
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflowY = 'hidden';
         document.body.addEventListener('mouseup', onCloseModal);
       } else {
-        document.body.style.overflow = 'auto';
+        document.body.style.overflowY = 'auto';
       }
     });
 
@@ -50,6 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 h2 {
   margin-bottom: 10px;
@@ -109,6 +107,13 @@ h2 {
 
   z-index: 1000;
 
+  @include media('<=phone') {
+    width: 80vw;
+
+    padding: 35px 45px;
+    text-align: center;
+  }
+
   .bouquet-image {
     position: absolute;
     bottom: -20px;
@@ -121,6 +126,10 @@ h2 {
     height: 210px;
 
     transform: rotate(-25deg);
+
+    @include media('<=phone') {
+      height: 150px;
+    }
   }
 }
 

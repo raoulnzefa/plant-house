@@ -5,8 +5,8 @@
     </div>
     <h2>Confirm your order</h2>
     <div class="confirmation--inner">
-      <div class="confirmation--cart">
-        <div class="header">Bouquets</div>
+      <div class="confirmation--cart mobile-view-blocks">
+        <div class="header header-margin0">Bouquets</div>
         <div class="cart-item" v-for="(item, index) in cart" :key="index">
           <div class="cart-item--image">
             <img :src="item.image" alt="image" />
@@ -31,78 +31,82 @@
       <div class="vertical-line"></div>
 
       <div class="confirmation--delivery">
-        <div class="header">Your info</div>
-        <div>
-          <div class="info-block full-name">
-            <span class="bold">Your full name:</span>
-            <span class="margin-left">{{
-              ' ' + orderDetails.firstName + ' ' + orderDetails.lastName
-            }}</span>
-          </div>
-          <div class="info-block email">
-            <span class="bold">E-mail:</span>
-            <span class="margin-left">{{ ' ' + orderDetails.email }}</span>
-          </div>
-          <div class="info-block phone">
-            <span class="bold">Phone number:</span>
-            <span class="margin-left">{{ ' ' + orderDetails.phoneNum }}</span>
+        <div class="mobile-view-blocks">
+          <div class="header">Your info</div>
+          <div>
+            <div class="info-block full-name">
+              <span class="bold">Your full name:</span>
+              <span class="margin-left">{{
+                ' ' + orderDetails.firstName + ' ' + orderDetails.lastName
+              }}</span>
+            </div>
+            <div class="info-block email">
+              <span class="bold">E-mail:</span>
+              <span class="margin-left">{{ ' ' + orderDetails.email }}</span>
+            </div>
+            <div class="info-block phone">
+              <span class="bold">Phone number:</span>
+              <span class="margin-left">{{ ' ' + orderDetails.phoneNum }}</span>
+            </div>
           </div>
         </div>
 
-        <div class="header margin-top">Delivery</div>
+        <div class="mobile-view-blocks">
+          <div class="header margin-top">Delivery</div>
 
-        <div
-          class="confirmation--mail-delivery"
-          v-if="orderDetails.deliveryType === 'delivery-service'"
-        >
-          <div class="info-block">
-            <span class="bold">Delivery by {{ ' ' }}</span> mail service
-          </div>
-          <div class="info-block delivery--full-name">
-            <span class="bold">Recipient full name: </span>
-            <span class="margin-left">{{
-              ' ' +
-                orderDetails.mailDelivery.firstNameDelivery +
+          <div
+            class="confirmation--mail-delivery"
+            v-if="orderDetails.deliveryType === 'delivery-service'"
+          >
+            <div class="info-block">
+              <span class="bold">Delivery by {{ ' ' }}</span> mail service
+            </div>
+            <div class="info-block delivery--full-name">
+              <span class="bold">Recipient full name: </span>
+              <span class="margin-left">{{
                 ' ' +
-                orderDetails.mailDelivery.lastNameDelivery
-            }}</span>
+                  orderDetails.mailDelivery.firstNameDelivery +
+                  ' ' +
+                  orderDetails.mailDelivery.lastNameDelivery
+              }}</span>
+            </div>
+            <div class="info-block delivery--phone">
+              <span class="bold">Phone number:</span>
+              <span class="margin-left">{{
+                ' ' + orderDetails.mailDelivery.phoneNumDelivery
+              }}</span>
+            </div>
+            <div class="info-block delivery--city">
+              <span class="bold">City:</span>
+              <span class="margin-left">{{
+                ' ' + orderDetails.mailDelivery.cityName
+              }}</span>
+            </div>
+            <div class="info-block delivery--branch">
+              <span class="bold">Branch number:</span>
+              <span class="margin-left">{{
+                ' ' + orderDetails.mailDelivery.branchNum
+              }}</span>
+            </div>
           </div>
-          <div class="info-block delivery--phone">
-            <span class="bold">Phone number:</span>
-            <span class="margin-left">{{
-              ' ' + orderDetails.mailDelivery.phoneNumDelivery
-            }}</span>
-          </div>
-          <div class="info-block delivery--city">
-            <span class="bold">City:</span>
-            <span class="margin-left">{{
-              ' ' + orderDetails.mailDelivery.cityName
-            }}</span>
-          </div>
-          <div class="info-block delivery--branch">
-            <span class="bold">Branch number:</span>
-            <span class="margin-left">{{
-              ' ' + orderDetails.mailDelivery.branchNum
-            }}</span>
-          </div>
-        </div>
-        <div class="confirmation--pickup-delivery" v-else>
-          <div class="info-block">
-            <span class="bold">Delivery by {{ ' ' }}</span
-            >self-pickup
-          </div>
-          <div class="info-block pickup--branch">
-            <span class="bold">Branch number:</span>
-            <span class="margin-left">{{
-              ' ' + orderDetails.pickupDelivery.branchPickup
-            }}</span>
+          <div class="confirmation--pickup-delivery" v-else>
+            <div class="info-block">
+              <span class="bold">Delivery by {{ ' ' }}</span
+              >self-pickup
+            </div>
+            <div class="info-block pickup--branch">
+              <span class="bold">Branch number:</span>
+              <span class="margin-left">{{
+                ' ' + orderDetails.pickupDelivery.branchPickup
+              }}</span>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="vertical-line"></div>
 
-      <div class="info-block confirmation--price">
+      <div class="info-block confirmation--price mobile-view-blocks">
         <div class="header">Price</div>
         <div>
           <div class="info-block">
@@ -173,6 +177,7 @@ export default {
 
 <style scoped lang="scss">
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 h4 {
   margin-bottom: 15px;
@@ -183,6 +188,10 @@ h4 {
   .header {
     margin-bottom: 30px;
     color: rgb(175, 174, 174);
+
+    @include media('<=phone') {
+      align-self: center;
+    }
   }
 
   .bold {
@@ -197,18 +206,55 @@ h4 {
     align-items: center;
 
     flex: 1 1 0;
+
+    @include media('<=phone') {
+      width: 100%;
+    }
   }
 
   &--cart {
     margin-right: 10px;
+    @include media('<=phone') {
+      align-items: center;
+    }
   }
 
   &--delivery {
     flex-grow: 1.2;
+
+    @include media('<=tablet', '>phone') {
+      flex-grow: 1.5;
+    }
+
+    @include media('<=phone') {
+      align-items: flex-start;
+    }
+  }
+
+  &--price {
+    @include media('<=tablet', '>phone') {
+      flex-grow: 0.8;
+    }
   }
 
   &--price .summary-style {
     color: $accent-color;
+
+    @include media('<=phone') {
+      align-items: center;
+    }
+  }
+
+  .mobile-view-blocks {
+    @include media('<=phone') {
+      border: 1px solid $primary-color;
+      border-radius: 20px;
+
+      padding: 20px 25px;
+      margin-bottom: 25px;
+
+      width: 100%;
+    }
   }
 
   .margin-left {
@@ -218,11 +264,19 @@ h4 {
 
 .margin-top {
   margin-top: 35px;
+
+  @include media('<=phone') {
+    margin-top: 0;
+  }
 }
 
 .confirmation--inner {
   display: flex;
   justify-content: space-between;
+
+  @include media('<=phone') {
+    flex-direction: column;
+  }
 
   .info-block {
     margin-bottom: 20px;
@@ -260,10 +314,19 @@ h4 {
   margin-top: 40px;
   display: flex;
   justify-content: flex-end;
+
+  @include media('<=phone') {
+    justify-content: center;
+    margin-top: 25px;
+  }
 }
 
 .cart-item:last-of-type {
   border-bottom: none;
+
+  @include media('<=phone') {
+    margin-bottom: 0;
+  }
 }
 
 .horizontal-line {

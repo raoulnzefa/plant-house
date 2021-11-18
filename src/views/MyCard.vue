@@ -38,13 +38,20 @@
               <img :src="item.image" :alt="item.id" />
             </div>
 
-            <div class="cart-item--title">
+            <div class="cart-item--title" v-if="!$store.state.isMobileScreen">
               <h3>{{ item.title }}</h3>
             </div>
           </div>
 
           <div class="cart-item--info cart-item--edit">
-            <div class="cart-item--quantity">
+            <div class="cart-item--title" v-if="$store.state.isMobileScreen">
+              <h3>{{ item.title }}</h3>
+            </div>
+
+            <div
+              class="cart-item--quantity"
+              v-if="!$store.state.isMobileScreen"
+            >
               <div class="cart-item--button">
                 <button @click="onMinusToQuantity">-</button>
               </div>
@@ -66,8 +73,35 @@
               <span>{{ item.price }}$</span>
             </div>
 
-            <div class="remove-button delete-button" @click="onRemoveCartItem">
+            <div
+              class="remove-button delete-button"
+              @click="onRemoveCartItem"
+              v-if="!$store.state.isMobileScreen"
+            >
               X
+            </div>
+          </div>
+
+          <div
+            class="cart-item--info cart-item--edit-delete"
+            v-if="$store.state.isMobileScreen"
+          >
+            <div
+              class="remove-button delete-button"
+              @click="onRemoveCartItem"
+              v-if="$store.state.isMobileScreen"
+            ></div>
+
+            <div class="cart-item--quantity" v-if="$store.state.isMobileScreen">
+              <div class="cart-item--input">
+                Q:
+                <input
+                  type="text"
+                  :value="item.quantity"
+                  @change="onChangeQuantity"
+                  @input="onValidNum"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -185,7 +219,7 @@ export default {
     const onChangeQuantity = ({ target }) => {
       const quantityValue = target.value;
 
-      changeQuantity(cartItem, quantityValue);
+      changeQuantity(target, quantityValue);
     };
 
     const onPlusToQuantity = ({ target }) => {
@@ -283,9 +317,16 @@ export default {
 
 <style scoped lang="scss">
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 h1 {
   margin-bottom: 50px;
+}
+
+h3 {
+  @include media('<=phone') {
+    margin-bottom: 0;
+  }
 }
 
 .tasks-list {
@@ -338,6 +379,12 @@ h1 {
   border-bottom: 1px solid lightgray;
   padding: 30px 10px;
 
+  @include media('<=phone') {
+    align-items: center;
+
+    padding: 30px 0;
+  }
+
   &--info {
     display: flex;
     align-items: center;
@@ -345,12 +392,35 @@ h1 {
 
   &--title {
     margin-left: 35px;
+    @include media('<=phone') {
+      margin: 0;
+    }
   }
 
   &--edit {
     display: flex;
     width: 40%;
     justify-content: space-between;
+
+    @include media('<=phone') {
+      flex-direction: column;
+      align-items: center;
+
+      flex-grow: 0;
+
+      min-height: 65px;
+    }
+  }
+
+  &--edit-delete {
+    @include media('<=phone') {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      min-height: 90px;
+    }
   }
 
   &--quantity {
@@ -360,6 +430,10 @@ h1 {
   &--price {
     margin-left: 25px;
     font-weight: bold;
+
+    @include media('<=phone') {
+      margin-left: 0;
+    }
   }
 
   &--button button {
@@ -385,22 +459,46 @@ h1 {
     border: 1px solid black;
 
     background-color: $background-color;
+
+    margin-left: 0 !important;
+
+    @include media('<=phone') {
+      width: 40px;
+    }
   }
 
   &--image img {
     width: 100px;
     border-radius: 50%;
+
+    @include media('<=phone') {
+      width: 90px;
+    }
   }
 }
 
 .remove-button {
   margin-left: 25px;
   cursor: pointer;
+
+  @include media('<=phone') {
+    margin-left: 0;
+
+    width: 25px;
+    height: 25px;
+
+    background-image: url('../assets/icons/delete-bin.png');
+    background-size: contain;
+  }
 }
 
 .subtotal-container {
   display: flex;
   justify-content: flex-end;
+
+  @include media('<=phone') {
+    justify-content: center;
+  }
 }
 
 .subtotal {
@@ -408,6 +506,11 @@ h1 {
   margin-top: 55px;
 
   border-radius: 3px;
+
+  @include media('<=phone') {
+    margin-top: 45px;
+    width: 100%;
+  }
 
   &--info {
     margin-bottom: 25px;
@@ -434,6 +537,11 @@ h1 {
     display: flex;
     justify-content: flex-end;
     margin-top: 40px;
+
+    @include media('<=phone') {
+      margin-top: 60px;
+      justify-content: center;
+    }
   }
 
   button {
@@ -450,6 +558,10 @@ h1 {
   .sale,
   .horizontal-line {
     margin-bottom: 25px;
+
+    @include media('<=phone') {
+      margin-bottom: 35px;
+    }
   }
 
   input {
