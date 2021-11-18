@@ -56,22 +56,23 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    if (to.name === 'Delivery' || to.name === 'Order Confirmation') {
-      return {
-        el: 'h1',
-        top: '100',
-        behavior: 'smooth'
-      }
-
-    } else if (to.name === 'Home' && from.name === 'Order Confirmation') {
-      return {
-        top: 0
-      }
-
-    } else {
-      return {
-        top: 0,
-        behavior: 'smooth'
+    if (!store.state.isTabletScreen) {
+      if (to.name === 'Delivery' || to.name === 'Order Confirmation') {
+        return {
+          el: 'h1',
+          top: '100',
+          behavior: 'smooth'
+        }
+  
+      } else if (to.name === 'Home' && from.name === 'Order Confirmation') {
+        return {
+          top: 0
+        }
+      } else {
+        return {
+          top: 0,
+          behavior: 'smooth'
+        }
       }
     }
   }
@@ -105,6 +106,14 @@ router.beforeEach((to, from) => {
     store.commit('changeIsHomePage', true);
   }
 
+})
+
+router.afterEach(() => {
+  if (store.state.isTabletScreen) {
+    // document.querySelector('#app').scrollIntoView();
+    document.body.scrollTop = 0;
+    return true;
+  }
 })
 
 export default router
