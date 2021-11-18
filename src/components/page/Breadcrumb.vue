@@ -28,9 +28,15 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 .breadcrumb {
   margin: 35px 0;
+
+  @include media('<=tablet') {
+    margin-bottom: 25px;
+    margin-top: 0;
+  }
 }
 
 li {

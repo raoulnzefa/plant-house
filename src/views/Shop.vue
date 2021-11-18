@@ -1,10 +1,12 @@
 <template>
   <div class="shop">
     <h1>Shop</h1>
-    <FilterBlock @onSelectOption="getSelectedOptions" />
-    {{ filteredProducts }}
-    <!-- <p>the entire assortment of bouquets can be viewed on this page</p> -->
-    <!-- {{ filteredProducts.length !== 0 ? filteredProducts : products }} -->
+    <FilterBlock
+      @onSelectOption="getSelectedOptions"
+      v-if="!$store.state.isTabletScreen"
+    />
+    <p>The entire assortment of bouquets can be viewed on this page</p>
+
     <div class="products-area">
       <ShopCard
         v-for="(product, index) in products"
@@ -39,8 +41,6 @@ export default {
     const getSelectedOptions = (selected) => {
       selectedOptions.value = selected;
 
-      // console.log(Array.from(products.value));
-
       filteredProducts = filterProducts(
         selectedOptions.value,
         Array.from(products.value)
@@ -64,6 +64,10 @@ h1 {
   @include media('<=phone') {
     margin-top: 75px;
   }
+}
+
+p {
+  margin-bottom: 25px;
 }
 
 .products-area {

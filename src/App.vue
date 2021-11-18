@@ -1,47 +1,68 @@
 <template class="app">
-  <div class="container">
-    <header class="header">
-      <div
-        class="bgc"
-        v-show="$store.state.isHomePage && !$store.state.isTabletScreen"
-      >
-        <div class="gradient"></div>
-      </div>
-      <div v-show="$store.state.isHomePage && !$store.state.isTabletScreen">
-        <div class="logo" style="padding-bottom: 25px;">
-          ~ Flower Home ~
+  <div id="app">
+    <div class="container">
+      <header class="header">
+        <div
+          class="bgc"
+          v-show="$store.state.isHomePage && !$store.state.isTabletScreen"
+        >
+          <div class="gradient"></div>
         </div>
-      </div>
-      <Menu />
-    </header>
+        <div v-show="$store.state.isHomePage && !$store.state.isTabletScreen">
+          <div class="logo" style="padding-bottom: 25px;">
+            ~ Flower Home ~
+          </div>
+        </div>
+        <Menu />
+      </header>
 
-    <main>
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
-      </router-view>
-    </main>
-  </div>
+      <main>
+        <router-view v-slot="{ Component }">
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </router-view>
+      </main>
+    </div>
 
-  <div
-    v-if="$store.state.isTabletScreen && $route.name !== 'My Cart'"
-    class="app--shopping-bag"
-    @click="$router.push({ name: 'My Cart' })"
-  >
-    <div class="shopping-bag"></div>
+    <div
+      v-if="
+        $store.state.isTabletScreen &&
+          $route.name !== 'My Cart' &&
+          $route.name !== 'Delivery' &&
+          $route.name !== 'Order Confirmation'
+      "
+      class="app--shopping-bag"
+      @click="$router.push({ name: 'My Cart' })"
+    >
+      <div class="shopping-bag"></div>
+    </div>
+    <Footer />
   </div>
-  <Footer />
 </template>
 
 <script>
 import Footer from '@/components/page/Footer.vue';
 import Menu from '@/components/page/Menu.vue';
 
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   components: {
     Footer,
     Menu,
+  },
+
+  setup() {
+    const store = useStore();
+
+    onMounted(() => {
+      window.addEventListener('resize', () => {
+        store.commit('changeIsTabletScreen', innerWidth <= 768);
+        store.commit('changeIsMobileScreen', innerWidth <= 425);
+      });
+    });
   },
 };
 </script>

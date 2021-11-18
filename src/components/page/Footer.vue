@@ -260,10 +260,6 @@ input::placeholder {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-
-    a {
-      color: $accent-color;
-    }
   }
 
   &--flex-order {
@@ -271,9 +267,5 @@ input::placeholder {
       order: 1;
     }
   }
-}
-
-@supports (-webkit-overflow-scrolling: touch) {
-  /* код тут будет работать только в iOS Safari */
 }
 </style>

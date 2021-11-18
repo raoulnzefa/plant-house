@@ -18,6 +18,7 @@ import InfoBlock from '@/components/home/InfoBlock.vue';
 import PhotoCollage from '@/components/home/PhotoCollage.vue';
 import Bestsellers from '@/components/home/Bestsellers.vue';
 import DeliveryConfirmedModal from '@/components/home/DeliveryConfirmedModal.vue';
+
 export default {
   name: 'Home',
   components: {
@@ -35,13 +36,6 @@ export default {
 
 .parent {
   margin-bottom: 130px;
-}
-
-h1 {
-  @include media('<=phone') {
-    font-size: 32px;
-    margin-bottom: 35px;
-  }
 }
 
 h2 {
@@ -63,5 +57,17 @@ h3 {
 
 .bestsellers {
   margin: 100px 0;
+}
+</style>
+
+<style lang="scss">
+@import '@/style/media/breakpoints.scss';
+
+h1 {
+  @include media('<=phone') {
+    font-size: 32px;
+    margin-top: 75px !important;
+    margin-bottom: 35px;
+  }
 }
 </style>

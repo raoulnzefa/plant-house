@@ -219,6 +219,10 @@ a {
 h1 {
   margin: 0 0 35px;
   color: $primary-color-dark;
+
+  @include media('<=phone') {
+    margin-top: 0 !important;
+  }
 }
 
 h1::before {

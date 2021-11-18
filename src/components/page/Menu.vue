@@ -99,10 +99,6 @@ export default {
       observer.observe(document.querySelector('#menu-observer'));
 
       menuBlock = document.querySelector('.nav');
-
-      window.addEventListener('resize', () => {
-        store.commit('changeIsTabletScreen', innerWidth <= 768);
-      });
     });
 
     let isMenuOpen = false;

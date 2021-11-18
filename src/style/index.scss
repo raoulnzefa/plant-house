@@ -168,6 +168,10 @@ input[type='text'], input[type='email'] {
     );
 
   transition: all 0.2s linear;
+
+  @include media('<=phone') {
+    background-image: none;
+  }
 }
 
 input:focus {
