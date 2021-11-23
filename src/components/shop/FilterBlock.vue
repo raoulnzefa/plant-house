@@ -1,6 +1,6 @@
 <template>
   <div class="filter-block">
-    <div class="container">
+    <div class="container-block">
       <div class="filter">
         <div
           class="filter-item"
@@ -19,7 +19,7 @@
       </div>
       <div class="filter">
         <div
-          class="filter-item"
+          class="filter-item filter-item--no-margin"
           :data-index="filters.length"
           :data-active="false"
           @click="openOptions"
@@ -32,6 +32,7 @@
                 class="option-item"
                 v-for="(item, index) of sortBy"
                 :key="index"
+                @click="$emit('sort-products', item)"
               >
                 <button>
                   {{ item }}
@@ -60,17 +61,17 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { createOptions, openOptions } from '@/modules/shop/optionActions.js';
+import { useStore } from 'vuex';
 
 export default {
   name: 'FilterBlock',
-  emits: ['onSelectOption'],
+  emits: ['sort-products'],
   setup(_, { emit }) {
-    onMounted(() => {
-      const filterBlock = document.querySelector('.filter-block');
-      filterBlock.style.marginLeft = -filterBlock.offsetLeft + 'px';
+    const store = useStore();
 
+    onMounted(() => {
       createOptions(filters);
 
       const allOptions = document.querySelectorAll('.option-item');
@@ -86,14 +87,17 @@ export default {
       {
         commonName: 'Type of flowers',
         options: ['Roses', 'Lilacs', 'Orchids', 'Daisies'],
+        filterType: 'all',
       },
       {
         commonName: 'Event',
         options: ['Wedding', 'Date', 'B-day', 'Any day'],
+        filterType: 'only',
       },
       {
         commonName: 'Size',
         options: ['Small', 'Medium', 'Large'],
+        filterType: 'all',
       },
     ]);
 
@@ -107,21 +111,33 @@ export default {
       if (selected.value.includes(optionValue)) {
         return;
       }
+
       selected.value.push(optionValue);
-      emit('onSelectOption', selected.value);
+      let currentSelectedFilter = Array.from(filters.value).find((item) =>
+        item.options.includes(optionValue)
+      );
+
+      store.commit('addSelectedFilters', {
+        filterName: currentSelectedFilter.commonName,
+        option: optionValue,
+        filterType: currentSelectedFilter.filterType,
+      });
     };
 
     const deleteSelected = ({ target }) => {
       const selectedValue = target.closest('.applied-item').dataset
         .selectedValue;
 
-      selected.value = selected.value.filter((item) => item !== selectedValue);
-      emit('onSelectOption', selected.value);
-    };
+      let currentSelectedFilter = Array.from(filters.value).find((item) =>
+        item.options.includes(selectedValue)
+      );
+      store.commit('deleteSelectedFilters', {
+        filterName: currentSelectedFilter.commonName,
+        option: selectedValue,
+      });
 
-    // watch(selected.value, () => {
-    //   emit('onSelectOption', selected.value);
-    // });
+      selected.value = selected.value.filter((item) => item !== selectedValue);
+    };
 
     return {
       filters,
@@ -139,13 +155,7 @@ export default {
 @import '@/style/variables.scss';
 
 .filter-block {
-  position: sticky;
-  top: 0;
-  left: 0;
-
-  z-index: 100;
-
-  width: 100vw;
+  width: 100%;
   height: 65px;
 
   border-bottom: 1px solid $primary-color-light;
@@ -153,7 +163,7 @@ export default {
   margin-bottom: 15px;
   background-color: $background-color;
 
-  .container {
+  .container-block {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -223,6 +233,10 @@ export default {
     margin-right: 35px;
   }
 
+  &-item--no-margin {
+    margin-right: 0;
+  }
+
   .filter-options {
     position: absolute;
     left: 0;
@@ -232,6 +246,9 @@ export default {
 
     background-color: $background-color;
     border: 1px solid black;
+    border-radius: 5px;
+    overflow: hidden;
+
     z-index: 1000;
   }
   .active {
@@ -245,11 +262,13 @@ export default {
     button {
       width: 100%;
       border: none;
+      border-radius: 0;
       background-color: $background-color;
     }
 
     button:hover {
-      background-color: $primary-color;
+      background-color: $primary-color-light;
+      color: $primary-color-dark;
     }
   }
 

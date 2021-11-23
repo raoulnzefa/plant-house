@@ -1,19 +1,24 @@
 <template>
   <div class="shop">
     <h1>Shop</h1>
+    <p class="info">
+      The entire assortment of bouquets can be viewed on this page
+    </p>
+
     <FilterBlock
-      @onSelectOption="getSelectedOptions"
       v-if="!$store.state.isTabletScreen"
+      @sort-products="getSortProducts"
     />
-    <p>The entire assortment of bouquets can be viewed on this page</p>
 
     <div class="products-area">
       <ShopCard
-        v-for="(product, index) in products"
+        v-for="(product, index) in filteredProducts"
         :key="index"
         :product="product"
         class="margin-bottom"
       />
+
+      <div v-if="!filteredProducts.length">No bouquets found :(</div>
     </div>
   </div>
 </template>
@@ -23,7 +28,6 @@ import ShopCard from '@/components/shop/ShopCard.vue';
 import FilterBlock from '@/components/shop/FilterBlock.vue';
 import { useStore } from 'vuex';
 import { computed, ref } from 'vue';
-// import { filterProducts } from '@/modules/shop/filterProducts.js';
 
 export default {
   name: 'Shop',
@@ -31,27 +35,24 @@ export default {
     ShopCard,
     FilterBlock,
   },
+
   setup() {
     const store = useStore();
     const products = computed(() => store.state.products);
+    let sortType = ref('No sort');
 
-    const selectedOptions = ref([]);
-    let filteredProducts = [];
+    let filteredProducts = computed(() =>
+      store.getters.getFilteredProducts(sortType.value)
+    );
 
-    const getSelectedOptions = (selected) => {
-      selectedOptions.value = selected;
-
-      filteredProducts = filterProducts(
-        selectedOptions.value,
-        Array.from(products.value)
-      );
+    const getSortProducts = (sortTypeEmit) => {
+      sortType.value = sortTypeEmit;
     };
 
     return {
-      getSelectedOptions,
-      filteredProducts,
       products,
-      selectedOptions,
+      getSortProducts,
+      filteredProducts,
     };
   },
 };
@@ -67,7 +68,8 @@ h1 {
 }
 
 p {
-  margin-bottom: 25px;
+  margin-top: -50px;
+  margin-bottom: 15px;
 }
 
 .products-area {
