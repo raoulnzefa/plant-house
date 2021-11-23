@@ -1,7 +1,7 @@
 <template>
   <div class="info-block" :class="imgLocation">
-    <div class="img">
-      <img :src="img" />
+    <div class="img" :style="`background-image: url('${img}')`">
+      <!-- <img :src="img" /> -->
     </div>
     <div class="description">
       <h2>{{ title }}</h2>
@@ -160,15 +160,30 @@ h2 {
   }
 }
 
-img {
-  width: 400px;
+.img {
+  min-width: 400px;
+  min-height: 400px;
+
+  max-width: 400px;
+  max-height: 400px;
+
+  background-size: cover;
+  background-position: center;
 
   @include media('<=tablet', '>phone') {
-    width: 250px;
+    min-width: 250px;
+    min-height: 250px;
+
+    max-width: 250px;
+    max-height: 250px;
   }
 
   @include media('<=phone') {
-    width: 250px;
+    min-width: 250px;
+    min-height: 250px;
+
+    max-width: 250px;
+    max-height: 250px;
   }
 }
 

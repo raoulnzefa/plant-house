@@ -1,17 +1,20 @@
 <template>
   <div class="shop-card">
-    <div
-      class="image"
-      :style="
-        `background: url(${product.image}) center center no-repeat; background-size: cover;`
-      "
-      @click="
-        $router.push({
-          name: 'About Bouquet',
-          params: { bouquet: toKebabCase(product.title) },
-        })
-      "
-    ></div>
+    <div class="image--container">
+      <div
+        class="image"
+        :style="
+          `background: url(${product.image}) center center no-repeat; background-size: cover;`
+        "
+        @click="
+          $router.push({
+            name: 'About Bouquet',
+            params: { bouquet: toKebabCase(product.title) },
+          })
+        "
+      ></div>
+    </div>
+
     <div class="info">
       <h3>{{ product.title }}</h3>
       <div class="price-and-add">
@@ -80,10 +83,19 @@ export default {
     font-weight: 300;
   }
 
+  .image--container {
+    overflow: hidden;
+
+    border-radius: 10px 10px 0 0;
+  }
+
   .image {
     height: 280px;
     width: 100%;
     transition: all 0.2s linear;
+
+    border-radius: 10px 10px 0 0;
+    // transform: translate(0);
   }
 
   .info {
@@ -92,6 +104,10 @@ export default {
     border-top: none;
 
     border-radius: 0 0 10px 10px;
+
+    @include media('<=phone') {
+      border-radius: 0 0 10px 10px;
+    }
 
     .price-and-add {
       display: flex;

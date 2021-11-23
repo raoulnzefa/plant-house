@@ -309,7 +309,8 @@ h1::before {
       min-width: 100vw;
       min-height: 100vw;
 
-      background-size: contain;
+      background-size: cover;
+      background-position: center;
     }
   }
 

@@ -21,7 +21,9 @@
 
 <script>
 import ShopCard from '@/components/shop/ShopCard.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   name: 'Bestsellers',
   components: {
@@ -29,7 +31,11 @@ export default {
   },
 
   setup() {
+    const store = useStore();
+
     let shopCardContainer = ref({});
+
+    const bestsellers = computed(() => store.getters.getBestsellers(3));
 
     let counter = 0,
       width = 280;
@@ -111,29 +117,7 @@ export default {
     };
 
     return {
-      bestsellers: [
-        {
-          id: 0,
-          title: 'Bouquet "Autumn"',
-          price: 25,
-          image:
-            'https://static.tildacdn.com/tild6663-6137-4639-b163-643233656364/4.jpg',
-        },
-        {
-          id: 1,
-          title: 'Muse',
-          price: 43,
-          image:
-            'https://static.tildacdn.com/tild3861-3739-4136-b330-336137383632/XL1.jpg',
-        },
-        {
-          id: 2,
-          title: 'Pink silk',
-          price: 67,
-          image:
-            'https://static.tildacdn.com/tild3235-6563-4134-a362-363938376262/roses.jpg',
-        },
-      ],
+      bestsellers,
 
       onToRight,
       onToLeft,
@@ -162,10 +146,11 @@ export default {
 }
 
 .shop-card--container {
-  @include media('<=phone') {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 
+  @include media('<=phone') {
     min-width: 880px;
     transition: all 0.4s ease-in;
   }

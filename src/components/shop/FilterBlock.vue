@@ -252,7 +252,6 @@ export default {
     z-index: 1000;
   }
   .active {
-    // display: block !important;
     opacity: 1 !important;
   }
 
