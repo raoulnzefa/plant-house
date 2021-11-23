@@ -43,9 +43,13 @@ export const openOptions = (event) => {
   currentFilter.dataset.active = true;
 
   optionTabs[currentFilter.dataset.index].style.display = 'block';
+
   setTimeout(() => {
     optionTabs[currentFilter.dataset.index].classList.add('active');
+
   }, 0)
+
+
 
   const closeWithinDocument = (e) => {
     const targetItem = e.target.closest('.filter-item');
@@ -61,16 +65,16 @@ export const openOptions = (event) => {
   document.addEventListener('click', closeWithinDocument);
 };
 
-const closeOptionTabs = async (tabs) => {
-  Array.from(tabs).map((tab) => {
+const closeOptionTabs = tabs => {
+  Array.from(tabs).map((tab, index) => {
     if (!tab.classList.contains('active')) {
       return tab;
     }
 
     tab.classList.remove('active');
-    setTimeout(() => tab.style.display = 'none', 1000);
+    tab.style.display = 'none';
     tab.closest('.filter-item').dataset.active = false;
-
+    
     return tab;
   });
 

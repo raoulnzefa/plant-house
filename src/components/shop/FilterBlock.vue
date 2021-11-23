@@ -61,14 +61,14 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import { createOptions, openOptions } from '@/modules/shop/optionActions.js';
 import { useStore } from 'vuex';
 
 export default {
   name: 'FilterBlock',
   emits: ['sort-products'],
-  setup(_, { emit }) {
+  setup() {
     const store = useStore();
 
     onMounted(() => {
@@ -186,10 +186,13 @@ export default {
   display: flex;
 }
 
+.filter-item[data-active='true'] button {
+  border: 1px solid $accent-color;
+}
+
 .option-item {
   button {
     border: none !important;
-    // background-color: $primary-color-light;
   }
 }
 
@@ -239,13 +242,14 @@ export default {
 
   .filter-options {
     position: absolute;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
 
     opacity: 0;
     transition: all 0.3s ease-in;
 
     background-color: $background-color;
-    border: 1px solid black;
+    border: 1px solid $accent-color;
     border-radius: 5px;
     overflow: hidden;
 
@@ -263,6 +267,7 @@ export default {
       border: none;
       border-radius: 0;
       background-color: $background-color;
+      padding: 10px 25px;
     }
 
     button:hover {
