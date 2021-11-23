@@ -254,11 +254,21 @@ export default createStore({
     },
 
     addCartItem(state, payload) {
-      payload.cartID = state.cartID;
-      payload.quantity = 1;
-      state.cart.push(payload);
+      let index = state.cart.findIndex(item => item.id === payload.id);
+      
+      if (index === -1) {
+        console.log('into -1');
 
-      state.cartID++;
+        payload.cartID = state.cartID;
+        payload.quantity = 1;
+
+        state.cart.push(payload);
+        state.cartID++;
+
+      } else {
+        state.cart[index].quantity += 1;
+      }
+      
     },
 
     // ORDER
