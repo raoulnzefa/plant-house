@@ -1,5 +1,6 @@
 <template>
   <div class="shop-card">
+    <div class="bestseller-tag" v-if="product.isBestseller">Bestseller</div>
     <div class="image--container">
       <div
         class="image"
@@ -66,6 +67,8 @@ export default {
 @import '@/style/media/breakpoints.scss';
 
 .shop-card {
+  position: relative;
+
   height: 380px;
   width: 280px;
 
@@ -95,12 +98,11 @@ export default {
     transition: all 0.2s linear;
 
     border-radius: 10px 10px 0 0;
-    // transform: translate(0);
   }
 
   .info {
     height: 380px - 280px;
-    border: 1px solid $primary-color-dark;
+    border: 1px solid black;
     border-top: none;
 
     border-radius: 0 0 10px 10px;
@@ -128,6 +130,21 @@ export default {
         color: inherit;
       }
     }
+  }
+
+  .bestseller-tag {
+    position: absolute;
+    top: 15px;
+    left: 0;
+
+    padding: 5px 10px;
+    color: $background-color;
+    font-size: 14px;
+
+    border-radius: 0 10px 10px 0;
+    background-color: $accent-color;
+
+    z-index: 100;
   }
 }
 
