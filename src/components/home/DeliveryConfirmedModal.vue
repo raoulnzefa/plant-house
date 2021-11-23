@@ -28,7 +28,6 @@ export default {
       if (target.closest('.delivery-modal--inner')) return;
 
       store.commit('changeModalValue');
-      document.body.removeEventListener('mouseup', onCloseModal);
     };
 
     watch(isShowModal, () => {
@@ -37,6 +36,7 @@ export default {
         document.body.addEventListener('mouseup', onCloseModal);
       } else {
         document.body.style.overflowY = 'auto';
+        document.body.removeEventListener('mouseup', onCloseModal);
       }
     });
 
@@ -94,9 +94,11 @@ h2 {
   flex-direction: column;
   align-items: center;
 
+  text-align: center;
+
   width: 45vw;
 
-  padding: 35px 0;
+  padding: 35px 85px;
 
   background-color: $background-color;
 
@@ -105,13 +107,12 @@ h2 {
 
   transition: all 0.2s ease-out;
 
-  z-index: 1000;
+  z-index: 10000;
 
   @include media('<=phone') {
     width: 80vw;
 
     padding: 35px 45px;
-    text-align: center;
   }
 
   .bouquet-image {
