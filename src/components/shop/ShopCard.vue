@@ -17,13 +17,14 @@
     </div>
 
     <div class="info">
-      <h3>{{ product.title }}</h3>
+      <h3>{{ product.title.toUpperCase() }}</h3>
       <div class="price-and-add">
         <div class="price">{{ product.price }}$</div>
-        <button @click="onAddToCart">
+        <button v-if="$store.state.isTabletScreen" @click="onAddToCart">
           Add to cart
         </button>
       </div>
+      <div class="hover-line"></div>
     </div>
   </div>
 </template>
@@ -69,10 +70,12 @@ export default {
 .shop-card {
   position: relative;
 
-  height: 380px;
   width: 280px;
 
   cursor: pointer;
+
+  // border-radius: 10px;
+  transition: all 0.2s linear;
 
   @include media('<=phone') {
     border-radius: 10px;
@@ -80,16 +83,24 @@ export default {
   }
 
   h3 {
-    padding-top: 15px;
-    text-align: center;
-    margin-bottom: 25px;
+    padding-top: 0;
+    margin-bottom: 10px;
     font-weight: 300;
+    font-size: 18px;
+    line-height: 1;
+
+    @include media('<=tablet') {
+      padding-top: 20px;
+      margin-bottom: 25px;
+
+      font-size: 20px;
+    }
   }
 
   .image--container {
     overflow: hidden;
 
-    border-radius: 10px 10px 0 0;
+    // border-radius: 10px 10px 0 0;
   }
 
   .image {
@@ -97,15 +108,32 @@ export default {
     width: 100%;
     transition: all 0.2s linear;
 
-    border-radius: 10px 10px 0 0;
+    // border-radius: 10px 10px 0 0;
   }
 
   .info {
-    height: 380px - 280px;
-    border: 1px solid black;
-    border-top: none;
+    position: relative;
 
-    border-radius: 0 0 10px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    height: 100px;
+    border-bottom: 1px solid $primary-color-opacity;
+    border-left: 1px solid $primary-color-opacity;
+
+    padding-left: 15px;
+
+    @include media('<=tablet') {
+      display: block;
+      text-align: center;
+      padding-bottom: 45px;
+      padding-left: 0;
+
+      border-radius: 0 0 10px 10px;
+      border: 1px solid $primary-color-opacity;
+      border-top: none;
+    }
 
     @include media('<=phone') {
       border-radius: 0 0 10px 10px;
@@ -114,7 +142,10 @@ export default {
     .price-and-add {
       display: flex;
       justify-content: space-between;
-      margin: 0 15px 0;
+
+      @include media('<=tablet') {
+        padding: 0 15px 0;
+      }
     }
 
     button {
@@ -139,19 +170,68 @@ export default {
 
     padding: 5px 10px;
     color: $background-color;
-    font-size: 14px;
+    font-size: 12px;
 
-    border-radius: 0 10px 10px 0;
-    background-color: $accent-color;
+    border-radius: 0 5px 5px 0;
+    background-color: #9dad6f;
 
     z-index: 100;
   }
 }
 
+.hover-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  height: 0;
+  width: 1px;
+
+  // border-radius: 15px;
+
+  background-color: $font-color;
+
+  animation: 0.2s ease-in hideLine;
+
+  @include media('<=tablet') {
+    animation: none;
+  }
+}
+
+.shop-card:hover .hover-line {
+  height: inherit;
+  animation: 0.2s ease-in showLine;
+
+  @include media('<=tablet') {
+    height: 0;
+    animation: none;
+  }
+}
+
 .shop-card:hover .image {
   transform: scale(1.05);
-  @include media('<=phone') {
+  @include media('<=tablet') {
     transform: none;
+  }
+}
+
+@keyframes showLine {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: inherit;
+  }
+}
+
+@keyframes hideLine {
+  from {
+    height: inherit;
+  }
+
+  to {
+    height: 0;
   }
 }
 </style>
