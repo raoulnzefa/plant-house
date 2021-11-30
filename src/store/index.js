@@ -33,7 +33,7 @@ export default createStore({
           "https://static.tildacdn.com/tild3939-6466-4131-b835-356131623939/R0028462.jpg"
         ],
         tags: ['Lilacs', 'Any day', 'Large'],
-        isBestseller: false
+        isBestseller: true
       },
       {
         "id": 1,
@@ -46,7 +46,7 @@ export default createStore({
           "https://www.ikea.com/kr/en/images/products/smycka-artificial-flower-ranunculus-white__1038015_pe839379_s5.jpg?f=xl"
         ],
         tags: ['Lilacs', 'Any day', 'Small'],
-        isBestseller: true
+        isBestseller: false
 
       },
       {
@@ -88,7 +88,7 @@ export default createStore({
           "https://www.ikea.com/kr/en/images/products/smycka-artificial-flower-lisianthus-dark-pink__0611441_pe685440_s5.jpg?f=xl"
         ],
         tags: ['Lilacs', 'Any day', 'Medium'],
-        isBestseller: true
+        isBestseller: false
 
       },
       {
@@ -117,7 +117,7 @@ export default createStore({
           "https://static.tildacdn.com/tild3537-3234-4338-b863-643939393737/XL2.jpg"
         ],
         tags: ['Lilacs', 'Wedding', 'Date', 'Large'],
-        isBestseller: false
+        isBestseller: true
 
       },
       {
@@ -146,7 +146,7 @@ export default createStore({
           "https://www.ikea.com/kr/en/images/products/smycka-artificial-flower-lily-white__0903008_pe596780_s5.jpg?f=xl"
         ],
         tags: ['Lilacs', 'Date', 'Medium', 'Small'],
-        isBestseller: true
+        isBestseller: false
 
       },
       {
@@ -173,7 +173,7 @@ export default createStore({
           "https://static.tildacdn.com/tild6236-3863-4539-b662-353034383437/M2.jpg"
         ],
         tags: ['Lilacs', 'B-day', 'Large'],
-        isBestseller: false
+        isBestseller: true
 
       },
       {
@@ -187,7 +187,7 @@ export default createStore({
           "https://static.tildacdn.com/tild3039-3862-4962-b036-663438376535/roses2.jpg"
         ],
         tags: ['Roses', 'Any day', 'Large'],
-        isBestseller: false
+        isBestseller: true
 
       },
       {
@@ -215,12 +215,45 @@ export default createStore({
           "https://www.ikea.com/kr/en/images/products/smycka-artificial-flower-pasqueflower-pink__0611432_pe685431_s5.jpg?f=xl"
         ],
         tags: ['Daisies', 'Any day', 'Small', 'Date'],
-        isBestseller: true
+        isBestseller: false
       }
     ],
 
     cart: [{"title":"Gorgeous","price":23,"image":"https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg","id":0,"cartID":0,"quantity":1}],
     cartID: 0,
+
+    generalHeaderSlider: [
+      {
+        id: 0,
+        blockInfo: {
+          header: 'The great nature',
+          text: 'Welcome to the garden specialize in all kind of species from the most areas in the world. A total of 800 types of plants and flowers you can find here.'
+        },
+        sliderBlock: {
+          imgSrc: 'https://images.pexels.com/photos/4272611/pexels-photo-4272611.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+        }
+      },
+      {
+        id: 1,
+        blockInfo: {
+          header: 'The great nature 2',
+          text: 'Welcome to the garden specialize in all kind of species from the most areas in the world. A total of 800 types of plants and flowers you can find here.'
+        },
+        sliderBlock: {
+          imgSrc: 'https://images.pexels.com/photos/4557466/pexels-photo-4557466.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+        }
+      },
+      {
+        id: 2,
+        blockInfo: {
+          header: 'The great nature 3',
+          text: 'Welcome to the garden specialize in all kind of species from the most areas in the world. A total of 800 types of plants and flowers you can find here.'
+        },
+        sliderBlock: {
+          imgSrc: 'https://images.pexels.com/photos/3644742/pexels-photo-3644742.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+        }
+      }
+    ],
 
     promocodes: [
       {
@@ -241,10 +274,16 @@ export default createStore({
     isTabletScreen: innerWidth <= 768,
     isMobileScreen: innerWidth <= 425,
 
-    selectedFilters: []
+    selectedFilters: [],
+
+    windowHeight: innerHeight
 
   },
   mutations: {
+    setInnerHeight(state, payload) {
+      state.windowHeight = payload;
+    },
+
     setQuantity(state, payload) {
       state.cart = payload;
     },
@@ -257,8 +296,6 @@ export default createStore({
       let index = state.cart.findIndex(item => item.id === payload.id);
       
       if (index === -1) {
-        console.log('into -1');
-
         payload.cartID = state.cartID;
         payload.quantity = 1;
 
@@ -409,6 +446,7 @@ export default createStore({
         if (filter.filterName === 'Type of flowers') {
           isTypeFilter = true;
           filteredProductsByType = getFilteredByFilterName(filter, state.products);
+        
         } else {
           filteredProductsByType = isTypeFilter ? filteredProductsByType : state.products;
         }
@@ -416,7 +454,9 @@ export default createStore({
         if (filter.filterName === 'Event') {
           isEventFilter = true;
           filteredProductsByEvent = getFilteredByFilterName(filter, filteredProductsByType);
+        
         } else {
+
           filteredProductsByEvent = isEventFilter ? filteredProductsByEvent :
             isTypeFilter ? filteredProductsByType : state.products;
         }
@@ -424,11 +464,16 @@ export default createStore({
         if (filter.filterName === 'Size') {
           isSizeFilter = true;
           filteredProductsBySize = getFilteredByFilterName(filter, filteredProductsByEvent);
+        
         } else {
           filteredProductsBySize = isSizeFilter ? filteredProductsBySize :
             isTypeFilter || isEventFilter ? filteredProductsByEvent: state.products;
         }
       })
+
+      if (!isTypeFilter && !isEventFilter && !isSizeFilter) {
+        filteredProductsBySize = state.products;
+      }
 
       const getUniqueProducts = (product) => {
         let index = uniqueFilteredProducts.findIndex(item => item.id === product.id);
@@ -436,6 +481,7 @@ export default createStore({
         if (index === -1) {
           uniqueFilteredProducts.push(product);
           return true;
+
         } else return false;
       }
 
