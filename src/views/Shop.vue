@@ -1,24 +1,31 @@
 <template>
   <div class="shop">
-    <h1>Shop</h1>
-    <p class="info">
-      The entire assortment of bouquets can be viewed on this page
-    </p>
+    <div class="container">
+      <h1 v-if="$route.name === 'Shop'">Shop</h1>
 
-    <FilterBlock
-      v-if="!$store.state.isTabletScreen"
-      @sort-products="getSortProducts"
-    />
+      <div class="choose-product" v-if="$route.name === 'Shop'">
+        <h2>Choose category you need</h2>
+        <div class="choose-product--inner">
+          <div class="choose-product--item">
+            <router-link class="plants" :to="{ name: 'Shop Plants' }">
+              <span>Plants</span>
+              <div class="image"></div>
+            </router-link>
+          </div>
+          <div class="choose-product--item">
+            <router-link class="bouquets" :to="{ name: 'Shop Bouquets' }">
+              <span>Bouquets</span>
+              <div class="image"></div>
+            </router-link>
+          </div>
+        </div>
+      </div>
 
-    <div class="products-area">
-      <ShopCard
-        v-for="(product, index) in filteredProducts"
-        :key="index"
-        :product="product"
-        class="margin-bottom"
-      />
+      <!-- <p class="info">
+        The entire assortment of bouquets can be viewed on this page
+      </p> -->
 
-      <div v-if="!filteredProducts.length">No bouquets found :(</div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -60,11 +67,18 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/media/breakpoints.scss';
+@import '@/style/variables.scss';
 
 h1 {
+  margin-top: 95px;
+  margin-bottom: 25px;
   @include media('<=phone') {
     margin-top: 75px;
   }
+}
+
+h2 {
+  text-align: center;
 }
 
 p {
@@ -72,21 +86,75 @@ p {
   margin-bottom: 15px;
 }
 
-.products-area {
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  grid-gap: 1rem;
-  justify-items: center;
+.info {
+  margin-bottom: 25px;
 }
 
-.margin-bottom {
-  margin-bottom: 25%;
-  @include media('<=tablet') {
-    margin-bottom: 25px;
+.choose-product {
+  margin-bottom: 55px;
+
+  &--inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &--item {
+    height: 105px;
+    min-width: 49%;
+
+    border: 2px solid $orange-color;
+  }
+
+  .plants,
+  .bouquets {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+
+    color: $font-color;
+    font-weight: bold;
+
+    transition: all 0.2s linear;
+    cursor: pointer;
+  }
+
+  .image {
+    width: 45px;
+    height: 45px;
+
+    margin-left: 8px;
+
+    background-size: contain;
+    transition: all 0.2s linear;
+  }
+
+  .plants .image {
+    background-image: url('../assets/icons/shop/plant.svg');
+  }
+
+  // .plants:hover .image {
+  //   background-image: url('../assets/icons/shop/plant-hover.png');
+  // }
+
+  .bouquets .image {
+    background-image: url('../assets/icons/shop/flower.svg');
+  }
+
+  // .bouquets:hover .image {
+  //   background-image: url('../assets/icons/shop/flower-hover.png');
+  // }
+
+  .plants:hover,
+  .bouquets:hover {
+    background-color: $orange-color-light;
   }
 }
 </style>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import '@/style/media/breakpoints.scss';
+</style>

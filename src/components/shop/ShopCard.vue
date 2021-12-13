@@ -19,7 +19,12 @@
     <div class="info">
       <h3>{{ product.title.toUpperCase() }}</h3>
       <div class="price-and-add">
-        <div class="price">{{ product.price }}$</div>
+        <div class="price">
+          <span style="font-size: 14px;">From</span>
+          <span class="price--num"
+            >{{ ' ' + product.priceInfo[0].price }}$</span
+          >
+        </div>
         <button v-if="$store.state.isTabletScreen" @click="onAddToCart">
           Add to cart
         </button>
@@ -74,7 +79,6 @@ export default {
 
   cursor: pointer;
 
-  // border-radius: 10px;
   transition: all 0.2s linear;
 
   @include media('<=phone') {
@@ -99,16 +103,20 @@ export default {
 
   .image--container {
     overflow: hidden;
-
-    // border-radius: 10px 10px 0 0;
   }
 
   .image {
     height: 280px;
     width: 100%;
     transition: all 0.2s linear;
+  }
 
-    // border-radius: 10px 10px 0 0;
+  .price {
+    margin-top: 15px;
+
+    .price--num {
+      font-weight: bold;
+    }
   }
 
   .info {
@@ -118,7 +126,7 @@ export default {
     flex-direction: column;
     justify-content: center;
 
-    height: 100px;
+    height: 120px;
     border-bottom: 1px solid $primary-color-opacity;
     border-left: 1px solid $primary-color-opacity;
 
@@ -127,8 +135,11 @@ export default {
     @include media('<=tablet') {
       display: block;
       text-align: center;
+
       padding-bottom: 45px;
       padding-left: 0;
+
+      height: 100px;
 
       border-radius: 0 0 10px 10px;
       border: 1px solid $primary-color-opacity;
@@ -187,9 +198,7 @@ export default {
   height: 0;
   width: 1px;
 
-  // border-radius: 15px;
-
-  background-color: $font-color;
+  background-color: $orange-color;
 
   animation: 0.2s ease-in hideLine;
 

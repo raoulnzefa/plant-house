@@ -44,7 +44,7 @@
       </div>
     </div>
   </div>
-  <div class="applied-filters">
+  <div class="applied-filters" v-show="selected.length">
     <div
       class="applied-item"
       v-for="(item, index) of selected"
@@ -68,8 +68,61 @@ import { useStore } from 'vuex';
 export default {
   name: 'FilterBlock',
   emits: ['sort-products'],
-  setup() {
+  props: {
+    filterType: String,
+  },
+
+  setup(props) {
     const store = useStore();
+
+    const filtersData = ref([
+      {
+        type: 'commonFilters',
+        filters: [
+          {
+            commonName: 'Size',
+            options: ['Small', 'Medium', 'Large'],
+          },
+        ],
+      },
+      {
+        type: 'plants',
+        filters: [
+          {
+            commonName: 'Location',
+            options: ['Indoors', 'Outdoors'],
+          },
+          {
+            commonName: 'Pet friendly?',
+            options: ['Yes, pet friendly'],
+          },
+        ],
+      },
+      {
+        type: 'flowers',
+        filters: [
+          {
+            commonName: 'Type of flowers',
+            options: ['Roses', 'Lilacs', 'Orchids', 'Daisies'],
+          },
+          {
+            commonName: 'Event',
+            options: ['Wedding', 'Date', 'B-day', 'Any day'],
+          },
+        ],
+      },
+    ]);
+
+    // GET FILTERS BY PROP filterType
+
+    const receivedFilters = filtersData.value.find(
+      (item) => item.type === props.filterType
+    );
+
+    const filters = ref([
+      ...filtersData.value[0].filters,
+      ...receivedFilters.filters,
+    ]);
 
     onMounted(() => {
       createOptions(filters);
@@ -83,25 +136,7 @@ export default {
       });
     });
 
-    const filters = ref([
-      {
-        commonName: 'Type of flowers',
-        options: ['Roses', 'Lilacs', 'Orchids', 'Daisies'],
-        filterType: 'all',
-      },
-      {
-        commonName: 'Event',
-        options: ['Wedding', 'Date', 'B-day', 'Any day'],
-        filterType: 'only',
-      },
-      {
-        commonName: 'Size',
-        options: ['Small', 'Medium', 'Large'],
-        filterType: 'all',
-      },
-    ]);
-
-    const sortBy = ref(['Lower price', 'Higher price']);
+    const sortBy = ref(['No sort', 'Lower price', 'Higher price']);
 
     const selected = ref([]);
 
@@ -120,7 +155,7 @@ export default {
       store.commit('addSelectedFilters', {
         filterName: currentSelectedFilter.commonName,
         option: optionValue,
-        filterType: currentSelectedFilter.filterType,
+        classification: props.filterType,
       });
     };
 
@@ -134,6 +169,7 @@ export default {
       store.commit('deleteSelectedFilters', {
         filterName: currentSelectedFilter.commonName,
         option: selectedValue,
+        classification: props.filterType,
       });
 
       selected.value = selected.value.filter((item) => item !== selectedValue);
