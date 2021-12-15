@@ -26,6 +26,19 @@ const routes = [
     path: '/shop',
     name: 'Shop',
     component: () => import('@/views/Shop.vue'),
+    children: [
+      {
+        path: 'plants',
+        name: 'Shop plants',
+        component: () => import('@/components/shop/PlantsPage.vue')
+      },
+      {
+        path: 'flowers',
+        name: 'Shop flowers',
+        component: () => import('@/components/shop/BouquetsPage.vue')
+
+      }
+    ]
   },
   {
     path: '/shop/:bouquet',
@@ -108,8 +121,11 @@ router.beforeEach((to, from) => {
 
 })
 
-router.afterEach(() => {
-  if (store.state.isTabletScreen) {
+router.afterEach((to, from) => {
+  if (store.state.isTabletScreen ) {
+    if (to.name === 'About Bouquet' && from.name === 'About Bouquet') {
+      return true;
+    }
     // document.querySelector('#app').scrollIntoView();
     document.body.scrollTop = 0;
     return true;

@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     menu: [{name: 'Home', submenu: []}, 
-      {name: 'Shop', submenu: ['Plants', 'Bouquets']}, 
+      {name: 'Shop', submenu: ['Plants', 'Flowers']}, 
       {name: 'About', submenu: []}],
 
     infoData: [
@@ -49,7 +49,7 @@ export default createStore({
 
         details: {
           size: ['small', 'medium', 'large'],
-          typesOfFlowers: ['daisies'],
+          typesOfFlowers: ['daisies', 'roses'],
           events: ['any day', 'date'],
         },
         isBestseller: true
@@ -457,15 +457,14 @@ export default createStore({
 
         Besides looking cool, it's a low-maintenance plant that's known for surviving droughts, making it perfect for newbies living in almost any environment. "Although the snake plant prefers bright light, it can survive lower light levels," she adds.
         
-        Snake plants have also been shown to filter out nasty chemicals, like benzene, formaldehyde, trichloroethylene, xylene, and toluene, so you can breathe easy having this in your home.
-        
-        Pet friendly? No.`,
+        Snake plants have also been shown to filter out nasty chemicals, like benzene, formaldehyde, trichloroethylene, xylene, and toluene, so you can breathe easy having this in your home.`,
 
         image: "https://images.pexels.com/photos/8936386/pexels-photo-8936386.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
         images: [ 'https://images.pexels.com/photos/8936386/pexels-photo-8936386.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
         'https://images.pexels.com/photos/4505469/pexels-photo-4505469.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
           "https://images.pexels.com/photos/7301930/pexels-photo-7301930.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
           "https://images.pexels.com/photos/9412357/pexels-photo-9412357.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
+          
         ],
         details: {
           size: ['small', 'medium'],
@@ -473,7 +472,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: true,
         },
-        isBestseller: true
+        isBestseller: true,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
       },
       {
         id: 15,
@@ -499,9 +508,7 @@ export default createStore({
 
         "description": `If you live a high-maintenance life—always on the go, out at all hours—you need an "easy going, low-maintenance plant, like the Dracaena," says Juliette Vassilkioti, co-founder and president of My City Plants. The Dracaena is great, she explains, because it can easily adapt to different light environments, though it's best to keep it away from direct sun. 
 
-        "The hardiest of of these group is Draacena Lisa," she explains. "It can deal with indoor temperature and season changes better than others." When it comes to purifying the air, though, the Dracaena Marginata Plant is your best bet. It removes benzene, formaldehyde, trichloroethylene, and xylene. 
-        
-        Pet friendly? No. `,
+        "The hardiest of of these group is Draacena Lisa," she explains. "It can deal with indoor temperature and season changes better than others." When it comes to purifying the air, though, the Dracaena Marginata Plant is your best bet. It removes benzene, formaldehyde, trichloroethylene, and xylene. `,
 
         image: "https://static.havenly.com/product/production/sha256_60c97755f75d0a1c5bc8005b96eb35ac7b0704aba710f3cbb4dca1acfdbac01b.jpeg",
         images: [
@@ -515,7 +522,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: false,
         },
-        isBestseller: false
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
       },
       {
         id: 16,
@@ -529,7 +546,7 @@ export default createStore({
         {
           type: 'medium',
           price: 90,
-          quantity: 12
+          quantity: 11
         },
         {
           type: 'large',
@@ -539,9 +556,7 @@ export default createStore({
 
         description: `If you have a tendency to forget about your plants, or are new to the whole "plant parent" lifestyle, get a rubber tree. According to Vassilkioti, they're "tolerant to some degree of neglect" (phew!) and "handle under-watering better than over-watering."
 
-        Sound like your kind of plant? Great, just know that a rubber tree needs bright light (can take some partial sunlight) and a good amount of space around for it to be happy, grow, and remove carbon dioxide from your home.
-        
-        Pet friendly? No. `,
+        Sound like your kind of plant? Great, just know that a rubber tree needs bright light (can take some partial sunlight) and a good amount of space around for it to be happy, grow, and remove carbon dioxide from your home.`,
         
         image: "http://cdn.shopify.com/s/files/1/0056/8970/4482/products/B_D_Day1-037.jpg?v=1607707062",
         images: [
@@ -555,8 +570,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: true,
         },
-        isBestseller: false
-
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
       },
       {
         id: 17,
@@ -577,9 +601,7 @@ export default createStore({
 
         description: `"This plant isn't just easy to care for, it's also known as a healer," says Vassilkioti. "Aloe vera juice has anti-inflammatory and anti-bacterial properties." So not only can you use this plant to brighten up your home, but you can also use it to heal wounds and different skin conditions.Put your aloe vera plant in a bright, sunny spot and don't worry about keeping it alive. 
 
-        "This guy likes to get its soil very, very dry before watering," she adds. And even if you don't use aloe vera for its healing properties, you can still reap all its air-purification benefits as it removes formaldehyde. 
-        
-        Pet friendly? No. `,
+        "This guy likes to get its soil very, very dry before watering," she adds. And even if you don't use aloe vera for its healing properties, you can still reap all its air-purification benefits as it removes formaldehyde. `,
         image: "https://i.pinimg.com/originals/03/78/f5/0378f56bce8a5c5b4f5b1a765cdb8af4.png",
         images: [
           "https://i.pinimg.com/originals/03/78/f5/0378f56bce8a5c5b4f5b1a765cdb8af4.png",
@@ -594,7 +616,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: false,
         },
-        isBestseller: false
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
       },
       {
         id: 18,
@@ -616,9 +648,7 @@ export default createStore({
 
         Best part: You only need to water a monstera deliciosa every one to two weeks, letting the soil dry out between waterings, per The Sill. Plus, it's perfect if your place doesn't get direct sunlight—all it needs is a spot that receives bright to medium indirect light.
         
-        In general, large-leafed philodendron plants, including the monstera deliciosa, were shown to be one of the most effective at reducing air pollutants, like benzene, trichloroethylene, and formaldehyde, according to a NASA study. 
-        
-        Pet friendly? No. `,
+        In general, large-leafed philodendron plants, including the monstera deliciosa, were shown to be one of the most effective at reducing air pollutants, like benzene, trichloroethylene, and formaldehyde, according to a NASA study. `,
 
         image: "https://images.pexels.com/photos/6297518/pexels-photo-6297518.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
         images: [
@@ -633,7 +663,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: false,
         },
-        isBestseller: false
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
 
       },
       {
@@ -654,9 +694,7 @@ export default createStore({
         ],
         description: `"Sometimes referred to as the 'cubicle plant,' the pothos is a great pick if you're a self-proclaimed 'black thumb,' says Marino. (Just so you know, a 'black thumb' is the total opposite of a 'green thumb.') And while this plant starts out small, its trailing vines can grow to over 10 feet long (WOW), even indoors where lower light and dry air make conditions less than ideal. 
 
-        As an added bonus, this plant is super easy to grow, adds Marino, and propagates (translation: breeds more pothos) in water. While you'll need to learn how to propagate a Pothos plant, you can basically get as many plants as you want for the price of one. And like the snake plant, the pothos filters benzene, formaldehyde, xylene, and toluene.
-        
-        Pet friendly? No. `,
+        As an added bonus, this plant is super easy to grow, adds Marino, and propagates (translation: breeds more pothos) in water. While you'll need to learn how to propagate a Pothos plant, you can basically get as many plants as you want for the price of one. And like the snake plant, the pothos filters benzene, formaldehyde, xylene, and toluene.`,
 
         image: "https://www.delineateyourdwelling.com/wp-content/uploads/Pothos-Care-5-600x900.jpg",
         images: [
@@ -670,7 +708,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: true,
         },
-        isBestseller: false
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
       },
       {
         id: 20,
@@ -697,9 +745,7 @@ export default createStore({
 
         These rhizomes, Horton explains, are "hearty," storing water that helps the plant survive drought in its natural environment. She recommends watering it once a month during the growing season (spring and summer) and once every two months when it goes dormant in the fall. "It's a great plant to have if you're somebody who happens to travel a lot," Horton adds. 
         
-         Oh, and Marino notes that many cultures believe a ZZ Plant "symbolizes prosperity and friendship," making it a great housewarming gift. 
-        
-        Pet friendly? No. `,
+         Oh, and Marino notes that many cultures believe a ZZ Plant "symbolizes prosperity and friendship," making it a great housewarming gift. `,
 
         image: "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1551638261-gallery_the-sill_zz-plant-plant_3_4_7fcfbb35-419e-42d3-8cb5-3d7f8295312b_2230x.progressive.jpg?crop=1xw:0.773xh;center,top&resize=768:*",
         images: [
@@ -714,7 +760,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: false,
         },
-        isBestseller: true
+        isBestseller: true,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
 
       },
       {
@@ -741,9 +797,7 @@ export default createStore({
 
         description: `Plants that give off "instant jungle vibes," like the spider plant, are having a serious moment right now, according to Marino. And they're super easy to care for, says Vassilkioti. These plants need bright light, but no direct sun, so they're perfect to put in a room with big windows. Just keep it away from the windowsill.  
 
-        Vassilkioti adds that this plant is fun to have around because it grows "baby spiders" (spiderettes), which can be easily propagated. It's also a strong air purifier, removing both formaldehyde and xylene.
-        
-        Pet friendly? YES!`,
+        Vassilkioti adds that this plant is fun to have around because it grows "baby spiders" (spiderettes), which can be easily propagated. It's also a strong air purifier, removing both formaldehyde and xylene.`,
 
         image: "https://i.insider.com/61005a640d35a9001825734b?width=1136&format=jpeg",
         images: [
@@ -757,7 +811,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: true,
         },
-        isBestseller: false
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
 
       },
       {
@@ -781,9 +845,7 @@ export default createStore({
 
         Because the bird's nest fern thrives in medium indirect light and a humid environment, Marino says, "it would do great in a bathroom with a shower, as long as there are windows that receive natural light." 
         
-        Ferns have been shown to filter formaldehyde, xylene, and toluene, so it's not a bad idea to put one in your bathroom. After all, that's where you're likely to use household toxins, like harsh cleaners, hairspray, and nail polish remover that often contain these chemicals.
-        
-        Pet friendly? YES!`,
+        Ferns have been shown to filter formaldehyde, xylene, and toluene, so it's not a bad idea to put one in your bathroom. After all, that's where you're likely to use household toxins, like harsh cleaners, hairspray, and nail polish remover that often contain these chemicals.`,
 
         image: "https://d3gkbidvk2xej.cloudfront.net/images/products/v2/5450c3fd-ffaa-46e6-85d0-08df8c638342/s/bird39s-nest-fern-white-mid-century-ceramic-light-wood-stand.png?version=1607303623.55590019800",
         images: [
@@ -797,7 +859,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: false,
         },
-        isBestseller: false
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
       },
       {
         id: 23,
@@ -824,9 +896,7 @@ export default createStore({
 
         One thing to note: "The peace lily's flowers have pollen, so this plant might not be the best choice for people who struggle with allergies," says Vassilkioti. 
         
-        If that's not a problem for you, she recommends putting a peace lily in your bedroom since it produces oxygen at night, while most other plants do that during the day. Besides producing oxygen, this plant also removes ammonia, benzene, formaldehyde, and trichloroethylene. 
-        
-        Pet friendly? No. `,
+        If that's not a problem for you, she recommends putting a peace lily in your bedroom since it produces oxygen at night, while most other plants do that during the day. Besides producing oxygen, this plant also removes ammonia, benzene, formaldehyde, and trichloroethylene. `,
 
         image: "https://i.pinimg.com/originals/29/7f/a5/297fa532d0eedb6f249431363d903689.jpg",
         images: [
@@ -840,7 +910,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: false,
         },
-        isBestseller: false
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
 
       },
       {
@@ -859,9 +939,7 @@ export default createStore({
 
         Also like the pothos, it's "incredibly easy to prune and propagate, if you prefer a more compact shape," she adds. It's also one of the easiest houseplants to grow. 
         
-        Though it's not the most air-purifying plant out there, philodendrons do filter formaldehyde. Not too shabby for a low-maintenance plant that's perfect for newbies. 
-        
-        Pet friendly? No. `,
+        Though it's not the most air-purifying plant out there, philodendrons do filter formaldehyde. Not too shabby for a low-maintenance plant that's perfect for newbies. `,
 
         "image": "https://www.daun.com.my/wp-content/uploads/2020/06/20200602_142730.jpg",
         "images": [
@@ -875,7 +953,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: false,
         },
-        isBestseller: true
+        isBestseller: true,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
 
       },
       {
@@ -908,7 +996,17 @@ export default createStore({
           isIndoors: false,
           isOutdoors: true,
         },
-        isBestseller: true
+        isBestseller: true,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
 
       },
       {
@@ -936,8 +1034,17 @@ export default createStore({
           isIndoors: true,
           isOutdoors: true,
         },
-        isBestseller: false
-
+        isBestseller: false,
+        plantCare: [
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_light.svg?v=4400775217377875679',
+            description: 'Medium to low indirect light'
+          },
+          {
+            icon: 'https://cdn.shopify.com/s/files/1/0150/6262/t/380/assets/pdp_icon_water.svg?v=18168889493737383852',
+            description: 'Water every 2–3 weeks'
+          }
+        ]
       },
     ],
 

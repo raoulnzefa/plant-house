@@ -1,49 +1,162 @@
 <template>
   <div class="about-bouquet">
-    <div class="info">
-      <Breadcrumb
-        :routeInfo="{
-          mainPage: 'Shop',
-          currentPage: product.title,
-        }"
-      />
+    <div class="header-image header-image--right">
+      <img src="../assets/png/about_header.png" alt="plant-header" />
+    </div>
+    <div class="header-image header-image--left">
+      <img src="../assets/png/about_header.png" alt="plant-header" />
+    </div>
 
+    <div class="info container">
       <div class="info--inner">
-        <div class="description">
-          <h1>{{ product.title }}</h1>
-          <p>
-            {{ product.description }}
-          </p>
-          <div class="button--continue">
-            <button class="button" @click="onAddToCart">Add to the Cart</button>
-          </div>
-        </div>
+        <div class="slider-block">
+          <div
+            class="slider"
+            @touchstart="onTouchStart"
+            @touchmove="onTouchMove"
+            @touchend="onTouchEnd"
+          >
+            <div class="slider--container">
+              <div
+                class="slider-item"
+                v-for="(image, index) in product.images"
+                :key="index"
+                :style="`background-image: url('${image}')`"
+              ></div>
+            </div>
 
-        <div
-          class="slider"
-          @touchstart="onTouchStart"
-          @touchmove="onTouchMove"
-          @touchend="onTouchEnd"
-        >
-          <div class="slider--container">
-            <div
-              class="slider-item"
-              v-for="(image, index) in product.images"
-              :key="index"
-              :style="`background-image: url('${image}')`"
-            ></div>
+            <div class="arrow-right--container" @click="toNextImage">
+              <div class="slider--arrow-right">
+                <img src="../assets/icons/arrow-right.png" alt="" />
+              </div>
+            </div>
+
+            <div class="arrow-left--container" @click="toPreviousImage">
+              <div class="slider--arrow-left">
+                <img src="../assets/icons/arrow-left.png" alt="" />
+              </div>
+            </div>
           </div>
-          <div class="slider--images-counter">
+
+          <div class="slider-preview">
             <div
-              class="image-dot"
-              v-for="(_, index) in product.images"
+              class="slider-preview--item"
+              v-for="(image, index) of product.images"
               :key="index"
               :data-count="index"
               @click="onMoveToDotImage"
-            ></div>
+              :style="{ 'background-image': `url(${image})` }"
+            >
+              <div class="inner"></div>
+            </div>
           </div>
-          <div class="slider--arrow-right" @click="toNextImage"></div>
-          <div class="slider--arrow-left" @click="toPreviousImage"></div>
+        </div>
+
+        <div class="description">
+          <Breadcrumb
+            :routeInfo="{
+              mainPage: 'Shop',
+              subPage: {
+                pathName: `Shop ${product.type}`,
+                name: product.type,
+              },
+              currentPage: product.title,
+            }"
+          />
+
+          <h1>{{ product.title }}</h1>
+
+          <div class="price" v-if="!productPrice">
+            From {{ product.priceInfo[0].price }}$
+          </div>
+          <div class="price" v-else>{{ productPrice }}$</div>
+
+          <div class="size">
+            <span class="title">Choose size:</span>
+            <div
+              class="size-item"
+              v-for="(item, index) of product.details.size"
+              :key="index"
+              @click="onSetQuerySizeParam(item)"
+              :data-size="item"
+            >
+              {{ item }}
+            </div>
+          </div>
+
+          <div class="quantity" v-if="productQuantity !== 0">
+            <div class="title">Plants left:</div>
+            <span>
+              {{
+                productQuantity && productQuantity !== 0
+                  ? productQuantity
+                  : 'choose size first'
+              }}
+            </span>
+          </div>
+
+          <div class="not-available" v-else>
+            Out of stock
+          </div>
+
+          <div class="horizontal-line"></div>
+
+          <div class="button--add-to-the-cart">
+            <button
+              class="button"
+              @click="onAddToCart"
+              :disabled="productPrice === 0 || productQuantity === 0"
+            >
+              Add to Cart
+              <div class="cart-icon"></div>
+            </button>
+          </div>
+
+          <div class="details">
+            <span class="title">Some details</span>
+            <p>
+              {{ product.description }}
+            </p>
+          </div>
+
+          <div class="more-details">
+            <div class="pet-friendly" v-if="product.type === 'plants'">
+              <span class="title">Pet friendly:</span>
+              <span>{{ product.details.isPetFriendly ? 'Yes' : 'No' }}</span>
+            </div>
+            <div class="types-of-flowers" v-else>
+              <span class="title">Flowers used: </span>
+              <span
+                v-for="(flower, index) of product.details.typesOfFlowers"
+                :key="index"
+                class="flowers-list"
+              >
+                {{
+                  (index === 0 ? flower.toCapitalizeLetter() : flower) +
+                    (index === product.details.typesOfFlowers.length - 1
+                      ? '.'
+                      : ',')
+                }}
+              </span>
+            </div>
+          </div>
+
+          <div class="horizontal-line" v-if="product.type === 'plants'"></div>
+
+          <div class="plant-care" v-if="product.type === 'plants'">
+            <div class="title">Plant care</div>
+            <div class="plant-care--list">
+              <ul>
+                <li v-for="(item, index) of product.plantCare" :key="index">
+                  <div
+                    class="icon"
+                    :style="{ 'background-image': `url(${item.icon})` }"
+                  ></div>
+                  {{ item.description }}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -51,10 +164,9 @@
 </template>
 
 <script>
-import { computed, watch, toRefs, onMounted } from 'vue';
+import { ref, watch, toRefs, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-import { toKebabCase } from '@/modules/toKebabCase.js';
+import { useRouter, useRoute } from 'vue-router';
 import Breadcrumb from '@/components/page/Breadcrumb.vue';
 
 export default {
@@ -71,27 +183,73 @@ export default {
 
   setup(prop) {
     const store = useStore();
+    const router = useRouter();
+    const route = useRoute();
 
     const title = prop.product.title;
-    const price = prop.product.price;
     const image = prop.product.image;
     const id = prop.product.id;
+    const productPrice = ref(0);
+    const productQuantity = ref('');
+    const productSize = ref('');
 
-    let payload = { title, price, image, id };
+    let payload = { title, price: productPrice, size: productSize, image, id };
 
     const onAddToCart = () => {
       store.commit('addCartItem', payload);
     };
 
-    // SLIDER
-
-    let sliderContainer = {};
-
     onMounted(() => {
+      // QUERY PARAM SIZE
+
+      if (route.query.size) {
+        setPriceInfoBySize(route.query.size);
+      }
+
+      watch(
+        () => route.query,
+        (value) => {
+          if (route.name === 'About Bouquet') setPriceInfoBySize(value.size);
+        }
+      );
+
+      // SLIDER
       sliderContainer = document.querySelector('.slider--container');
 
       setActiveDot();
     });
+
+    // SET PRODUCT INFO BY SIZE
+
+    const onSetQuerySizeParam = (size) => {
+      router.push({ name: route.name, query: { size } });
+    };
+
+    const setActiveSizeClass = (size) => {
+      const sizeItems = document.querySelectorAll('.size-item');
+      Array.from(sizeItems).map((item) => {
+        if (item.dataset.size === size) item.classList.add('active');
+        else item.classList.remove('active');
+
+        return item;
+      });
+    };
+
+    const setPriceInfoBySize = (size) => {
+      productSize.value = size;
+
+      let matchedProductPriceInfo = prop.product.priceInfo.find(
+        (item) => item.type === productSize.value
+      );
+      productPrice.value = matchedProductPriceInfo.price;
+      productQuantity.value = matchedProductPriceInfo.quantity;
+
+      setActiveSizeClass(size);
+    };
+
+    // SLIDER
+
+    let sliderContainer = {};
 
     let xStart = null,
       yStart = null;
@@ -135,7 +293,7 @@ export default {
 
     const toNextImage = () => {
       if (counter + 1 > prop.product.images.length - 1) {
-        return;
+        counter = -1;
       }
 
       let width = document.querySelector('.slider-item').clientWidth;
@@ -148,7 +306,7 @@ export default {
 
     const toPreviousImage = () => {
       if (counter - 1 < 0) {
-        return;
+        counter = prop.product.images.length;
       }
 
       let width = document.querySelector('.slider-item').clientWidth;
@@ -160,7 +318,7 @@ export default {
     };
 
     const setActiveDot = () => {
-      const imageDot = document.querySelectorAll('.image-dot');
+      const imageDot = document.querySelectorAll('.slider-preview--item');
 
       Array.from(imageDot).forEach((dot) => {
         dot.classList.remove('active');
@@ -172,7 +330,7 @@ export default {
     };
 
     const onMoveToDotImage = ({ target }) => {
-      counter = +target.dataset.count;
+      counter = +target.closest('.slider-preview--item').dataset.count;
 
       let width = document.querySelector('.slider-item').clientWidth;
 
@@ -181,7 +339,13 @@ export default {
     };
 
     return {
+      productPrice,
+      productQuantity,
+
       onAddToCart,
+
+      onSetQuerySizeParam,
+
       onTouchStart,
       onTouchMove,
       onTouchEnd,
@@ -204,11 +368,40 @@ a {
 }
 
 .about-bouquet {
+  margin-top: 95px;
+
   @include media('<=tablet', '>phone') {
     margin-top: 80px;
   }
   @include media('<=phone') {
-    margin-top: 110vw;
+    margin-top: 100vw;
+  }
+}
+
+.header-image {
+  position: absolute;
+  height: 70px;
+
+  overflow: hidden;
+
+  &--right {
+    top: 0;
+    right: 0;
+    transform: scale(-1, 1) rotate(180deg);
+
+    img {
+      height: 255px;
+    }
+  }
+
+  &--left {
+    top: -10px;
+    left: 0;
+    transform: scale(-1, 1) rotate(-90deg);
+
+    img {
+      height: 70px;
+    }
   }
 }
 
@@ -217,8 +410,8 @@ a {
 }
 
 h1 {
-  margin: 0 0 35px;
-  color: $primary-color-dark;
+  margin: 0 0 25px;
+  color: $font-color;
 
   @include media('<=phone') {
     margin-top: 0 !important;
@@ -231,6 +424,67 @@ h1::before {
   }
 }
 
+.title {
+  display: block;
+
+  max-width: 110px;
+  min-width: 110px;
+  width: 110px;
+
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.price {
+  margin-bottom: 25px;
+
+  // font-weight: bold;
+  font-size: 24px;
+}
+
+.size {
+  display: flex;
+  margin-bottom: 25px;
+
+  &-item {
+    text-transform: capitalize;
+    margin-right: 15px;
+
+    cursor: pointer;
+  }
+
+  &-item::after {
+    content: '';
+    display: block;
+
+    min-height: 1px;
+    width: 0;
+
+    margin-top: 3px;
+
+    background-color: black;
+
+    transition: all 0.2s linear;
+  }
+
+  &-item:hover::after {
+    width: auto;
+  }
+
+  &-item.active::after {
+    width: auto;
+    background-color: $orange-color;
+  }
+}
+
+.quantity {
+  display: flex;
+}
+
+.not-available {
+  color: red;
+}
+
 .info {
   display: flex;
   justify-content: space-between;
@@ -239,18 +493,64 @@ h1::before {
 
   &--inner {
     display: flex;
+
+    @include media('<=phone') {
+      flex-direction: column;
+    }
   }
 
   .description {
-    margin-right: 65px;
+    margin-left: 65px;
+    transition: all 0.2s linear;
 
     @include media('<=phone') {
-      margin-right: 0;
+      margin-left: 0;
     }
   }
 
   .button {
     margin-top: 45px;
+  }
+}
+
+.details {
+  display: flex;
+  margin-bottom: 25px;
+
+  .title {
+    line-height: 1.8;
+    font-weight: bold;
+  }
+}
+
+.pet-friendly,
+.types-of-flowers {
+  display: flex;
+  margin-bottom: 45px;
+}
+
+.flowers-list {
+  padding-right: 5px;
+}
+
+.plant-care {
+  display: flex;
+  margin-bottom: 25px;
+
+  li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .icon {
+    width: 25px;
+    height: 25px;
+
+    margin-right: 15px;
+
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 
@@ -295,7 +595,9 @@ h1::before {
     min-width: $slider-width-ab;
     min-height: $slider-width-ab;
 
-    background-size: contain;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     @include media('<=tablet', '>phone') {
       min-width: $slider-width-tablet;
@@ -314,58 +616,52 @@ h1::before {
     }
   }
 
-  &--images-counter {
+  .arrow-right--container,
+  .arrow-left--container {
     position: absolute;
+    top: 0;
 
     display: flex;
+    align-items: center;
 
-    bottom: 20px;
-    left: 50%;
-
-    transform: translateX(-50%);
-    z-index: 100;
-
-    @include media('<=phone') {
-      top: 93vw;
-      left: 50vw;
-    }
-  }
-
-  .image-dot {
-    height: 8px;
-    width: 8px;
-
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.288);
-
-    margin-right: 8px;
-
-    transition: all 0.3s linear;
-
+    height: $slider-width-ab;
     cursor: pointer;
 
-    &.active {
-      background-color: $accent-color;
+    @include media('<=tablet', '>phone') {
+      height: $slider-width-tablet;
+    }
+
+    @include media('<=phone') {
+      height: 100vw;
     }
   }
 
-  .image-dot:last-of-type {
-    margin-right: 0;
+  .arrow-right--container {
+    justify-content: flex-end;
+    right: 0;
+    width: 60%;
+  }
+
+  .arrow-left--container {
+    left: 0;
+    width: 40%;
   }
 
   &--arrow-right,
   &--arrow-left {
-    position: absolute;
-    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    width: 25px;
-    height: 25px;
-    opacity: 0.3;
-
-    background-size: contain;
+    opacity: 0.1;
 
     cursor: pointer;
     transition: opacity 0.2s linear;
+
+    img {
+      width: 25px;
+      height: 25px;
+    }
 
     @include media('<=phone') {
       display: none;
@@ -373,26 +669,126 @@ h1::before {
   }
 
   &--arrow-left {
-    left: 5px;
-    background-image: url('../assets/icons/arrow-left.png');
-    transform: translateY(-50%);
+    margin-left: 5px;
   }
 
   &--arrow-right {
-    right: 5px;
-    background-image: url('../assets/icons/arrow-right.png');
-
-    transform: translateY(-50%);
+    margin-right: 5px;
   }
 
-  &--arrow-right:hover,
-  &--arrow-left:hover {
-    opacity: 0.8;
+  .arrow-right--container:hover &--arrow-right,
+  .arrow-left--container:hover &--arrow-left {
+    opacity: 1;
   }
 }
 
-.button--continue {
+.slider-preview {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
+
+  margin-top: 15px;
+
+  &--item {
+    width: $slider-width-ab / 4 - 4px;
+    height: $slider-width-ab / 4 - 4px;
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    cursor: pointer;
+
+    margin-right: 5px;
+    margin-bottom: 5px;
+
+    @include media('<=tablet') {
+      width: $slider-width-tablet / 4 - 4px;
+      height: $slider-width-tablet / 4 - 4px;
+
+      margin-bottom: 25px;
+    }
+
+    &:nth-child(4n + 4) {
+      margin-right: 0;
+    }
+
+    .inner {
+      height: 100%;
+      width: 100%;
+
+      border: 3px solid inherit;
+
+      transition: all 0.2s linear;
+
+      @include media('<=phone') {
+        border: 2px solid inherit;
+      }
+    }
+  }
+
+  &--item:hover .inner {
+    background-color: rgba(0, 0, 0, 0.301);
+  }
+
+  &--item.active .inner {
+    border: 3px solid $orange-color;
+
+    @include media('<=phone') {
+      border: 2px solid $orange-color;
+    }
+  }
+
+  &--item.active:hover .inner {
+    background-color: inherit;
+  }
+}
+
+.horizontal-line {
+  margin-bottom: 25px;
+}
+
+.button--add-to-the-cart {
+  margin-bottom: 25px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0 !important;
+
+    width: 100%;
+    padding: 25px 0;
+
+    border-radius: 0;
+    border-color: $green-color;
+
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  button:hover {
+    background-color: $green-color-light;
+  }
+
+  button:disabled {
+    border-color: grey;
+    color: grey;
+    cursor: not-allowed;
+  }
+
+  button:disabled:hover {
+    background-color: $background-color;
+  }
+
+  .cart-icon {
+    min-width: 25px;
+    min-height: 25px;
+
+    margin-left: 10px;
+
+    background-image: url('../assets/icons/cart-icon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
 }
 </style>
