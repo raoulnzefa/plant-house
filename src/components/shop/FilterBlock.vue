@@ -1,6 +1,7 @@
 <template>
   <div class="filter-block">
     <div class="container-block">
+      <!-- filters block -->
       <div class="filter">
         <div
           class="filter-item"
@@ -17,7 +18,9 @@
           <div class="filter-options filter-options--create"></div>
         </div>
       </div>
-      <div class="filter">
+
+      <!-- sort block -->
+      <div class="filter" v-show="!$store.state.isTabletScreen">
         <div
           class="filter-item filter-item--no-margin"
           :data-index="filters.length"
@@ -44,7 +47,11 @@
       </div>
     </div>
   </div>
+
+  <!-- applied filters -->
+
   <div class="applied-filters" v-show="selected.length">
+    <h4>Applied filters:</h4>
     <div
       class="applied-item"
       v-for="(item, index) of selected"
@@ -56,6 +63,21 @@
         <span>{{ item }}</span>
         <span class="applied-item--close">X</span>
       </button>
+    </div>
+  </div>
+
+  <!-- sort block mobile -->
+
+  <div class="filter mobile-margin-top" v-if="$store.state.isTabletScreen">
+    <span>Sort by:</span>
+    <div
+      class="filter-sort--mobile"
+      v-for="(item, index) of sortBy"
+      :key="index"
+      :class="{ 'active-sort': index === 0 }"
+      @click="$emit('sort-products', item), setActive(index)"
+    >
+      {{ item }}
     </div>
   </div>
 </template>
@@ -175,6 +197,19 @@ export default {
       selected.value = selected.value.filter((item) => item !== selectedValue);
     };
 
+    // sort block mobile
+
+    const setActive = (itemNum) => {
+      const filteSortsMobile = document.querySelectorAll(
+        '.filter-sort--mobile'
+      );
+
+      Array.from(filteSortsMobile).map((item, index) => {
+        if (index === itemNum) item.classList.add('active-sort');
+        else item.classList.remove('active-sort');
+      });
+    };
+
     return {
       filters,
       sortBy,
@@ -182,6 +217,8 @@ export default {
       selected,
       selectFilter,
       deleteSelected,
+
+      setActive,
     };
   },
 };
@@ -189,22 +226,32 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 .filter-block {
   width: 100%;
-  height: 65px;
+  min-height: 65px;
 
   border-bottom: 1px solid $primary-color-light;
 
   margin-bottom: 15px;
   background-color: $background-color;
 
+  @include media('<=930px') {
+    margin-bottom: 0;
+  }
+
   .container-block {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    height: 100%;
+    width: 100%;
+
+    @include media('<=930px') {
+      display: block;
+      padding: 25px 0;
+    }
   }
 
   button {
@@ -215,11 +262,16 @@ export default {
       color: $accent-color;
       background-color: $background-color;
     }
-  }
-}
 
-.filter {
-  display: flex;
+    @include media('<=930px') {
+      min-width: 100px;
+      max-width: 100px;
+
+      width: 100px;
+
+      border-radius: 8px;
+    }
+  }
 }
 
 .filter-item[data-active='true'] button {
@@ -236,9 +288,28 @@ export default {
   display: flex;
 
   margin-bottom: 45px;
+  flex-wrap: wrap;
+
+  @include media('<=930px') {
+    border-bottom: 1px solid $primary-color-light;
+    padding-bottom: 15px;
+    padding-top: 25px;
+    margin-bottom: 0;
+  }
 
   .applied-item {
     margin-right: 25px;
+
+    @include media('<=930px') {
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+  }
+
+  h4 {
+    font-weight: bold;
+    margin-right: 15px;
+    padding-top: 2px;
   }
 
   button {
@@ -260,16 +331,48 @@ export default {
     }
   }
 }
+
+.filter-sort--mobile::after {
+  content: '';
+  display: block;
+
+  height: 1px;
+  margin-top: 3px;
+
+  background-color: $background-color;
+  transition: all 0.2s linear;
+}
+
+.filter-sort--mobile.active-sort::after {
+  background-color: $orange-color !important;
+}
+
+.filter.mobile-margin-top {
+  padding-top: 25px;
+}
 </style>
 
 <style lang="scss">
 @import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
 
 .filter {
+  display: flex;
+
+  @include media('<=930px') {
+    justify-content: space-between;
+  }
+
   &-item {
     position: relative;
 
     margin-right: 35px;
+
+    @include media('<=930px') {
+      display: flex;
+
+      margin: 0;
+    }
   }
 
   &-item--no-margin {
@@ -300,6 +403,7 @@ export default {
 
     button {
       width: 100%;
+
       border: none;
       border-radius: 0;
       background-color: $background-color;

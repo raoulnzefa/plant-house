@@ -7,14 +7,14 @@
         <h2>Choose category you need</h2>
         <div class="choose-product--inner">
           <div class="choose-product--item">
-            <router-link class="plants" :to="{ name: 'Shop Plants' }">
+            <router-link class="plants" :to="{ name: 'Shop plants' }">
               <span>Plants</span>
               <div class="image"></div>
             </router-link>
           </div>
           <div class="choose-product--item">
-            <router-link class="bouquets" :to="{ name: 'Shop Bouquets' }">
-              <span>Bouquets</span>
+            <router-link class="bouquets" :to="{ name: 'Shop flowers' }">
+              <span>Flowers</span>
               <div class="image"></div>
             </router-link>
           </div>
