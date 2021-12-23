@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -131,6 +131,15 @@ export default {
       timerConterID = setInterval(moveSlide, 5000);
     };
 
+    const resizeSlider = () => {
+      const blockImages = document.querySelectorAll('.block-image');
+      const infoBlockInners = document.querySelectorAll('.info-block--inner');
+
+      setSize(blockImages, document.querySelector('.block-item--1'));
+      setSize(infoBlockInners, document.querySelector('.block-item--2'));
+      moveSlide(--counter);
+    };
+
     onMounted(() => {
       setSliderBlockPosition();
       window.addEventListener('resize', setSliderBlockPosition);
@@ -141,13 +150,16 @@ export default {
       const infoBlockInners = document.querySelectorAll('.info-block--inner');
       setSize(infoBlockInners, document.querySelector('.block-item--2'));
 
-      window.addEventListener('resize', () => {
-        setSize(blockImages, document.querySelector('.block-item--1'));
-        setSize(infoBlockInners, document.querySelector('.block-item--2'));
-        moveSlide(--counter);
-      });
+      window.addEventListener('resize', resizeSlider);
 
       timerConterID = setInterval(moveSlide, 5000);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', resizeSlider);
+      window.removeEventListener('resize', setSliderBlockPosition);
+
+      clearInterval(timerConterID);
     });
 
     return {
@@ -193,7 +205,7 @@ h3 {
   font-weight: bold;
   font-size: 18px;
   margin-top: 65px;
-  color: rgb(212, 138, 0);
+  color: $orange-color;
 
   transition: all 0.2s linear;
 }
@@ -206,8 +218,6 @@ h3 {
 
   width: 100vw;
   height: 100vh;
-
-  margin-bottom: 55px;
 
   @include media('<=800px', '>371px') {
     grid-template-columns: 50% 1fr;

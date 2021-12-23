@@ -201,7 +201,7 @@ import Bestsellers from '@/components/home/Bestsellers.vue';
 import DeliveryConfirmedModal from '@/components/home/DeliveryConfirmedModal.vue';
 import GeneralSlider from '@/components/home/GeneralSlider.vue';
 
-import { onMounted, computed, watch } from 'vue';
+import { onMounted, onUnmounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -216,6 +216,7 @@ export default {
   setup() {
     const store = useStore();
     const windowHeight = computed(() => store.state.windowHeight);
+    let unwatch = null;
 
     onMounted(() => {
       let floatingBlock = document.querySelector('.floating-block'),
@@ -224,7 +225,7 @@ export default {
       floatingBlock.style.height =
         1.5 * window.innerHeight + floatingBlockInner.clientHeight / 2 + 'px';
 
-      watch(
+      unwatch = watch(
         () => windowHeight.value,
         () => {
           floatingBlock.style.height =
@@ -233,6 +234,10 @@ export default {
             'px';
         }
       );
+    });
+
+    onUnmounted(() => {
+      unwatch();
     });
 
     return {};
