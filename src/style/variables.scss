@@ -1,25 +1,22 @@
 $background-color: #eeede9;
-$background-color-light: #eeede962;
+$background-color-light: #eeede980;
 
 $primary-color: #9f87af;
 $primary-color-light: #d5cbdc4d;
 $primary-color-dark: #7d4f82;
 $primary-color-opacity: #d5cbdc93;
 
-// $primary-color: #74a474;
-// $primary-color-light: #74a47421;
-// $primary-color-dark: rgb(34, 73, 34);
-
 $green-color-light: #d8dfd0;
 $green-color: #9ead6f;
-
 $green-color-dark: #224922;
+
+$orange-color: #d48a00;
+$orange-color-light: rgba(233, 202, 145, 0.4);
+$pink-color: #f9c9c8;
 
 $primary-color-opacity: #9f87afa8;
 
 $accent-color: #03b5aa;
-// $accent-color: #b80c09;
-// $accent-color: rgb(130, 46, 129);
 
 $accent-color-light: #03b5a93a;
 $accent-color-dark: #00a398;
@@ -35,6 +32,10 @@ $container-width: 1100px;
 $container-width-1120: 910px;
 $container-width-930: 768px;
 $container-width-tablet: 700px;
+
+$container-width-788: 610px;
+$container-width-630: 405px;
+
 $container-width-phone: 360px;
 
 $menu-width-tablet: 300px;
@@ -42,5 +43,5 @@ $menu-width-phone: 310px;
 
 // AboutBouquet
 
-$slider-width-ab: 350px;
+$slider-width-ab: 450px;
 $slider-width-tablet: 250px;

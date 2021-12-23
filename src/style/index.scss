@@ -15,22 +15,34 @@ body {
 
 .container {
   width: $container-width;
-  margin: 0 auto 65px;
+  margin: 0 auto;
   padding: 0 15px;
+
+  @include media('<=1120px', '>930px') {
+    width: $container-width-1120;
+  }
 
   @include media('<=930px', '>tablet') {
     width: $container-width-930;
   }
 
-  @include media('<=tablet', '>phone') {
+  @include media('<=tablet', '>788px') {
     width: $container-width-tablet;
+  }
+
+  @include media('<=788px', '>630px') {
+    width: $container-width-788;
+  }
+
+  @include media('<=630px', '>phone') {
+    width: $container-width-630;
   }
 
   @include media('<=phone') {
     width: $container-width-phone;
   }
 
-  @include media('<=320px') {
+  @include media('<=360px') {
     width: 300px;
   }
 }
@@ -55,15 +67,13 @@ h1 {
 
 .logo {
   font-size: 65px;
-  padding: 55px 15px 40px;
+  // padding: 55px 15px 40px;
 
-  font-family: Italianno, cursive;
+  // font-family: Italianno, cursive;
 
   @include media('<=phone') {
     font-size: 55px;
-    padding-bottom: 0 !important;
     padding-top: 25px;
-
   }
 }
 
@@ -71,7 +81,7 @@ h2 {
   font-size: 26px;
   margin-bottom: 35px;
   line-height: 30px;
-  color: $primary-color-dark;
+  color: $font-color;
 }
 
 h3 {
