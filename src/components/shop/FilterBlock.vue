@@ -69,7 +69,8 @@
   <!-- sort block mobile -->
 
   <div class="filter mobile-margin-top" v-if="$store.state.isTabletScreen">
-    <span>Sort by:</span>
+    <span class="sort-title">Sort by:</span>
+    <!-- <div class="filter-sort--mobile--container"> -->
     <div
       class="filter-sort--mobile"
       v-for="(item, index) of sortBy"
@@ -79,6 +80,7 @@
     >
       {{ item }}
     </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -248,7 +250,7 @@ export default {
 
     width: 100%;
 
-    @include media('<=930px') {
+    @include media('<=tablet') {
       display: block;
       padding: 25px 0;
     }
@@ -263,13 +265,21 @@ export default {
       background-color: $background-color;
     }
 
-    @include media('<=930px') {
+    @include media('<=tablet') {
       min-width: 100px;
       max-width: 100px;
 
       width: 100px;
 
       border-radius: 8px;
+    }
+
+    @include media('<=320px') {
+      min-width: 70px;
+      max-width: 70px;
+
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 }
@@ -332,6 +342,13 @@ export default {
   }
 }
 
+.filter-sort--mobile {
+  @include media('<=360px') {
+    max-width: 50px;
+    text-align: center;
+  }
+}
+
 .filter-sort--mobile::after {
   content: '';
   display: block;
@@ -349,6 +366,14 @@ export default {
 
 .filter.mobile-margin-top {
   padding-top: 25px;
+
+  @include media('<=360px') {
+    align-items: center;
+  }
+
+  .sort-title {
+    font-weight: bold;
+  }
 }
 </style>
 
@@ -359,7 +384,7 @@ export default {
 .filter {
   display: flex;
 
-  @include media('<=930px') {
+  @include media('<=tablet') {
     justify-content: space-between;
   }
 
@@ -368,7 +393,7 @@ export default {
 
     margin-right: 35px;
 
-    @include media('<=930px') {
+    @include media('<=tablet') {
       display: flex;
 
       margin: 0;
