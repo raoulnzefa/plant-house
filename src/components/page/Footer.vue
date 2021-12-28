@@ -3,10 +3,17 @@
     <div class="inner">
       <div class="container">
         <div class="footer-item logo-item">
-          <span class="logo">~ Flower Home ~</span>
+          <span class="logo">Plant House</span>
           <span class="margin-bottom--15"
-            >Flower delivery and assembly service</span
+            >Plants and flowers delivery service</span
           >
+          <div class="icon">
+            <img
+              src="../../assets/icons/footer/footer-icon.png"
+              alt="plant house icon"
+              srcset=""
+            />
+          </div>
         </div>
         <div class="footer-item phone-view--flex-order">
           <h3>GET IN TOUCH</h3>
@@ -36,7 +43,12 @@
           <div class="input-block">
             <label for="first-name">First Name</label>
             <div class="input">
-              <input type="text" name="first-name" placeholder="John" />
+              <input
+                type="text"
+                name="first-name"
+                placeholder="John"
+                autocomplete="off"
+              />
             </div>
 
             <label for="email">E-mail</label>
@@ -45,6 +57,7 @@
                 type="email"
                 name="email"
                 placeholder="youremail@mail.org"
+                autocomplete="off"
               />
             </div>
 
@@ -60,7 +73,7 @@
               class="margin-bottom--15"
               @click.prevent="$router.push({ name: item })"
             >
-              {{ item }}
+              {{ item.name }}
             </a>
           </div>
         </div>
@@ -95,7 +108,7 @@ export default {
   height: 400px;
 
   border-top: 1px solid lightgray;
-  background: url('../../assets/img/back-flowers.jpeg');
+  background-color: $green-color-light;
 
   @include media('<=phone') {
     height: 100%;
@@ -106,14 +119,6 @@ export default {
   .inner {
     width: 100%;
     height: 100%;
-
-    background: rgb(238, 237, 233);
-    background: linear-gradient(
-      180deg,
-      rgba(238, 237, 233, 1) 0%,
-      rgba(238, 237, 233, 0.7441351540616247) 86%,
-      rgba(238, 237, 233, 0.5144432773109244) 100%
-    );
 
     .container {
       display: flex;
@@ -132,31 +137,48 @@ export default {
     }
 
     .logo-item {
-      flex-basis: 75px;
+      flex-basis: 40px;
+      margin-right: 65px;
 
       @include media('<=phone') {
         margin-top: 10px;
+        margin-right: 0;
       }
     }
 
     .logo {
       font-size: $font-size + 28px;
-      margin-top: 65px;
+      margin-top: 55px;
       margin-bottom: 25px;
       padding: 0;
 
       @include media('<=phone') {
-        text-align: center;
         margin-top: 0;
+        text-align: center;
+      }
+    }
+
+    .icon {
+      text-align: center;
+      margin-top: 5px;
+
+      img {
+        width: 45px;
       }
     }
 
     button {
-      border-color: $accent-color;
+      border-color: $green-color-dark;
+      border-radius: 4px;
 
       @include media('<=phone') {
         margin: 0 auto;
       }
+    }
+
+    button:hover {
+      border-color: $orange-color;
+      background-color: inherit;
     }
   }
 
@@ -218,12 +240,13 @@ a {
   cursor: pointer;
 
   font-weight: 400;
+  color: $font-color;
 
   transition: color 0.2s linear;
 }
 
 a:hover {
-  color: $accent-color;
+  color: $orange-color;
 }
 
 input[type='text'],
@@ -238,17 +261,16 @@ input[type='email'] {
   border: none;
   margin: 0;
   padding: 0;
+
+  border-bottom: 2px solid $primary-color-dark;
+  border-radius: 0;
+
+  margin: 5px 0 35px;
+  padding: 5px 0;
 }
 
-.input::after {
-  content: '';
-  display: block;
-
-  width: 100%;
-  min-height: 2px;
-  margin: 5px 0 35px;
-
-  background-color: $primary-color-dark;
+input:focus {
+  border-color: $orange-color;
 }
 
 input::placeholder {
