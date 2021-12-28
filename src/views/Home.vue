@@ -67,7 +67,6 @@
             </p>
           </div>
         </div>
-        <!-- <div class="how-to-use--photos"> -->
         <div class="grid-block grid-block--2">
           <div class="image image-1"></div>
         </div>
@@ -77,7 +76,6 @@
         <div class="grid-block grid-block--4">
           <div class="image image-3"></div>
         </div>
-        <!-- </div> -->
       </div>
     </section>
 
@@ -108,10 +106,6 @@
         </div>
         <img class="studies--image" src="../assets/png/plant-9473.png" />
       </div>
-    </section>
-
-    <section class="container">
-      <Bestsellers class="bestsellers" />
     </section>
 
     <section class="service-details">
@@ -157,37 +151,10 @@
         </div>
       </div>
     </section>
-    <!-- 
-    <section class="follow-steps">
-      <div class="container">
-        <h2>Follow our Steps & Get your Plant</h2>
-        <div class="follow-steps--blocks">
-          <div class="step-block">
-            <div class="number">01</div>
-            <h3>Choose plants</h3>
-            <p class="action">
-              Empowering all people to be plant people to collection of articles
-            </p>
-          </div>
-          <div class="step-block">
-            <div class="number">02</div>
-            <h3>Place an order</h3>
 
-            <p class="action">
-              Empowering all people to be plant people to collection of articles
-            </p>
-          </div>
-          <div class="step-block">
-            <div class="number">03</div>
-            <h3>Get plant delivered</h3>
-            <p class="action">
-              Empowering all people to be plant people to collection of articles
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="follow-steps--image"></div>
-    </section> -->
+    <section class="container">
+      <Bestsellers class="bestsellers" />
+    </section>
 
     <div class="margin-bottom--130px"></div>
     <DeliveryConfirmedModal v-show="$store.state.isShowModal" />
@@ -262,7 +229,7 @@ p {
 }
 
 .bestsellers {
-  padding: 80px 0 100px;
+  padding-top: 80px;
 }
 
 .why-plant-house {
@@ -279,12 +246,39 @@ p {
   &--inner {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+
+    @include media('<=tablet', '>phone') {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   &--item {
     width: 300px;
     text-align: center;
     line-height: 1.4;
+
+    padding-bottom: 25px;
+  }
+
+  &--item:first-of-type {
+    @include media('<=1124px', '>tablet') {
+      margin-left: 25px;
+    }
+  }
+
+  &--item:nth-of-type(2) {
+    @include media('<=1124px', '>tablet') {
+      margin-right: 25px;
+    }
+  }
+
+  &--item:last-of-type {
+    @include media('<=1124px', '>tablet') {
+      margin: 0 auto;
+      padding-bottom: 0;
+    }
   }
 
   .image {
@@ -324,6 +318,18 @@ p {
     gap: 10px;
 
     margin-bottom: 0;
+
+    @include media('<=768px', '>632px') {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+      gap: 20;
+    }
+
+    @include media('<=632px') {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      gap: 0;
+    }
   }
 
   .grid-block {
@@ -333,11 +339,21 @@ p {
     &--1 {
       grid-column: 1 / 2;
       grid-row: 1 / 3;
+
+      @include media('<=768px') {
+        grid-column: 1 / 2;
+        grid-row: 1 / 2;
+      }
     }
 
     &--2 {
       grid-column: 3 / 4;
       grid-row: 1 / 3;
+
+      @include media('<=768px', '>phone') {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+      }
     }
 
     &--3 {
@@ -345,18 +361,26 @@ p {
       grid-row: 1 / 2;
     }
 
-    &-- {
+    &--4 {
       grid-column: 2 / 3;
       grid-row: 2 / 3;
+    }
+
+    &--2,
+    &--3,
+    &--4 {
+      @include media('<=phone') {
+        grid-column: none;
+        grid-row: none;
+      }
     }
   }
 
   h2 {
     margin: 0;
     margin-bottom: 35px;
-    width: 310px;
+    max-width: 310px;
 
-    // color: #9dad6f;
     color: $font-color;
     font-size: 30px;
     font-weight: bold;
@@ -377,6 +401,15 @@ p {
   &--info {
     margin-bottom: 85px;
     padding-right: 75px;
+
+    @include media('<=768px', '>phone') {
+      padding-right: 25px;
+    }
+
+    @include media('<=phone') {
+      margin-bottom: 0;
+      padding-right: 0;
+    }
   }
 
   .image {
@@ -472,8 +505,18 @@ p {
 
   padding: 95px 0;
 
+  @include media('<=phone') {
+    padding: 65px 0;
+  }
+
   &--list {
     margin-left: 105px;
+
+    @include media('<=phone') {
+      margin-left: 0;
+      padding: 0 35px;
+    }
+
     li {
       list-style: circle;
       line-height: 2;
@@ -491,69 +534,20 @@ p {
     bottom: 0;
 
     height: 480px;
-  }
-}
 
-.follow-steps {
-  position: relative;
-  z-index: 5;
-  background-color: $pink-color;
-  padding: 85px 0;
-
-  &--image {
-    position: absolute;
-    left: -30px;
-    bottom: -110px;
-
-    width: 800px;
-    height: 200px;
-
-    background-image: url('../assets/png/plants-png-44922.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-
-  h2 {
-    text-align: center;
-    font-size: 32px;
-  }
-
-  h3 {
-    font-size: 20px;
-  }
-
-  &--blocks {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .step-block {
-    width: 31%;
-    padding: 0 35px 25px;
-    margin-top: 70px;
-    background-color: $background-color;
-
-    .number {
-      font-weight: bold;
-      font-size: 102px;
-      color: $green-color;
-      line-height: 1;
-
-      margin-bottom: 25px;
-
-      transform: translateY(-50%);
-      transition: all 0.5s ease-in-out;
+    @include media('<=1120px', '>930px') {
+      height: 300px;
     }
-  }
 
-  .step-block:hover .number {
-    transform: translateY(-35%);
+    @include media('<=930px') {
+      display: none;
+    }
   }
 }
 
 .service-details {
   background-color: $orange-color-light;
+  margin-top: 80px;
 
   .container {
     display: flex;
@@ -569,6 +563,10 @@ p {
     font-weight: bold;
     font-size: 18px;
     margin: 0;
+
+    @include media('<=930px') {
+      margin-bottom: 15px;
+    }
   }
 
   &--block {
@@ -576,11 +574,35 @@ p {
     justify-content: center;
     align-items: center;
 
-    width: 33%;
+    width: 300px;
     padding: 25px 35px;
 
     line-height: 1.5;
     font-size: 14px;
+
+    @include media('<=930px') {
+      flex-direction: column;
+      width: 200px;
+    }
+
+    @include media('<=425px') {
+      margin: 0 auto;
+    }
+
+    .info {
+      @include media('<=930px') {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .description {
+        @include media('<=930px') {
+          text-align: center;
+        }
+      }
+    }
 
     .image {
       min-width: 45px;
@@ -592,6 +614,11 @@ p {
 
       background-size: contain;
       background-repeat: no-repeat;
+
+      @include media('<=930px') {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
 
       &--1 {
         background-image: url('../assets/icons/home/delivery.png');
@@ -609,6 +636,18 @@ p {
       &--3 {
         background-image: url('../assets/icons/home//eco.png');
       }
+    }
+  }
+
+  &--block:last-of-type {
+    @include media('<=630px') {
+      margin: 0 auto;
+    }
+  }
+
+  .vertical-line {
+    @include media('<=630px') {
+      display: none;
     }
   }
 }

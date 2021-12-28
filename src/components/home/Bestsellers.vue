@@ -1,6 +1,6 @@
 <template>
   <div class="bestsellers">
-    <h2>Our Bestsellers</h2>
+    <h2>Our best products</h2>
     <div
       class="inner"
       @touchstart="onTouchStart"
@@ -21,7 +21,7 @@
 
 <script>
 import ShopCard from '@/components/shop/ShopCard.vue';
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -34,14 +34,40 @@ export default {
     const store = useStore();
 
     let shopCardContainer = ref({});
+    const bestsellers = ref(null);
 
-    const bestsellers = computed(() => store.getters.getBestsellers(3));
+    let isWidth930Point = innerWidth <= 930;
+
+    const getBestsellers = () => {
+      if (innerWidth > 930 && isWidth930Point) {
+        bestsellers.value = store.getters.getBestsellers(3);
+        isWidth930Point = false;
+      }
+      if (innerWidth <= 930 && !isWidth930Point) {
+        bestsellers.value = store.getters.getBestsellers(4);
+        console.log('here');
+
+        isWidth930Point = true;
+      }
+    };
 
     let counter = 0,
       width = 280;
 
     onMounted(() => {
       shopCardContainer.value = document.querySelector('.shop-card--container');
+
+      if (innerWidth > 930) {
+        bestsellers.value = store.getters.getBestsellers(3);
+      } else {
+        bestsellers.value = store.getters.getBestsellers(4);
+      }
+
+      window.addEventListener('resize', getBestsellers);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', getBestsellers);
     });
 
     const onToRight = () => {
@@ -73,12 +99,14 @@ export default {
       leftSwipe = false;
 
     const onTouchStart = (event) => {
+      if (innerWidth > 425) return;
+
       xStart = event.touches[0].clientX;
       yStart = event.touches[0].clientY;
     };
 
     const onTouchMove = (event) => {
-      if (!xStart || !yStart) {
+      if (!xStart || !yStart || innerWidth > 425) {
         return;
       }
 
@@ -104,6 +132,8 @@ export default {
     };
 
     const onTouchEnd = () => {
+      if (innerWidth > 425) return;
+
       if (leftSwipe) {
         onToRight();
       }
@@ -133,6 +163,12 @@ export default {
 @import '@/style/media/breakpoints.scss';
 @import '@/style/variables.scss';
 
+h2 {
+  text-align: center;
+  margin-bottom: 55px;
+  text-transform: capitalize;
+}
+
 .inner {
   position: relative;
 
@@ -148,6 +184,8 @@ export default {
 .shop-card--container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+
   width: 100%;
 
   @include media('<=phone') {
@@ -157,7 +195,14 @@ export default {
 }
 
 .shop-card {
+  @include media('<=930px') {
+    margin-bottom: 45px;
+  }
+}
+
+.shop-card:last-of-type {
   @include media('<=phone') {
+    display: none;
   }
 }
 </style>

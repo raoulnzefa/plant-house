@@ -1,13 +1,15 @@
 <template>
   <div class="info-block" :class="imgLocation">
-    <div class="img" :style="`background-image: url('${img}')`">
-      <!-- <img :src="img" /> -->
+    <div class="info-block--container container" :class="imgLocation">
+      <div class="img" :style="`background-image: url('${img}')`">
+        <!-- <img :src="img" /> -->
+      </div>
+      <div class="description">
+        <h3>{{ title }}</h3>
+        <p>{{ description }}</p>
+      </div>
+      <div class="horizontal-line"></div>
     </div>
-    <div class="description">
-      <h2>{{ title }}</h2>
-      <p>{{ description }}</p>
-    </div>
-    <div class="horizontal-line"></div>
   </div>
 </template>
 
@@ -84,7 +86,7 @@ h2 {
 
     max-width: 220px;
 
-    background-color: $accent-color;
+    background-color: $orange-color;
   }
 }
 
@@ -101,13 +103,85 @@ h2 {
 }
 
 .info-block {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 100px;
+  position: relative;
+
+  padding: 100px 0;
+
+  overflow: hidden;
+
+  .container {
+    margin-bottom: 0;
+  }
+
+  &--container {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+    justify-content: space-between;
+  }
 
   @include media('<=phone') {
     position: relative;
-    margin-bottom: 70px;
+    margin-bottom: 35px;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+
+    position: absolute;
+
+    display: block;
+
+    width: 2px;
+    min-height: 200vw;
+
+    background-color: $orange-color;
+  }
+
+  &::before {
+    top: -115%;
+    right: 80%;
+
+    transform: rotate(80deg);
+
+    @include media('<=768px', '>phone') {
+      top: -70%;
+    }
+  }
+
+  &::after {
+    top: -100%;
+    right: 50%;
+
+    transform: rotate(-20deg);
+
+    @include media('<=768px', '>phone') {
+      right: 60%;
+    }
+  }
+
+  &.right::before {
+    top: -115%;
+    left: 80%;
+
+    transform: rotate(-80deg);
+
+    @include media('<=768px', '>phone') {
+      top: -70%;
+    }
+  }
+
+  &.right::after {
+    top: -100%;
+    left: 50%;
+
+    transform: rotate(20deg);
+
+    @include media('<=768px', '>phone') {
+      left: 60%;
+    }
   }
 }
 
@@ -115,6 +189,8 @@ h2 {
   display: flex;
   flex-direction: column;
   margin-left: 45px;
+
+  background-color: $background-color-light;
 
   @include media('<=phone') {
     padding: 25px 15px;
@@ -154,8 +230,6 @@ h2 {
       left: -85px;
 
       margin: 0;
-
-      // min-width: 250px !important;
     }
   }
 }
