@@ -4,7 +4,7 @@
       <div class="container">
         <div class="footer-item logo-item">
           <span class="logo">Plant House</span>
-          <span class="margin-bottom--15"
+          <span class="description margin-bottom--15"
             >Plants and flowers delivery service</span
           >
           <div class="icon">
@@ -154,6 +154,12 @@ export default {
 
       @include media('<=phone') {
         margin-top: 0;
+        text-align: center;
+      }
+    }
+
+    .description {
+      @include media('<=phone') {
         text-align: center;
       }
     }
