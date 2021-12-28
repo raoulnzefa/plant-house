@@ -1,70 +1,86 @@
 <template>
-  <div :class="{ 'filler-block': isScrollMenu && !isTabletScreen }"></div>
+  <div>
+    <nav class="nav">
+      <div v-show="isTabletScreen" class="menu-icon--block">
+        <div class="menu-icon--container">
+          <div class="menu-icon" @click="onOpenMenu"></div>
 
-  <div class="nav" :class="{ 'nav-scroll': isScrollMenu && !isTabletScreen }">
-    <div v-show="isTabletScreen" class="menu-icon--block">
-      <div class="menu-icon--container">
-        <div class="menu-icon" @click="onOpenMenu"></div>
-        <div class="logo--mobile">Flower Home</div>
-      </div>
-    </div>
-    <div
-      class="nav--inner"
-      :class="{ 'nav--inner--scroll': isScrollMenu && !isTabletScreen }"
-    >
-      <div
-        class="nav-item"
-        :class="{ 'nav-item--scroll': isScrollMenu && !isTabletScreen }"
-      >
-        <div
-          class="logo"
-          @click="$router.push({ name: 'Home' })"
-          v-if="isScrollMenu || isTabletScreen"
-        >
-          ~ Flower Home ~
+          <div class="logo--mobile">Plant House</div>
+
+          <div>
+            <router-link :to="{ name: 'My Cart' }">
+              <div class="cart-menu display-flex">
+                <div class="cart-icon--relative">
+                  <div class="cart-icon-container"></div>
+                  <div class="cart-menu--counter" v-show="cartMenuCounter">
+                    {{ cartMenuCounter }}
+                  </div>
+                </div>
+              </div>
+            </router-link>
+          </div>
         </div>
-        <router-link
+      </div>
+
+      <div class="nav--inner">
+        <div
+          class="nav-item"
           v-for="(item, index) of menu"
           :key="index"
-          :to="{ name: item }"
+          @click="openSubmenu"
         >
-          {{ item }}
-        </router-link>
+          <router-link
+            v-if="
+              (isMobileDevice && item.submenu.length === 0) || !isMobileDevice
+            "
+            :to="{ name: item.name }"
+          >
+            <div class="nav-item--container">
+              {{ item.name }}
+              <div class="menu-arrow" v-if="item.submenu.length"></div>
+            </div>
+          </router-link>
 
-        <router-link
-          :to="{ name: 'My Cart' }"
-          v-if="!isScrollMenu || isTabletScreen"
-        >
-          <div class="cart-menu display-flex">
-            <span style="margin-right: 5px">Cart</span>
-            <div class="cart-icon--relative">
-              <div class="cart-icon-container"></div>
-              <div class="cart-menu--counter" v-show="cartMenuCounter">
-                {{ cartMenuCounter }}
+          <div
+            v-else
+            class="submenu-mobile-title "
+            :class="{ 'nav-item--container': !isTabletScreen }"
+          >
+            {{ item.name }}
+            <div class="menu-arrow"></div>
+          </div>
+
+          <div class="submenu" v-if="item.submenu.length">
+            <div class="submenu--inner">
+              <div
+                class="submenu-item"
+                v-for="(subItem, subIndex) of menu[index].submenu"
+                :key="subIndex"
+                @click="$router.push({ name: `Shop ${subItem.toLowerCase()}` })"
+              >
+                {{ subItem }}
               </div>
             </div>
           </div>
-        </router-link>
-      </div>
+        </div>
 
-      <div
-        v-if="isScrollMenu && !isTabletScreen"
-        class="nav-item nav-item--scroll"
-      >
-        <router-link :to="{ name: 'My Cart' }">
-          <div class="cart-menu display-flex">
-            <span style="margin-right: 5px">Cart</span>
-            <div class="cart-icon-container"></div>
-            <div class="cart-menu--counter" v-show="cartMenuCounter">
-              {{ cartMenuCounter }}
+        <div class="nav-item">
+          <router-link :to="{ name: 'My Cart' }">
+            <div class="cart-menu display-flex">
+              <span style="margin-right: 5px" v-if="isTabletScreen">Cart</span>
+              <div class="cart-icon--relative">
+                <div class="cart-icon-container"></div>
+                <div class="cart-menu--counter" v-show="cartMenuCounter">
+                  {{ cartMenuCounter }}
+                </div>
+              </div>
             </div>
-          </div>
-        </router-link>
+          </router-link>
+        </div>
       </div>
-    </div>
+    </nav>
+    <div id="menu-observer" v-show="isHomePage"></div>
   </div>
-  <div v-if="!isScrollMenu && !isTabletScreen" class="horizontal-line"></div>
-  <div id="menu-observer" v-show="isHomePage"></div>
 </template>
 
 <script>
@@ -72,8 +88,13 @@ import { computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
+import ScrollMenu from '../page/ScrollMenu.vue';
+
 export default {
   name: 'Menu',
+  components: {
+    ScrollMenu,
+  },
 
   setup() {
     const store = useStore();
@@ -82,6 +103,12 @@ export default {
     const isScrollMenu = computed(() => store.state.isScrollMenu);
     const isHomePage = computed(() => store.state.isHomePage);
     const isTabletScreen = computed(() => store.state.isTabletScreen);
+
+    const isMobileDevice = computed(() =>
+      /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
+        navigator.userAgent
+      )
+    );
 
     let menuBlock = {};
 
@@ -98,7 +125,7 @@ export default {
 
       observer.observe(document.querySelector('#menu-observer'));
 
-      menuBlock = document.querySelector('.nav');
+      menuBlock = document.querySelector('nav');
     });
 
     let isMenuOpen = false;
@@ -173,6 +200,45 @@ export default {
       );
     };
 
+    let animationTimeout = null;
+
+    const openSubmenu = ({ target }) => {
+      if (!isTabletScreen) return;
+
+      const submenu = target.closest('.nav-item').lastChild;
+
+      if (submenu.nodeName === '#comment') return;
+
+      const submenuClientHeight =
+        submenu.children[0].offsetHeight * submenu.children.length;
+
+      submenu.style.maxHeight = `${submenuClientHeight}px`;
+
+      submenu.classList.toggle('open-submenu');
+
+      clearTimeout(animationTimeout);
+
+      if (submenu.classList.contains('open-submenu')) {
+        animationTimeout = setTimeout(() => {
+          submenu.style.maxHeight = 'none';
+        }, 500);
+      } else {
+        animationTimeout = setTimeout(() => {
+          submenu.style.maxHeight = 0;
+        }, 0);
+      }
+
+      const menuArrows = document.querySelectorAll('.menu-arrow');
+
+      Array.from(menuArrows).map((item) => {
+        if (item.closest('.nav-item') === target.closest('.nav-item')) {
+          item.classList.toggle('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    };
+
     return {
       menu: computed(() => store.state.menu),
       cartMenuCounter: computed(() => store.state.cart.length),
@@ -180,7 +246,10 @@ export default {
       isHomePage,
       isTabletScreen,
 
+      isMobileDevice,
+
       onOpenMenu,
+      openSubmenu,
     };
   },
 };
@@ -194,86 +263,30 @@ export default {
   height: 1px;
 }
 
-.display-flex {
-  display: flex;
-  align-items: center;
+.menu-arrow {
+  display: inline-block;
+
+  height: 15px;
+  width: 15px;
+  margin-left: 5px;
+
+  background-image: url('../../assets/icons/arrow-right.png');
+  background-size: contain;
+
+  transform: rotate(90deg);
+  transition: transform 0.2s ease-in;
 }
 
-.filler-block {
-  height: 50px;
-  width: 1px;
+.menu-arrow.active {
+  transform: rotate(-90deg);
 }
 
 .nav {
-  width: 60%;
-  margin: 0 auto;
+  width: 30%;
 
   font-weight: bolder;
 
   z-index: 10000;
-
-  &-scroll {
-    position: fixed;
-    top: 0;
-
-    width: 100%;
-
-    background-color: $primary-color-light;
-
-    backdrop-filter: blur(0.5rem);
-    animation: fromToptoBottom 1s;
-  }
-
-  &--inner--scroll {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    width: 100%;
-
-    padding: 5px 40px;
-  }
-
-  &-item {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &-item--scroll {
-    align-items: center;
-  }
-
-  a {
-    padding: 10px 15px;
-    color: $font-color;
-
-    transition: all 0.2s linear;
-  }
-
-  a::after {
-    content: '';
-    display: block;
-    width: 100%;
-    min-height: 2px;
-    background-color: none;
-    margin-top: 5px;
-  }
-
-  a.router-link-active::after {
-    background-color: $primary-color;
-  }
-
-  a.router-link-active:hover {
-    color: $font-color;
-  }
-
-  a:visited {
-    color: $font-color;
-  }
-
-  a:hover {
-    color: $accent-color;
-  }
 
   @include media('<=tablet') {
     position: fixed;
@@ -284,69 +297,203 @@ export default {
     min-height: 100vh;
     margin: 0;
 
-    background-color: $primary-color-light;
-    background-size: cover;
-
     transition: left 0.4s ease-out;
-
-    &--inner {
-      backdrop-filter: blur(0.8rem);
-      height: 100vh;
-    }
-
-    &-item {
-      flex-direction: column;
-      text-align: center;
-    }
-
-    a {
-      padding: 20px 15px;
-    }
-
-    a:hover {
-      color: $font-color;
-    }
-
-    a::after {
-      min-height: 0px;
-    }
-
-    a:last-of-type {
-      align-self: center !important;
-      width: 100%;
-
-      cursor: pointer;
-    }
-
-    a.router-link-active {
-      color: $primary-color-dark;
-    }
-
-    a.router-link-active:hover {
-      color: $primary-color-dark;
-    }
-
-    a.router-link-active::after {
-      min-height: 0;
-    }
-
-    .logo {
-      margin: 45px 0 25px;
-    }
-
-    .display-flex {
-      justify-content: center;
-    }
-
-    .cart-icon--relative {
-      position: relative;
-    }
   }
 
   @include media('<=phone') {
     left: -$menu-width-phone - 10px;
 
     width: $menu-width-phone;
+  }
+
+  &--inner {
+    display: flex;
+
+    @include media('<=tablet') {
+      flex-direction: column;
+      align-items: center;
+
+      backdrop-filter: blur(0.8rem);
+      height: 100vh;
+
+      padding-top: 45px;
+    }
+  }
+
+  &-item {
+    position: relative;
+    z-index: 505;
+
+    display: flex;
+    flex-direction: column;
+
+    @include media('<=tablet') {
+      flex-direction: column;
+      text-align: center;
+
+      font-weight: bold;
+    }
+
+    &--container {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &-item:hover .menu-arrow {
+    @include media('>tablet') {
+      transform: rotate(-90deg);
+    }
+  }
+
+  a,
+  .submenu-mobile-title {
+    padding: 10px 15px;
+    color: $font-color;
+
+    transition: color 0.2s linear;
+
+    @include media('<=tablet') {
+      padding: 20px 15px;
+      margin-bottom: 25px;
+    }
+  }
+
+  a::after {
+    content: '';
+    display: block;
+
+    max-width: 100%;
+    min-height: 1px;
+    background-color: none;
+    margin-top: 5px;
+
+    transition: all 0.2s linear;
+
+    @include media('<=tablet') {
+      min-height: 0px;
+    }
+  }
+
+  &-item:hover a {
+    color: $orange-color !important;
+  }
+
+  a.router-link-active::after {
+    background-color: $font-color;
+
+    @include media('<=tablet') {
+      min-height: 0;
+    }
+  }
+
+  a.router-link-active {
+    @include media('<=tablet') {
+      color: $primary-color-dark;
+    }
+  }
+
+  a.router-link-active:hover {
+    color: $font-color !important;
+
+    @include media('<=tablet') {
+      color: $primary-color-dark;
+    }
+  }
+
+  a:visited {
+    color: $font-color;
+  }
+
+  a:last-of-type {
+    @include media('<=tablet') {
+      align-self: center !important;
+      width: 100%;
+
+      cursor: pointer;
+    }
+  }
+
+  .logo {
+    @include media('<=tablet') {
+      margin: 45px 0 25px;
+    }
+  }
+
+  .display-flex {
+    @include media('<=tablet') {
+      justify-content: center;
+    }
+  }
+
+  .cart-icon--relative {
+    @include media('<=tablet') {
+      position: relative;
+    }
+  }
+}
+
+// SUBMENU
+
+.submenu {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 500;
+
+  max-height: 0;
+  overflow: hidden;
+
+  transform: translate(-50%, 100%);
+
+  transition: max-height 0.2s;
+
+  @include media('<=tablet') {
+    position: static;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+
+    margin-top: -25px;
+    margin-bottom: 25px;
+
+    transition: max-height 0.5s;
+  }
+
+  &--inner {
+    border: 2px solid $font-color;
+    background-color: $background-color;
+    border-radius: 2px;
+
+    @include media('<=tablet') {
+      border-radius: 8px;
+      border-width: 1px;
+      border-color: $green-color;
+
+      background-color: $orange-color-light;
+    }
+  }
+
+  &-item {
+    padding: 20px 25px;
+    font-weight: normal;
+
+    cursor: pointer;
+    transition: all 0.2s linear;
+
+    @include media('<=tablet') {
+      padding: 20px 45px;
+    }
+  }
+
+  &-item:hover {
+    background-color: $green-color-light;
+  }
+}
+
+.nav-item:hover .submenu {
+  @include media('>tablet') {
+    max-height: 120px;
   }
 }
 
@@ -355,7 +502,6 @@ export default {
   top: 0;
   left: 0;
 
-  // background-color: $background-color-light;
   backdrop-filter: blur(0.1rem);
 }
 
@@ -368,6 +514,8 @@ export default {
   justify-content: space-between;
   align-items: center;
 
+  margin: 0 auto;
+
   width: 100vw;
 
   padding: 10px 15px;
@@ -376,8 +524,8 @@ export default {
 }
 
 .menu-icon {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 
   background-image: url('../../assets/icons/menu.png');
 
@@ -404,6 +552,11 @@ export default {
 
 .cart-menu {
   position: relative;
+
+  @include media('<=tablet') {
+    display: flex;
+    align-items: center;
+  }
 
   img {
     width: 21px;
@@ -447,8 +600,6 @@ export default {
   font-weight: normal;
   color: $font-color;
   padding: 0 15px;
-
-  font-family: Italianno, cursive;
   cursor: pointer;
 }
 
@@ -463,6 +614,15 @@ export default {
     font-weight: bold;
 
     z-index: 1000;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: 100%;
+    min-height: 1px;
+    background-color: black;
+    margin-top: 5px;
   }
 }
 
@@ -505,15 +665,5 @@ export default {
   70% {
     transform: scale(1.2) rotate(10deg);
   }
-}
-</style>
-
-<style>
-.bgc--green {
-  background-color: green;
-}
-
-.bgc--red {
-  background-color: red;
 }
 </style>
