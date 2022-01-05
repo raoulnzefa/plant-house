@@ -18,16 +18,9 @@
 
     <div class="info">
       <h3>{{ product.title.toUpperCase() }}</h3>
-      <div class="price-and-add">
-        <div class="price">
-          <span style="font-size: 14px;">From</span>
-          <span class="price--num"
-            >{{ ' ' + product.priceInfo[0].price }}$</span
-          >
-        </div>
-        <button v-if="$store.state.isTabletScreen" @click="onAddToCart">
-          Add to cart
-        </button>
+      <div class="price">
+        <span style="font-size: 14px;">From</span>
+        <span class="price--num">{{ ' ' + product.priceInfo[0].price }}$</span>
       </div>
       <div class="hover-line"></div>
     </div>
@@ -81,7 +74,7 @@ export default {
 
   transition: all 0.2s linear;
 
-  @include media('<=phone') {
+  @include media('<=tablet') {
     border-radius: 10px;
     overflow: hidden;
   }
@@ -95,9 +88,7 @@ export default {
 
     @include media('<=tablet') {
       padding-top: 20px;
-      margin-bottom: 25px;
-
-      font-size: 20px;
+      margin-bottom: 20px;
     }
   }
 
@@ -148,15 +139,6 @@ export default {
 
     @include media('<=phone') {
       border-radius: 0 0 10px 10px;
-    }
-
-    .price-and-add {
-      display: flex;
-      justify-content: space-between;
-
-      @include media('<=tablet') {
-        padding: 0 15px 0;
-      }
     }
 
     button {

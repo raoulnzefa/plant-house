@@ -70,7 +70,6 @@
 
   <div class="filter mobile-margin-top" v-if="$store.state.isTabletScreen">
     <span class="sort-title">Sort by:</span>
-    <!-- <div class="filter-sort--mobile--container"> -->
     <div
       class="filter-sort--mobile"
       v-for="(item, index) of sortBy"
@@ -80,7 +79,6 @@
     >
       {{ item }}
     </div>
-    <!-- </div> -->
   </div>
 </template>
 
@@ -343,6 +341,8 @@ export default {
 }
 
 .filter-sort--mobile {
+  cursor: pointer;
+
   @include media('<=360px') {
     max-width: 50px;
     text-align: center;

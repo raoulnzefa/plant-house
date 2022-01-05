@@ -249,6 +249,8 @@ h1::after {
 
     background-color: $background-color;
     transition: all 0.2s linear;
+
+    cursor: pointer;
   }
 
   &-header::after {
@@ -302,7 +304,7 @@ h1::after {
   margin-bottom: 45px;
   width: 100%;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     justify-content: center;
   }
 
