@@ -291,7 +291,7 @@ export default {
 
       store.commit('setOrderPrice', {
         subtotal: subtotal.value,
-        discount: discountSum.value,
+        discount: (subtotal.value * discountSum.value) / 100,
         summary: summary.value,
       });
       router.push({ name: 'Delivery' });
