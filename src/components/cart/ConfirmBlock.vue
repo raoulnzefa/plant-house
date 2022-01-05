@@ -1,12 +1,9 @@
 <template>
   <div class="confirmation">
-    <div class="button--go-back">
-      <button @click.prevent="$router.go(-1)">{{ '< ' }}Go back</button>
-    </div>
     <h2>Confirm your order</h2>
     <div class="confirmation--inner">
       <div class="confirmation--cart mobile-view-blocks">
-        <div class="header header-margin0">Bouquets</div>
+        <div class="header header-margin0">Products</div>
         <div class="cart-item" v-for="(item, index) in cart" :key="index">
           <div class="cart-item--image">
             <img :src="item.image" alt="image" />
@@ -79,13 +76,13 @@
             <div class="info-block delivery--city">
               <span class="bold">City:</span>
               <span class="margin-left">{{
-                ' ' + orderDetails.mailDelivery.cityName
+                ' ' + orderDetails.mailDelivery.cityNameDelivery
               }}</span>
             </div>
             <div class="info-block delivery--branch">
               <span class="bold">Branch number:</span>
               <span class="margin-left">{{
-                ' ' + orderDetails.mailDelivery.branchNum
+                ' ' + orderDetails.mailDelivery.branchNumDelivery
               }}</span>
             </div>
           </div>
@@ -161,7 +158,7 @@ export default {
       store.commit('clearCart');
       store.commit('changeModalValue');
 
-      router.push({ name: 'Home' });
+      router.push({ name: 'Confirmed' });
     };
 
     return {
@@ -184,14 +181,15 @@ h4 {
   color: $primary-color;
 }
 
+span {
+  line-height: 1.4;
+}
+
 .confirmation {
   .header {
+    text-align: center;
     margin-bottom: 30px;
     color: rgb(175, 174, 174);
-
-    @include media('<=phone') {
-      align-self: center;
-    }
   }
 
   .bold {
@@ -207,47 +205,30 @@ h4 {
 
     flex: 1 1 0;
 
-    @include media('<=phone') {
+    @include media('<=788px') {
       width: 100%;
     }
   }
 
   &--cart {
     margin-right: 10px;
-    @include media('<=phone') {
-      align-items: center;
-    }
   }
 
   &--delivery {
     flex-grow: 1.2;
-
-    @include media('<=tablet', '>phone') {
-      flex-grow: 1.5;
-    }
-
-    @include media('<=phone') {
-      align-items: flex-start;
-    }
-  }
-
-  &--price {
-    @include media('<=tablet', '>phone') {
-      flex-grow: 0.8;
-    }
   }
 
   &--price .summary-style {
-    color: $accent-color;
-
-    @include media('<=phone') {
-      align-items: center;
-    }
+    color: $orange-color;
   }
 
   .mobile-view-blocks {
-    @include media('<=phone') {
-      border: 1px solid $primary-color;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    @include media('<=788px') {
+      border: 1px solid $green-color;
       border-radius: 20px;
 
       padding: 20px 25px;
@@ -265,7 +246,7 @@ h4 {
 .margin-top {
   margin-top: 35px;
 
-  @include media('<=phone') {
+  @include media('<=788px') {
     margin-top: 0;
   }
 }
@@ -274,8 +255,14 @@ h4 {
   display: flex;
   justify-content: space-between;
 
-  @include media('<=phone') {
+  border: 2px solid $green-color;
+  padding: 55px 0;
+
+  @include media('<=788px') {
     flex-direction: column;
+
+    padding: 0;
+    border: none;
   }
 
   .info-block {
@@ -301,6 +288,7 @@ h4 {
 
   &--image img {
     width: 65px;
+    height: 65px;
     border-radius: 50%;
   }
 
@@ -312,10 +300,11 @@ h4 {
 
 .button--continue {
   margin-top: 40px;
+  margin-bottom: 45px;
   display: flex;
   justify-content: flex-end;
 
-  @include media('<=phone') {
+  @include media('<=788px') {
     justify-content: center;
     margin-top: 25px;
   }
@@ -324,7 +313,7 @@ h4 {
 .cart-item:last-of-type {
   border-bottom: none;
 
-  @include media('<=phone') {
+  @include media('<=788px') {
     margin-bottom: 0;
   }
 }

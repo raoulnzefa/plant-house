@@ -49,7 +49,7 @@ const routes = [
   {
     path: '/my-cart',
     name: 'My Cart',
-    component: () => import('@/views/MyCard.vue'),
+    component: () => import('@/views/MyCart.vue'),
     children: [
       {
         path: 'delivery',
@@ -60,6 +60,11 @@ const routes = [
         path: 'order-confirmation',
         name: 'Order Confirmation',
         component: () => import('@/components/cart/ConfirmBlock.vue')
+      },
+      {
+        path: 'confirmed',
+        name: 'Confirmed',
+        component: () => import('@/components/cart/ConfirmedPage.vue')
       }
     ]
   },
@@ -76,12 +81,12 @@ const router = createRouter({
           top: '100',
           behavior: 'smooth'
         }
-  
       } else if (to.name === 'Home' && from.name === 'Order Confirmation') {
         return {
           top: 0
         }
       } else {
+        console.log('into else');
         return {
           top: 0,
           behavior: 'smooth'
@@ -102,12 +107,6 @@ router.beforeEach((to, from) => {
     return { name: 'My Cart' };
   }
 
-  //  ORDER MODAL WINDOW
-
-  if (store.state.isShowModal && from.name === 'Home') {
-    store.commit('changeModalValue');
-  }
-
   // MENU STYLE
 
   if (to.name !== 'Home') {
@@ -122,12 +121,21 @@ router.beforeEach((to, from) => {
 })
 
 router.afterEach((to, from) => {
-  if (store.state.isTabletScreen ) {
+  if (store.state.isTabletScreen) {
+  
     if (to.name === 'About Bouquet' && from.name === 'About Bouquet') {
       return true;
     }
-    // document.querySelector('#app').scrollIntoView();
-    document.body.scrollTop = 0;
+
+    if (to.name === 'Delivery' || to.name === 'Order Confirmation') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      return true;
+    }
+
+    window.scrollTo(0, 0);
     return true;
   }
 })

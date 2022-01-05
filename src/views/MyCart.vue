@@ -1,7 +1,12 @@
 <template>
-  <div class="cart-list">
+  <div class="cart-list container">
     <h1>Shopping bag</h1>
-    <div class="cart-inner" v-if="cart.length">
+
+    <div class="cart-inner" v-if="cart.length && $route.name !== 'Confirmed'">
+      <div class="button--go-back" v-if="$route.name !== 'My Cart'">
+        <button @click.prevent="$router.go(-1)">{{ '< ' }}Go back</button>
+      </div>
+
       <div class="tasks-list">
         <div class="circle active" :class="{ 'done-task': isDeliveryPath }">
           {{ isDeliveryPath ? '' : 1 }}
@@ -38,20 +43,17 @@
               <img :src="item.image" :alt="item.id" />
             </div>
 
-            <div class="cart-item--title" v-if="!$store.state.isMobileScreen">
+            <div class="cart-item--title desktop">
               <h3>{{ item.title }}</h3>
             </div>
           </div>
 
           <div class="cart-item--info cart-item--edit">
-            <div class="cart-item--title" v-if="$store.state.isMobileScreen">
+            <div class="cart-item--title mobile">
               <h3>{{ item.title }}</h3>
             </div>
 
-            <div
-              class="cart-item--quantity"
-              v-if="!$store.state.isMobileScreen"
-            >
+            <div class="cart-item--quantity desktop">
               <div class="cart-item--button">
                 <button @click="onMinusToQuantity">-</button>
               </div>
@@ -74,25 +76,20 @@
             </div>
 
             <div
-              class="remove-button delete-button"
+              class="remove-button desktop delete-button"
               @click="onRemoveCartItem"
-              v-if="!$store.state.isMobileScreen"
             >
               X
             </div>
           </div>
 
-          <div
-            class="cart-item--info cart-item--edit-delete"
-            v-if="$store.state.isMobileScreen"
-          >
+          <div class="cart-item--info mobile-flex cart-item--edit-delete">
             <div
               class="remove-button delete-button"
               @click="onRemoveCartItem"
-              v-if="$store.state.isMobileScreen"
             ></div>
 
-            <div class="cart-item--quantity" v-if="$store.state.isMobileScreen">
+            <div class="cart-item--quantity mobile">
               <div class="cart-item--input">
                 Q:
                 <input
@@ -113,17 +110,14 @@
               <span class="price">{{ ' ' + subtotal }} $</span>
             </div>
             <div class="promocode">
-              <span>Promo code: </span>
-              <div class="promocode--inner">
-                <input
-                  type="text"
-                  placeholder="Your code"
-                  @change="onGetPromocode"
-                />
-                <div class="promocode--error" v-show="!isCodeExist">
-                  This code is not exist
-                </div>
-              </div>
+              <BaseInput
+                type="text"
+                label="Promo code:"
+                placeholder="Your code"
+                v-model="promocode.value"
+                @change="onGetPromocode"
+                :error="promocode.error"
+              />
             </div>
             <div class="sale" v-if="discountSum">
               <span>Your sale:</span>
@@ -146,17 +140,33 @@
       </div>
     </div>
 
-    <div class="cart-inner" v-else>Your shopping bag is empty.</div>
+    <div
+      class="cart-inner empty-cart"
+      v-if="$route.name !== 'Confirmed' && !cart.length"
+    >
+      <p>
+        Ooops... Your shopping cart is empty. You might find something in the
+        <router-link :to="{ name: 'Shop' }" class="empty">Shop</router-link>.
+      </p>
+    </div>
+
+    <div v-if="$route.name === 'Confirmed'" class="confirmed">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, reactive } from 'vue';
+import BaseInput from '@/components/base_elements/BaseInput.vue';
 
 export default {
   name: 'MyCart',
+  components: {
+    BaseInput,
+  },
   setup() {
     const store = useStore();
     const router = useRouter(),
@@ -171,11 +181,6 @@ export default {
     const subtotal = computed(() =>
       cart.value.reduce((sum, item) => (sum += +item.price * +item.quantity), 0)
     );
-
-    const promocodes = computed(() => store.state.promocodes);
-    const discountSum = ref(0);
-    const usedPromocodes = ref([]);
-    const isCodeExist = ref(true);
 
     const summary = computed(
       () => subtotal.value - (subtotal.value * discountSum.value) / 100
@@ -252,22 +257,31 @@ export default {
 
     //PROMOCODE
 
-    const onGetPromocode = ({ target }) => {
-      isCodeExist.value = false;
+    const promocode = reactive({
+      value: '',
+      error: '',
+    });
+
+    const promocodes = computed(() => store.state.promocodes);
+    const discountSum = ref(0);
+    const usedPromocodes = ref([]);
+
+    const onGetPromocode = () => {
+      promocode.error = '';
 
       promocodes.value.forEach((item) => {
         if (
-          item.name.toUpperCase() === target.value.toUpperCase() &&
+          item.name.toUpperCase() === promocode.value.toUpperCase() &&
           !usedPromocodes.value.includes(item.id)
         ) {
           discountSum.value += item.sum;
           usedPromocodes.value.push(item.id);
-
-          isCodeExist.value = true;
+        } else {
+          promocode.error = 'This code is not exist';
         }
       });
 
-      target.value = '';
+      promocode.value = '';
     };
 
     //BUTTONS
@@ -298,10 +312,12 @@ export default {
       subtotal,
       summary,
       discountSum,
-      isCodeExist,
+
       isCart,
       isDeliveryPath,
       isOrderConfirmationPath,
+
+      promocode,
 
       onChangeQuantity,
       onPlusToQuantity,
@@ -320,12 +336,38 @@ export default {
 @import '@/style/media/breakpoints.scss';
 
 h1 {
-  margin-bottom: 50px;
+  margin-top: 95px;
+  margin-bottom: 25px;
 }
 
 h3 {
-  @include media('<=phone') {
-    margin-bottom: 0;
+  margin-bottom: 0;
+
+  @include media('<=630px', '>360px') {
+    margin-bottom: 10px;
+
+    font-size: 20px;
+    text-align: center;
+  }
+
+  @include media('<=360px') {
+    margin-bottom: 10px;
+
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+.button--go-back {
+  button {
+    border-width: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+
+  button:hover {
+    background-color: inherit;
+    color: $orange-color;
   }
 }
 
@@ -344,7 +386,7 @@ h3 {
     min-width: 25px;
     height: 25px;
 
-    background-color: $primary-color-dark;
+    background-color: $orange-color;
     border-radius: 50%;
 
     color: $background-color;
@@ -354,12 +396,12 @@ h3 {
   .line {
     height: 2px;
     width: 100%;
-    background-color: $primary-color;
+    background-color: $orange-color;
     opacity: 0.3;
   }
 
   .active {
-    background-color: $primary-color;
+    background-color: $orange-color;
     opacity: 1;
   }
 
@@ -379,7 +421,7 @@ h3 {
   border-bottom: 1px solid lightgray;
   padding: 30px 10px;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     align-items: center;
 
     padding: 30px 0;
@@ -392,7 +434,7 @@ h3 {
 
   &--title {
     margin-left: 35px;
-    @include media('<=phone') {
+    @include media('<=630px') {
       margin: 0;
     }
   }
@@ -402,7 +444,7 @@ h3 {
     width: 40%;
     justify-content: space-between;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       flex-direction: column;
       align-items: center;
 
@@ -413,7 +455,7 @@ h3 {
   }
 
   &--edit-delete {
-    @include media('<=phone') {
+    @include media('<=630px') {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -431,7 +473,7 @@ h3 {
     margin-left: 25px;
     font-weight: bold;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       margin-left: 0;
     }
   }
@@ -450,6 +492,12 @@ h3 {
     background-color: inherit;
   }
 
+  &--input {
+    @include media('<=360px') {
+      font-size: 12px;
+    }
+  }
+
   &--input input {
     width: 50px;
     height: 25px;
@@ -462,17 +510,30 @@ h3 {
 
     margin-left: 0 !important;
 
-    @include media('<=phone') {
+    @include media('<=630px', '>360px') {
       width: 40px;
+    }
+
+    @include media('<=360px') {
+      width: 30px;
+      font-size: 12px;
     }
   }
 
   &--image img {
     width: 100px;
+    height: 100px;
+
     border-radius: 50%;
 
-    @include media('<=phone') {
+    @include media('<=630px', '>360px') {
       width: 90px;
+      height: 90px;
+    }
+
+    @include media('<=360px') {
+      width: 70px;
+      height: 70px;
     }
   }
 }
@@ -481,11 +542,19 @@ h3 {
   margin-left: 25px;
   cursor: pointer;
 
-  @include media('<=phone') {
+  @include media('<=630px', '>360px') {
     margin-left: 0;
 
     width: 25px;
     height: 25px;
+
+    background-image: url('../assets/icons/delete-bin.png');
+    background-size: contain;
+  }
+
+  @include media('<=360px') {
+    width: 20px;
+    height: 20px;
 
     background-image: url('../assets/icons/delete-bin.png');
     background-size: contain;
@@ -496,7 +565,7 @@ h3 {
   display: flex;
   justify-content: flex-end;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     justify-content: center;
   }
 }
@@ -507,7 +576,7 @@ h3 {
 
   border-radius: 3px;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     margin-top: 45px;
     width: 100%;
   }
@@ -538,7 +607,7 @@ h3 {
     justify-content: flex-end;
     margin-top: 40px;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       margin-top: 60px;
       justify-content: center;
     }
@@ -547,6 +616,8 @@ h3 {
   button {
     border-color: $primary-color;
     padding: 15px 30px;
+
+    margin-bottom: 45px;
   }
 
   button:focus {
@@ -559,46 +630,51 @@ h3 {
   .horizontal-line {
     margin-bottom: 25px;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       margin-bottom: 35px;
     }
   }
 
-  input {
-    width: 110px;
-
-    margin-left: 15px;
-    padding: 5px 10px;
-
-    border-radius: 5px;
-    border: 2px solid $primary-color;
-
-    background-color: $background-color;
-
-    transition: all 0.2s linear;
-  }
-
-  input:focus {
-    border-color: $accent-color;
-  }
-
-  input::placeholder {
-    font-weight: 300;
-  }
-
   .promocode {
-    &--inner {
-      position: relative;
-    }
-
     &--error {
-      position: absolute;
-      bottom: -16px;
-      right: 0;
-
       font-size: 12px;
       color: red;
     }
+  }
+}
+
+.empty-cart {
+  margin-bottom: 75px;
+  margin-top: 45px;
+}
+
+.empty {
+  font-weight: 600;
+}
+
+.confirmed {
+  margin: 0 auto;
+}
+
+// MOBILE / DESKTOP
+
+.mobile {
+  display: none;
+  @include media('<=630px') {
+    display: block;
+  }
+}
+
+.mobile-flex {
+  display: none;
+  @include media('<=630px') {
+    display: flex;
+  }
+}
+
+.desktop {
+  @include media('<=630px') {
+    display: none;
   }
 }
 </style>

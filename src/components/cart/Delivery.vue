@@ -1,257 +1,293 @@
 <template>
   <div class="delivery">
-    <div class="button--go-back">
-      <button @click.prevent="$router.go(-1)">{{ '< ' }}Go back</button>
-    </div>
-
     <h2>Delivery</h2>
 
-    <div class="delivery--container">
-      <div class="delivery--inner">
-        <div class="contact-info">
-          <h3>Type your full name and contacts</h3>
-          <div class="contact-info--inner">
-            <div class="position-relative">
-              <label for="first-name">First name:</label>
-              <input
-                type="text"
-                id="first-name"
-                v-model.trim="firstName"
-                placeholder="Peter"
-              />
-              <div class="error-field"></div>
+    <form @submit.prevent="onSubmit">
+      <div class="delivery--container">
+        <div class="delivery--inner">
+          <div class="contact-info">
+            <h3>Your contacts</h3>
+            <div class="contact-info--inner">
+              <div class="position-relative">
+                <BaseInput
+                  type="text"
+                  id="first-name"
+                  label="First name"
+                  placeholder="Peter"
+                  class="input-style"
+                  data-option="firstName"
+                  v-model.trim="firstName.value"
+                  :error="firstName.error"
+                  @change="checkOnEmpty"
+                  isVertical
+                />
+              </div>
+              <div class="position-relative">
+                <BaseInput
+                  type="text"
+                  id="last-name"
+                  placeholder="Parker"
+                  label="Last name"
+                  class="input-style"
+                  data-option="lastName"
+                  v-model.trim="lastName.value"
+                  :error="lastName.error"
+                  @change="checkOnEmpty"
+                  isVertical
+                />
+              </div>
             </div>
-            <div class="position-relative">
-              <label for="last-name">Last name:</label>
-              <input
-                type="text"
-                id="last-name"
-                v-model.trim="lastName"
-                placeholder="Parker"
-              />
-              <div class="error-field"></div>
+            <div class="contact-info--inner">
+              <div class="phone-number position-relative">
+                <BaseInput
+                  type="tel"
+                  id="phone-number"
+                  placeholder="(111) 111-1111"
+                  data-phone-block="contactBlock"
+                  class="input-style"
+                  v-model="phoneNum.value"
+                  :error="phoneNum.error"
+                  label="Phone number"
+                  @change="onVerifyNumber"
+                  @input="onAcceptNumber"
+                  eventType="input"
+                  isVertical
+                />
+              </div>
+              <div class="email position-relative">
+                <BaseInput
+                  type="email"
+                  id="email"
+                  v-model.trim="email.value"
+                  :error="email.error"
+                  label="E-mail"
+                  placeholder="yourmail@mail.com"
+                  @change="onValidateEmail"
+                  class="input-style"
+                  isVertical
+                />
+              </div>
             </div>
           </div>
-          <div class="contact-info--inner">
-            <div class="phone-number position-relative">
-              <label for="phone-number">Phone number:</label>
+
+          <div class="delivery-type">
+            <h3>Check type of delivery</h3>
+
+            <div class="radio-button">
               <input
-                type="text"
-                id="phone-number"
-                v-model="phoneNum"
-                @change="onVerifyNumber"
-                placeholder="(111) 111-1111"
-                data-phone-block="contactBlock"
+                type="radio"
+                id="pickup"
+                name="delivery-type"
+                value="pickup"
+                v-model="checkedDeliveryType"
               />
-              <div class="error-field"></div>
+              <div class="radio-button--image"></div>
+
+              <label for="pickup">Self-pickup</label>
             </div>
-            <div class="email position-relative">
-              <label for="email">E-mail:</label>
+
+            <div class="radio-button">
               <input
-                type="email"
-                id="email"
-                v-model.trim="email"
-                placeholder="yourmail@mail.com"
-                @change="onValidateEmail"
+                type="radio"
+                name="delivery-type"
+                id="delivery-service"
+                value="delivery-service"
+                v-model="checkedDeliveryType"
               />
-              <div class="error-field"></div>
+              <div class="radio-button--image"></div>
+
+              <label for="delivery-service">Delivery Service</label>
             </div>
           </div>
         </div>
 
-        <div class="delivery-type">
-          <h3>Check type of delivery</h3>
+        <div class="vertical-line"></div>
 
-          <div class="radio-button">
-            <input
-              type="radio"
-              id="pickup"
-              name="delivery-type"
-              value="pickup"
-              v-model="checkedDeliveryType"
-            />
-            <div class="radio-button--image"></div>
+        <div class="delivery--inner ">
+          <div v-if="checkedDeliveryType === 'pickup'" class="pickup">
+            <div class="branch">
+              <h3>Choose the branch of self-pickup</h3>
+              <div class="radio-button">
+                <input
+                  type="radio"
+                  name="branch-pickup"
+                  id="branch-pickup--1"
+                  v-model="checkedBranchPickup"
+                  value="khreschatik"
+                />
+                <div class="radio-button--image"></div>
+                <label for="branch-pickup--1">Khreschatik street, 22</label>
+              </div>
+              <div class="radio-button">
+                <input
+                  type="radio"
+                  name="branch-pickup"
+                  id="branch-pickup--2"
+                  v-model="checkedBranchPickup"
+                  value="dream-town"
+                />
+                <div class="radio-button--image"></div>
 
-            <label for="pickup">Self-pickup</label>
-          </div>
-
-          <div class="radio-button">
-            <input
-              type="radio"
-              name="delivery-type"
-              id="delivery-service"
-              value="delivery-service"
-              v-model="checkedDeliveryType"
-            />
-            <div class="radio-button--image"></div>
-
-            <label for="delivery-service">Delivery Service</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="vertical-line"></div>
-
-      <div class="delivery--inner ">
-        <div v-if="checkedDeliveryType === 'pickup'" class="pickup">
-          <div class="branch">
-            <h3>Choose the branch of self-pickup</h3>
-            <div class="radio-button">
-              <input
-                type="radio"
-                name="branch-pickup"
-                id="branch-pickup--1"
-                v-model="checkedBranchPickup"
-                value="khreschatik"
-              />
-              <div class="radio-button--image"></div>
-              <label for="branch-pickup--1">Khreschatik street, 22</label>
+                <label for="branch-pickup--2">"Dream Town", 3-rd floor</label>
+              </div>
             </div>
-            <div class="radio-button">
-              <input
-                type="radio"
-                name="branch-pickup"
-                id="branch-pickup--2"
-                v-model="checkedBranchPickup"
-                value="dream-town"
-              />
-              <div class="radio-button--image"></div>
+            <div
+              v-show="checkedBranchPickup === 'khreschatik'"
+              class="google-map"
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.5300580206085!2d30.520962115455138!3d50.44985349528939!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4ce56884f4f6f%3A0xcd06ffbc5e9276c0!2sKhreschatyk%20St%2C%2022%2C%20Kyiv%2C%2002000!5e0!3m2!1sen!2sua!4v1636102418245!5m2!1sen!2sua"
+                width="600"
+                height="450"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
 
-              <label for="branch-pickup--2">"Dream Town", 3-rd floor</label>
+            <div
+              v-show="checkedBranchPickup === 'dream-town'"
+              class="google-map"
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2537.4152132280133!2d30.496075415457266!3d50.50784069110933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4d213a46b9971%3A0xd43b0c9ed64a4a97!2sDREAM%20yellow!5e0!3m2!1sen!2sua!4v1636102528365!5m2!1sen!2sua"
+                width="600"
+                height="450"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+              ></iframe>
             </div>
           </div>
           <div
-            v-show="checkedBranchPickup === 'khreschatik'"
-            class="google-map"
+            v-if="checkedDeliveryType === 'delivery-service'"
+            class="delivery-service"
           >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.5300580206085!2d30.520962115455138!3d50.44985349528939!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4ce56884f4f6f%3A0xcd06ffbc5e9276c0!2sKhreschatyk%20St%2C%2022%2C%20Kyiv%2C%2002000!5e0!3m2!1sen!2sua!4v1636102418245!5m2!1sen!2sua"
-              width="600"
-              height="450"
-              style="border:0;"
-              allowfullscreen=""
-              loading="lazy"
-            ></iframe>
-          </div>
-
-          <div v-show="checkedBranchPickup === 'dream-town'" class="google-map">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2537.4152132280133!2d30.496075415457266!3d50.50784069110933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d4d213a46b9971%3A0xd43b0c9ed64a4a97!2sDREAM%20yellow!5e0!3m2!1sen!2sua!4v1636102528365!5m2!1sen!2sua"
-              width="600"
-              height="450"
-              style="border:0;"
-              allowfullscreen=""
-              loading="lazy"
-            ></iframe>
-          </div>
-        </div>
-        <div
-          v-if="checkedDeliveryType === 'delivery-service'"
-          class="delivery-service"
-        >
-          <div class="city position-relative">
-            <h3>City</h3>
-            <select name="" id="city" v-model="cityName">
-              <option disabled value="">Choose your city</option>
-              <option value="Kyiv">Kyiv</option>
-              <option value="Odessa">Odessa</option>
-              <option value="Lviv">Lviv</option>
-              <option value="Kharkiv">Kharkiv</option>
-            </select>
-            <div class="error-field"></div>
-          </div>
-          <div class="branch position-relative">
-            <h3>Branch number</h3>
-            <select name="" id="branch" v-model="branchNum">
-              <option disabled value="">Select branch number</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
-            <div class="error-field"></div>
-          </div>
-
-          <div class="recipient">
-            <div>Are you the recipient?</div>
-            <div class="recipient--buttons">
-              <button
-                @click="isRecipient = true"
-                :class="{ active: isRecipient }"
-              >
-                Yes
-              </button>
-              <button
-                @click="isRecipient = false"
-                :class="{ active: !isRecipient }"
-              >
-                No
-              </button>
-            </div>
-          </div>
-
-          <div class="contact-delivery">
-            <div class="contact-info--inner">
-              <div class="contact-delivery--item position-relative">
-                <label for="first-name">First name:</label>
-                <input
-                  type="text"
-                  id="first-name"
-                  v-model.trim="firstNameDelivery"
-                  placeholder="Peter"
-                />
-                <div class="error-field"></div>
-              </div>
-              <div class="contact-delivery--item position-relative">
-                <label for="last-name">Last name:</label>
-                <input
-                  type="text"
-                  id="last-name"
-                  v-model.trim="lastNameDelivery"
-                  placeholder="Parker"
-                />
-                <div class="error-field"></div>
-              </div>
-            </div>
-
-            <div class="phone-number position-relative">
-              <label for="phone-number">Phone number:</label>
-              <input
-                type="text"
-                id="phone-number"
-                v-model="phoneNumDelivery"
-                @change="onVerifyNumber"
-                @input="onAcceptNumber"
-                placeholder="(111) 111-1111"
-                data-phone-block="deliveryBlock"
+            <div class="city position-relative">
+              <h3>City</h3>
+              <BaseSelect
+                id="city"
+                v-model="cityNameDelivery.value"
+                :error="cityNameDelivery.error"
+                disableOption="Choose your city"
+                :options="['Kyiv', 'Odessa', 'Lviv', 'Kharkiv']"
+                data-option="cityNameDelivery"
+                @change="checkOnEmpty"
               />
-              <div class="error-field"></div>
+            </div>
+            <div class="branch position-relative">
+              <h3>Branch number</h3>
+              <BaseSelect
+                id="branch"
+                v-model="branchNumDelivery.value"
+                :error="branchNumDelivery.error"
+                disableOption="Select branch number"
+                :options="[1, 2, 3, 4]"
+                data-option="branchNumDelivery"
+                @change="checkOnEmpty"
+              />
+            </div>
+
+            <div class="recipient">
+              <div>Are you the recipient?</div>
+              <div class="recipient--buttons">
+                <button
+                  type="button"
+                  @click="isRecipient = true"
+                  :class="{ active: isRecipient }"
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  @click="isRecipient = false"
+                  :class="{ active: !isRecipient }"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+
+            <div class="contact-delivery">
+              <div class="contact-info--inner">
+                <div class="contact-delivery--item position-relative">
+                  <BaseInput
+                    type="text"
+                    id="first-name"
+                    label="First name"
+                    placeholder="Peter"
+                    class="input-style"
+                    v-model.trim="firstNameDelivery.value"
+                    :error="firstNameDelivery.error"
+                    @change="checkOnEmpty"
+                    data-option="firstNameDelivery"
+                    isVertical
+                  />
+                </div>
+                <div class="contact-delivery--item position-relative">
+                  <BaseInput
+                    type="text"
+                    id="last-name"
+                    label="Last name"
+                    placeholder="Parker"
+                    class="input-style"
+                    v-model.trim="lastNameDelivery.value"
+                    :error="lastNameDelivery.error"
+                    @change="checkOnEmpty"
+                    data-option="lastNameDelivery"
+                    isVertical
+                  />
+                </div>
+              </div>
+
+              <div class="phone-number position-relative">
+                <BaseInput
+                  type="tel"
+                  id="phone-number"
+                  label="Phone number"
+                  placeholder="(111) 111-1111"
+                  data-phone-block="deliveryBlock"
+                  class="input-style"
+                  v-model="phoneNumDelivery.value"
+                  :error="phoneNumDelivery.error"
+                  @change="onVerifyNumber"
+                  @input="onAcceptNumberDelivery"
+                  eventType="input"
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div
-          class="continue"
-          v-if="
-            checkedDeliveryType === 'delivery-service' ||
-              checkedDeliveryType === 'pickup'
-          "
-        >
-          <button @click="onVerifyAllInputs">
-            Continue
-          </button>
+          <div
+            class="continue"
+            v-if="
+              checkedDeliveryType === 'delivery-service' ||
+                checkedDeliveryType === 'pickup'
+            "
+          >
+            <button type="submit">
+              Continue
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
-import { ref, watch, onMounted } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import BaseInput from '@/components/base_elements/BaseInput.vue';
+import BaseSelect from '@/components/base_elements/BaseSelect.vue';
 
 export default {
+  components: {
+    BaseInput,
+    BaseSelect,
+  },
+
   setup() {
     const router = useRouter();
     const store = useStore();
@@ -259,16 +295,56 @@ export default {
     const checkedDeliveryType = ref(''),
       checkedBranchPickup = ref('khreschatik');
 
-    const lastName = ref(''),
-      firstName = ref(''),
-      phoneNum = ref(''),
-      email = ref('');
+    const lastName = reactive({
+        value: '',
+        error: '',
+      }),
+      firstName = reactive({
+        value: '',
+        error: '',
+      }),
+      phoneNum = reactive({
+        value: '',
+        error: '',
+      }),
+      email = reactive({
+        value: '',
+        error: '',
+      });
 
-    const lastNameDelivery = ref(''),
-      firstNameDelivery = ref(''),
-      phoneNumDelivery = ref(''),
-      branchNum = ref(''),
-      cityName = ref('');
+    const lastNameDelivery = reactive({
+        value: '',
+        error: '',
+      }),
+      firstNameDelivery = reactive({
+        value: '',
+        error: '',
+      }),
+      phoneNumDelivery = reactive({
+        value: '',
+        error: '',
+      }),
+      branchNumDelivery = reactive({
+        value: '',
+        error: '',
+      }),
+      cityNameDelivery = reactive({
+        value: '',
+        error: '',
+      });
+
+    const userData = reactive({
+      lastName,
+      firstName,
+      phoneNum,
+      email,
+
+      lastNameDelivery,
+      firstNameDelivery,
+      phoneNumDelivery,
+      branchNumDelivery,
+      cityNameDelivery,
+    });
 
     const isRecipient = ref(false);
 
@@ -284,7 +360,13 @@ export default {
       }
     });
 
-    onMounted(() => {});
+    // GENERAL CHECK
+
+    const checkOnEmpty = ({ target }) => {
+      userData[target.dataset.option].value === ''
+        ? (userData[target.dataset.option].error = 'This field is required')
+        : (userData[target.dataset.option].error = '');
+    };
 
     // PHONE NUMBERS CHECK
 
@@ -293,45 +375,40 @@ export default {
       return !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
     };
 
-    watch(phoneNum, (value) => {
-      phoneNum.value = acceptNumber(value);
-    });
+    const onAcceptNumber = ({ target }) => {
+      phoneNum.value = acceptNumber(phoneNum.value);
+      target.value = phoneNum.value;
+    };
 
-    watch(phoneNumDelivery, (value) => {
-      phoneNumDelivery.value = acceptNumber(value);
-    });
+    const onAcceptNumberDelivery = ({ target }) => {
+      phoneNumDelivery.value = acceptNumber(phoneNumDelivery.value);
+      target.value = phoneNumDelivery.value;
+    };
 
     // INPUTS VERIFYING
 
-    const onVerifyAllInputs = () => {
-      const inputs = document.querySelectorAll('.delivery input'),
-        selects = document.querySelectorAll('.delivery select');
+    const onSubmit = () => {
       let isValid = true;
 
-      const validation = (item) => {
-        let errorField = item.nextSibling;
-
-        item.classList.remove('error');
-        if (errorField.classList.contains('error-field')) {
-          errorField.textContent = '';
+      for (let item in userData) {
+        if (
+          checkedDeliveryType.value !== 'delivery-service' &&
+          item.includes('Delivery')
+        ) {
+          continue;
         }
 
-        if (!item.value) {
-          item.classList.add('error');
+        if (userData[item].value === '') {
+          userData[item].error = 'This field is required';
           isValid = false;
-          errorField.textContent = 'This field must be filled';
-        } else if (item.classList.contains('error-num')) {
+        } else if (userData[item]?.error) {
+          userData[item].error = '';
+        }
+
+        if (userData[item].error) {
           isValid = false;
         }
-      };
-
-      Array.from(inputs).forEach((item) => {
-        validation(item);
-      });
-
-      Array.from(selects).forEach((item) => {
-        validation(item);
-      });
+      }
 
       if (isValid) {
         setOrderDetails();
@@ -339,34 +416,27 @@ export default {
       }
     };
 
-    const onVerifyNumber = ({ target }) => {
-      let errorField = target.nextSibling;
-
-      if (target.value.toString().length === 14) {
-        target.classList.remove('error-num');
-        errorField.textContent = '';
+    const onVerifyNumber = () => {
+      if (phoneNum.value.toString().length !== 14) {
+        phoneNum.error = 'Your number is not correct';
       } else {
-        target.classList.add('error-num');
-        errorField.textContent = 'Your number is not correct';
+        phoneNum.error = '';
       }
     };
 
-    const onValidateEmail = ({ target }) => {
+    const onValidateEmail = () => {
       const EMAIL_REGEXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-      const errorField = target.nextSibling;
 
       if (!EMAIL_REGEXP.test(email.value) && email.value !== '') {
-        errorField.textContent = 'Your e-mail is not correct';
-        target.classList.add('error');
+        email.error = 'Your e-mail is not correct';
       } else {
-        errorField.textContent = '';
-        target.classList.remove('error');
+        email.error = '';
       }
     };
 
     // ORDER DETAILS
 
-    const orderDetails = ref({
+    const orderDetails = reactive({
       firstName: '',
       lastName: '',
       phoneNum: '',
@@ -378,8 +448,8 @@ export default {
         firstNameDelivery: '',
         phoneNumDelivery: '',
 
-        branchNum: '',
-        cityName: '',
+        branchNumDelivery: '',
+        cityNameDelivery: '',
       },
       pickupDelivery: {
         branchPickup: '',
@@ -387,28 +457,24 @@ export default {
     });
 
     const setOrderDetails = () => {
-      orderDetails.value.firstName = firstName.value;
-      orderDetails.value.lastName = lastName.value;
-      orderDetails.value.phoneNum = phoneNum.value;
-      orderDetails.value.email = email.value;
+      orderDetails.firstName = firstName.value;
+      orderDetails.lastName = lastName.value;
+      orderDetails.phoneNum = phoneNum.value;
+      orderDetails.email = email.value;
 
-      orderDetails.value.deliveryType = checkedDeliveryType.value;
+      orderDetails.deliveryType = checkedDeliveryType.value;
 
       if (checkedDeliveryType.value === 'delivery-service') {
-        orderDetails.value.mailDelivery.firstNameDelivery =
-          firstNameDelivery.value;
-        orderDetails.value.mailDelivery.lastNameDelivery =
-          lastNameDelivery.value;
-        orderDetails.value.mailDelivery.phoneNumDelivery =
-          phoneNumDelivery.value;
-        orderDetails.value.mailDelivery.branchNum = branchNum.value;
-        orderDetails.value.mailDelivery.cityName = cityName.value;
+        orderDetails.mailDelivery.firstNameDelivery = firstNameDelivery.value;
+        orderDetails.mailDelivery.lastNameDelivery = lastNameDelivery.value;
+        orderDetails.mailDelivery.phoneNumDelivery = phoneNumDelivery.value;
+        orderDetails.mailDelivery.branchNumDelivery = branchNumDelivery.value;
+        orderDetails.mailDelivery.cityNameDelivery = cityNameDelivery.value;
       } else {
-        orderDetails.value.pickupDelivery.branchPickup =
-          checkedBranchPickup.value;
+        orderDetails.pickupDelivery.branchPickup = checkedBranchPickup.value;
       }
 
-      store.commit('setOrderDetails', orderDetails.value);
+      store.commit('setOrderDetails', orderDetails);
 
       let deliverySumPrice =
         checkedDeliveryType.value === 'delivery-service' ? 20 : 0;
@@ -416,6 +482,8 @@ export default {
     };
 
     return {
+      userData,
+
       checkedDeliveryType,
       checkedBranchPickup,
 
@@ -427,14 +495,17 @@ export default {
       lastNameDelivery,
       firstNameDelivery,
       phoneNumDelivery,
-      branchNum,
-      cityName,
+      branchNumDelivery,
+      cityNameDelivery,
 
       isRecipient,
 
-      onVerifyAllInputs,
+      onSubmit,
       onVerifyNumber,
       onValidateEmail,
+      onAcceptNumber,
+      onAcceptNumberDelivery,
+      checkOnEmpty,
     };
   },
 };
@@ -445,7 +516,12 @@ export default {
 @import '@/style/media/breakpoints.scss';
 
 h3 {
-  color: $font-color;
+  font-size: 18px;
+  color: $green-color;
+}
+
+form {
+  margin-bottom: 55px;
 }
 
 .delivery-type,
@@ -456,7 +532,7 @@ h3 {
 .contact-info--inner {
   margin-bottom: 25px;
 
-  @include media('<=phone') {
+  @include media('<=788px') {
     margin-bottom: 35px;
   }
 }
@@ -466,31 +542,16 @@ h3 {
     display: flex;
     justify-content: space-between;
 
-    @include media('<=phone') {
+    @include media('<=788px') {
       flex-direction: column;
     }
-  }
-
-  input[type='text'],
-  input[type='email'] {
-    margin-left: 0;
-    width: 170px;
-    margin-top: 8px;
-
-    @include media('<=phone') {
-      width: 150px;
-    }
-  }
-
-  label {
-    display: block;
   }
 }
 
 .delivery--inner {
   width: 40%;
 
-  @include media('<=phone') {
+  @include media('<=788px') {
     width: 100%;
   }
 }
@@ -499,12 +560,15 @@ h3 {
   display: flex;
   justify-content: space-between;
 
-  input {
-    margin-top: 8px;
+  @include media('<=360px') {
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+}
 
-    @include media('<=phone') {
-      max-width: 150px;
-    }
+.position-relative {
+  @include media('<=360px') {
+    margin-bottom: 25px;
   }
 }
 
@@ -531,30 +595,8 @@ h3 {
     display: block;
     height: 2px;
     width: inherit;
-    background-color: $accent-color;
+    background-color: $orange-color;
   }
-}
-
-select {
-  width: 100%;
-  min-width: 15ch;
-  max-width: 30ch;
-
-  border: 2px solid $primary-color;
-  border-radius: 0.25em;
-
-  padding: 0.25em 0.5em;
-
-  font-family: 'Lato', sans-serif;
-  color: black;
-  cursor: pointer;
-  line-height: 1.1;
-
-  background-image: linear-gradient(
-    to top,
-    $primary-color-light,
-    $background-color 33%
-  );
 }
 
 .vertical-line {
@@ -566,7 +608,7 @@ select {
 .continue {
   margin-top: 40px;
 
-  @include media('<=phone') {
+  @include media('<=788px') {
     display: flex;
     justify-content: center;
   }
@@ -582,32 +624,11 @@ select {
   }
 }
 
-.go-back button {
-  border: none;
-}
-
-.error {
-  border-color: red;
-}
-
-.error-field {
-  position: absolute;
-  bottom: -15px;
-  left: 0;
-
-  color: red;
-  font-size: 12px;
-}
-
-.position-relative {
-  position: relative;
-}
-
 .google-map iframe {
   width: 100%;
   height: 300px;
 
-  @include media('<=phone') {
+  @include media('<=788px') {
     margin-top: 25px;
   }
 }
@@ -647,6 +668,33 @@ select {
 
   &:hover input[type='radio']:checked + &--image {
     background-image: url('../../assets/icons/radio-buttons/active2.png');
+  }
+}
+</style>
+
+<style lang="scss">
+@import '@/style/variables.scss';
+@import '@/style/media/breakpoints.scss';
+
+.input-style {
+  margin-left: 0;
+  min-width: 170px;
+  margin-top: 8px;
+
+  @include media('<=930px', '>788px') {
+    min-width: 140px;
+  }
+
+  @include media('<=788px', '>630px') {
+    min-width: 270px;
+  }
+
+  @include media('<=630px', '>360px') {
+    min-width: 150px;
+  }
+
+  @include media('<=360px') {
+    min-width: 100%;
   }
 }
 </style>
