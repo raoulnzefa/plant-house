@@ -112,7 +112,7 @@
             </button>
           </div>
 
-          <div class="details">
+          <div class="details screen788">
             <span class="title">Some details</span>
             <p>
               {{ product.description }}
@@ -158,6 +158,13 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="details screen788-show">
+        <span class="title">Some details</span>
+        <p>
+          {{ product.description }}
+        </p>
       </div>
     </div>
   </div>
@@ -438,7 +445,6 @@ h1::before {
 .price {
   margin-bottom: 25px;
 
-  // font-weight: bold;
   font-size: 24px;
 }
 
@@ -494,7 +500,7 @@ h1::before {
   &--inner {
     display: flex;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       flex-direction: column;
     }
   }
@@ -503,7 +509,7 @@ h1::before {
     margin-left: 65px;
     transition: all 0.2s linear;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       margin-left: 0;
     }
   }
@@ -564,12 +570,36 @@ h1::before {
   max-width: $slider-width-ab;
   max-height: $slider-width-ab;
 
-  @include media('<=tablet', '>phone') {
+  @include media('<=930px', '>788px') {
+    min-width: 350px;
+    min-height: 350px;
+
+    max-width: 350px;
+    max-height: 350px;
+  }
+
+  @include media('<=788px', '>tablet') {
+    min-width: 300px;
+    min-height: 300px;
+
+    max-width: 300px;
+    max-height: 300px;
+  }
+
+  @include media('<=tablet', '>630px') {
     min-width: $slider-width-tablet;
     min-height: $slider-width-tablet;
 
     max-width: $slider-width-tablet;
     max-height: $slider-width-tablet;
+  }
+
+  @include media('<=630px', '>phone') {
+    min-width: $container-width-630 - 30px;
+    min-height: $container-width-630 - 30px;
+
+    max-width: $container-width-630 - 30px;
+    max-height: $container-width-630 - 30px;
   }
 
   @include media('<=phone') {
@@ -599,12 +629,36 @@ h1::before {
     background-position: center;
     background-repeat: no-repeat;
 
-    @include media('<=tablet', '>phone') {
+    @include media('<=930px', '>788px') {
+      min-width: 350px;
+      min-height: 350px;
+
+      max-width: 350px;
+      max-height: 350px;
+    }
+
+    @include media('<=788px', '>tablet') {
+      min-width: 300px;
+      min-height: 300px;
+
+      max-width: 300px;
+      max-height: 300px;
+    }
+
+    @include media('<=tablet', '>630px') {
       min-width: $slider-width-tablet;
       min-height: $slider-width-tablet;
 
       max-width: $slider-width-tablet;
       max-height: $slider-width-tablet;
+    }
+
+    @include media('<=630px', '>phone') {
+      min-width: $container-width-630 - 30px;
+      min-height: $container-width-630 - 30px;
+
+      max-width: $container-width-630 - 30px;
+      max-height: $container-width-630 - 30px;
     }
 
     @include media('<=phone') {
@@ -627,8 +681,20 @@ h1::before {
     height: $slider-width-ab;
     cursor: pointer;
 
-    @include media('<=tablet', '>phone') {
+    @include media('<=930px', '>788px') {
+      height: 350px;
+    }
+
+    @include media('<=788px', '>tablet') {
+      height: 300px;
+    }
+
+    @include media('<=tablet', '>630px') {
       height: $slider-width-tablet;
+    }
+
+    @include media('<=630px', '>phone') {
+      height: $container-width-630 - 30px;
     }
 
     @include media('<=phone') {
@@ -701,9 +767,37 @@ h1::before {
     margin-right: 5px;
     margin-bottom: 5px;
 
-    @include media('<=tablet') {
+    @include media('<=930px', '>788px') {
+      width: 350px / 4 - 4px;
+      height: 350px / 4 - 4px;
+
+      margin-bottom: 25px;
+    }
+
+    @include media('<=788px', '>tablet') {
+      width: 300px / 4 - 4px;
+      height: 300px / 4 - 4px;
+
+      margin-bottom: 25px;
+    }
+
+    @include media('<=tablet', '>630px') {
       width: $slider-width-tablet / 4 - 4px;
       height: $slider-width-tablet / 4 - 4px;
+
+      margin-bottom: 25px;
+    }
+
+    @include media('<=630px', '>phone') {
+      width: ($container-width-630 - 30px) / 4 - 4px;
+      height: ($container-width-630 - 30px) / 4 - 4px;
+
+      margin-bottom: 25px;
+    }
+
+    @include media('<=phone') {
+      width: ($container-width-phone - 30px) / 4 - 4px;
+      height: ($container-width-phone - 30px) / 4 - 4px;
 
       margin-bottom: 25px;
     }
@@ -789,6 +883,21 @@ h1::before {
     background-image: url('../assets/icons/cart-icon.png');
     background-size: contain;
     background-repeat: no-repeat;
+  }
+}
+
+.screen788 {
+  @include media('<=788px', '>630px') {
+    display: none;
+  }
+}
+
+.screen788-show {
+  display: none;
+
+  @include media('<=788px', '>630px') {
+    display: block;
+    margin-bottom: 75px;
   }
 }
 </style>
