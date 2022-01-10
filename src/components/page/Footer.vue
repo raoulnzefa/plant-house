@@ -71,7 +71,7 @@
               v-for="(item, index) of menu"
               :key="index"
               class="margin-bottom--15"
-              @click.prevent="$router.push({ name: item })"
+              @click.prevent="$router.push({ name: item.name })"
             >
               {{ item.name }}
             </a>
