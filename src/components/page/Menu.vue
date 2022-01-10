@@ -170,6 +170,22 @@ export default {
       isMenuOpen = false;
     };
 
+    watch(
+      () => route.path,
+      () => {
+        if (isTabletScreen.value) {
+          console.log(isTabletScreen.value);
+          menuBlock.classList.remove('open-menu');
+          document
+            .querySelector('.menu-icon--container')
+            .classList.remove('menu-icon--open');
+          isMenuOpen = false;
+
+          removeListeners();
+        }
+      }
+    );
+
     const onOpenMenu = ({ target }) => {
       isMenuOpen = !isMenuOpen;
 
@@ -185,25 +201,12 @@ export default {
       target
         .closest('.menu-icon--container')
         .classList.toggle('menu-icon--open');
-
-      watch(
-        () => route.path,
-        () => {
-          menuBlock.classList.remove('open-menu');
-          document
-            .querySelector('.menu-icon--container')
-            .classList.remove('menu-icon--open');
-          isMenuOpen = false;
-
-          removeListeners();
-        }
-      );
     };
 
     let animationTimeout = null;
 
     const openSubmenu = ({ target }) => {
-      if (!isTabletScreen) return;
+      if (!isTabletScreen.value) return;
 
       const submenu = target.closest('.nav-item').lastChild;
 
