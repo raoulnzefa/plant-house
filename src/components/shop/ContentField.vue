@@ -8,6 +8,7 @@
         <FilterBlock
           @sort-products="getSortProducts"
           :filterType="productsType"
+          @reset-accordeon="resetAccordeonVariables"
         />
       </div>
     </div>
@@ -49,6 +50,7 @@
 
 <script>
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 
 import ShopCard from '@/components/shop/ShopCard.vue';
@@ -70,6 +72,8 @@ export default {
 
   setup(props) {
     const store = useStore();
+    const route = useRoute();
+
     const products = computed(() =>
       store.getters.getProductsByType(props.productsType)
     );
@@ -89,21 +93,7 @@ export default {
 
     onMounted(() => {
       if (store.state.isTabletScreen) {
-        accordeon = document.querySelector('.accordeon');
-        accordeonBody = document.querySelector('.accordeon-body');
-        accordeonHeader = document.querySelector('.accordeon-header');
-
-        filterBlock = document.querySelector('.filter-block');
-        sortBlock = document
-          .querySelector('.filter-sort--mobile')
-          .closest('.filter');
-
-        accordeonFilterBlockHeight = filterBlock.offsetHeight;
-        accordeonHeaderHeight = accordeonHeader.offsetHeight;
-
-        closeAccordeon();
-
-        accordeonBody.style.transition = 'all 0.2s ease-in';
+        resetAccordeonVariables();
 
         window.addEventListener('resize', closeAccordeon);
       }
@@ -113,7 +103,33 @@ export default {
       window.removeEventListener('resize', closeAccordeon);
     });
 
+    const resetAccordeonVariables = () => {
+      accordeon = document.querySelector('.accordeon');
+      accordeonBody = document.querySelector('.accordeon-body');
+      accordeonHeader = document.querySelector('.accordeon-header');
+
+      filterBlock = document.querySelector('.filter-block');
+      sortBlock = document
+        .querySelector('.filter-sort--mobile')
+        .closest('.filter');
+
+      accordeon.style.overflow = 'hidden';
+
+      accordeonFilterBlockHeight = filterBlock.offsetHeight;
+      accordeonHeaderHeight = accordeonHeader.offsetHeight;
+
+      closeAccordeon();
+
+      if (Object.entries(route.query).length !== 0) {
+        openAccordeon();
+      }
+
+      accordeonBody.style.transition = 'all 0.2s ease-in';
+    };
+
     const closeAccordeon = () => {
+      isAccordeonOpen = false;
+
       const appliedFiltersHeight = document.querySelector('.applied-filters')
         .offsetHeight;
 
@@ -133,7 +149,6 @@ export default {
         isAccordeonOpen = true;
 
         accordeonBody.style.transform = `translateY(0)`;
-
         accordeon.style.maxHeight = '100vw';
         accordeon.style.height = 'auto';
 
@@ -143,8 +158,6 @@ export default {
           accordeon.style.overflow = '';
         }, 200);
       } else {
-        isAccordeonOpen = false;
-
         closeAccordeon();
       }
     };
@@ -171,6 +184,7 @@ export default {
       filteredProducts,
 
       openAccordeon,
+      resetAccordeonVariables,
     };
   },
 };

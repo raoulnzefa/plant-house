@@ -35,7 +35,7 @@
                 class="option-item"
                 v-for="(item, index) of sortBy"
                 :key="index"
-                @click="$emit('sort-products', item)"
+                @click="$emit('sort-products', item), onSetSortQuery(item)"
               >
                 <button>
                   {{ item }}
@@ -75,7 +75,9 @@
       v-for="(item, index) of sortBy"
       :key="index"
       :class="{ 'active-sort': index === 0 }"
-      @click="$emit('sort-products', item), setActive(index)"
+      @click="
+        $emit('sort-products', item), setActive(index), onSetSortQuery(item)
+      "
     >
       {{ item }}
     </div>
@@ -83,18 +85,19 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { createOptions, openOptions } from '@/modules/shop/optionActions.js';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   name: 'FilterBlock',
-  emits: ['sort-products'],
+  emits: ['sort-products', 'reset-accordeon'],
   props: {
     filterType: String,
   },
 
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore();
 
     const filtersData = ref([
@@ -146,36 +149,36 @@ export default {
       ...receivedFilters.filters,
     ]);
 
-    onMounted(() => {
-      createOptions(filters);
-
-      const allOptions = document.querySelectorAll('.option-item');
-      Array.from(allOptions).forEach((item) => {
-        if (item.closest('.filter-options--sort')) {
-          return;
-        }
-        item.addEventListener('click', selectFilter);
-      });
-    });
-
     const sortBy = ref(['No sort', 'Lower price', 'Higher price']);
 
     const selected = ref([]);
 
-    const selectFilter = ({ target }) => {
-      const optionValue = target.closest('li').dataset.value;
+    const selectFilter = (event, optionQuery = '') => {
+      const optionValue = optionQuery
+        ? optionQuery
+        : event.target.closest('li').dataset.value;
 
       if (selected.value.includes(optionValue)) {
         return;
       }
 
       selected.value.push(optionValue);
+
+      // if (
+      //   optionQuery &&
+      //   store.state.selectedFilters[props.filterType].length !== 0
+      // ) {
+      //   return;
+      // }
+
       let currentSelectedFilter = Array.from(filters.value).find((item) =>
         item.options.includes(optionValue)
       );
 
+      let filterName = currentSelectedFilter.commonName;
+
       store.commit('addSelectedFilters', {
-        filterName: currentSelectedFilter.commonName,
+        filterName,
         option: optionValue,
         classification: props.filterType,
       });
@@ -199,16 +202,108 @@ export default {
 
     // sort block mobile
 
-    const setActive = (itemNum) => {
+    const setActive = (itemNum = -1, itemText = '') => {
       const filteSortsMobile = document.querySelectorAll(
         '.filter-sort--mobile'
       );
 
-      Array.from(filteSortsMobile).map((item, index) => {
-        if (index === itemNum) item.classList.add('active-sort');
-        else item.classList.remove('active-sort');
+      if (itemNum !== -1) {
+        Array.from(filteSortsMobile).map((item, index) => {
+          if (index === itemNum) item.classList.add('active-sort');
+          else item.classList.remove('active-sort');
+        });
+      }
+
+      if (itemText) {
+        Array.from(filteSortsMobile).map((item) => {
+          if (item.textContent.toLowerCase() === itemText)
+            item.classList.add('active-sort');
+          else item.classList.remove('active-sort');
+        });
+      }
+    };
+
+    // QUERY ROUTING
+
+    const route = useRoute(),
+      router = useRouter();
+
+    let sortValue = '';
+
+    const setSelectedFiltersToQuery = (selectedFilters, sortName = '') => {
+      let rebuiltObject = {};
+
+      selectedFilters[props.filterType].forEach((item) => {
+        rebuiltObject[item.filterName.toLowerCase()] = item.options
+          .join(',')
+          .toLowerCase();
+      });
+
+      if (sortName && sortName !== 'No sort') {
+        rebuiltObject.sort = sortName.toLowerCase();
+      } else if (sortValue && sortValue !== 'No sort') {
+        rebuiltObject.sort = sortValue.toLowerCase();
+      }
+
+      router.push({
+        name: route.name,
+        query: rebuiltObject,
       });
     };
+
+    const onSetSortQuery = (sortName) => {
+      setSelectedFiltersToQuery(store.state.selectedFilters, sortName);
+      sortValue = sortName;
+    };
+
+    const setFiltersByQuery = (queryFilters) => {
+      if (queryFilters.sort) {
+        emit('sort-products', queryFilters.sort);
+
+        sortValue = queryFilters.sort;
+
+        setActive(-1, queryFilters.sort);
+      }
+
+      for (let key in queryFilters) {
+        if (key === 'sort') continue;
+
+        if (queryFilters[key] === 'yes, pet friendly') {
+          selectFilter(null, queryFilters[key].toCapitalizeLetter());
+          continue;
+        }
+
+        queryFilters[key].split(',').forEach((item) => {
+          selectFilter(null, item.toCapitalizeLetter());
+        });
+      }
+    };
+
+    watch(store.state.selectedFilters, (newValue) => {
+      setSelectedFiltersToQuery(newValue);
+    });
+
+    // MOUNTED
+
+    onMounted(() => {
+      // QUERY ROUTING
+      if (Object.entries(route.query).length) {
+        setFiltersByQuery(route.query);
+      }
+
+      emit('reset-accordeon');
+
+      // OPTIONS
+      createOptions(filters);
+
+      const allOptions = document.querySelectorAll('.option-item');
+      Array.from(allOptions).forEach((item) => {
+        if (item.closest('.filter-options--sort')) {
+          return;
+        }
+        item.addEventListener('click', selectFilter);
+      });
+    });
 
     return {
       filters,
@@ -217,6 +312,8 @@ export default {
       selected,
       selectFilter,
       deleteSelected,
+
+      onSetSortQuery,
 
       setActive,
     };
@@ -295,14 +392,17 @@ export default {
 .applied-filters {
   display: flex;
 
-  margin-bottom: 45px;
+  margin-bottom: 25px;
   flex-wrap: wrap;
 
   @include media('<=930px') {
-    border-bottom: 1px solid $primary-color-light;
     padding-bottom: 15px;
     padding-top: 25px;
     margin-bottom: 0;
+  }
+
+  @include media('<=tablet') {
+    border-bottom: 1px solid $primary-color-light;
   }
 
   .applied-item {

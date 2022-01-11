@@ -1048,7 +1048,7 @@ export default createStore({
       },
     ],
 
-    cart: [{"title":"Gorgeous","price":23,"image":"https://static.tildacdn.com/tild3831-6533-4234-b732-356336303437/R0028458.jpg","id":0,"cartID":0,"quantity":1}],
+    cart: [],
     cartID: 0,
 
     generalHeaderSlider: [
@@ -1195,7 +1195,7 @@ export default createStore({
     addSelectedFilters(state, { filterName, option, classification }) {
       if (state.selectedFilters[classification].find(item => item.filterName === filterName)) {
         state.selectedFilters[classification].map(item => {
-          if (item.filterName === filterName) { 
+          if (item.filterName === filterName && !item.options.includes(option)) { 
             item.options.push(option);
           }
 
@@ -1318,20 +1318,16 @@ export default createStore({
 
       // SORT BLOCK
 
-      if (sortType === 'Higher price') {
+      if (sortType.toLowerCase() === 'higher price') {
         return uniqueFilteredProducts.sort((a, b) => b.priceInfo[0].price - a.priceInfo[0].price);
   
-      } else if (sortType === 'Lower price'){
+      } else if (sortType.toLowerCase() === 'lower price'){
         return uniqueFilteredProducts.sort((a, b) => a.priceInfo[0].price - b.priceInfo[0].price);
 
       } else {
         return uniqueFilteredProducts;
       }
     }
-  },
-
-  modules: {
-    // homePage
   }
 })
 
