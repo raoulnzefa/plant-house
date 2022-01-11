@@ -86,7 +86,6 @@ const router = createRouter({
           top: 0
         }
       } else {
-        console.log('into else');
         return {
           top: 0,
           behavior: 'smooth'

@@ -31,7 +31,7 @@
         >
           <router-link
             v-if="
-              (isMobileDevice && item.submenu.length === 0) || !isMobileDevice
+              (isTabletScreen && item.submenu.length === 0) || !isTabletScreen
             "
             :to="{ name: item.name }"
           >
@@ -104,12 +104,6 @@ export default {
     const isHomePage = computed(() => store.state.isHomePage);
     const isTabletScreen = computed(() => store.state.isTabletScreen);
 
-    const isMobileDevice = computed(() =>
-      /Mobile|webOS|BlackBerry|IEMobile|MeeGo|mini|Fennec|Windows Phone|Android|iP(ad|od|hone)/i.test(
-        navigator.userAgent
-      )
-    );
-
     let menuBlock = {};
 
     onMounted(() => {
@@ -174,7 +168,6 @@ export default {
       () => route.path,
       () => {
         if (isTabletScreen.value) {
-          console.log(isTabletScreen.value);
           menuBlock.classList.remove('open-menu');
           document
             .querySelector('.menu-icon--container')
@@ -249,8 +242,6 @@ export default {
       isHomePage,
       isTabletScreen,
 
-      isMobileDevice,
-
       onOpenMenu,
       openSubmenu,
     };
@@ -311,6 +302,7 @@ export default {
 
   &--inner {
     display: flex;
+    align-items: center;
 
     @include media('<=tablet') {
       flex-direction: column;
@@ -340,6 +332,7 @@ export default {
     &--container {
       display: flex;
       align-items: center;
+      justify-content: center;
     }
   }
 
@@ -355,6 +348,7 @@ export default {
     color: $font-color;
 
     transition: color 0.2s linear;
+    cursor: pointer;
 
     @include media('<=tablet') {
       padding: 20px 15px;

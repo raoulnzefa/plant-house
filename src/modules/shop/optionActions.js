@@ -1,6 +1,5 @@
 export const createOptions = (filters) => {
-  const optionBlocks = document.querySelectorAll('.filter-options--create'),
-    sortBlock = document.querySelector('.filter-options--sort');
+  const optionBlocks = document.querySelectorAll('.filter-options--create');
 
   const marginTop = -5;
 
@@ -19,8 +18,12 @@ export const createOptions = (filters) => {
     return optionTab;
   });
 
+
+  const sortBlock = document.querySelector('.filter-options--sort')
+
   sortBlock.style.bottom = -sortBlock.clientHeight + marginTop + 'px';
   sortBlock.style.display = 'none';
+
 };
 
 export const openOptions = (event) => {

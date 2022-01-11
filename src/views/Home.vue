@@ -155,9 +155,6 @@
     <section class="container">
       <Bestsellers class="bestsellers" />
     </section>
-
-    <div class="margin-bottom--130px"></div>
-    <DeliveryConfirmedModal v-show="$store.state.isShowModal" />
   </div>
 </template>
 
@@ -165,7 +162,6 @@
 import InfoBlock from '@/components/home/InfoBlock.vue';
 import PhotoCollage from '@/components/home/PhotoCollage.vue';
 import Bestsellers from '@/components/home/Bestsellers.vue';
-import DeliveryConfirmedModal from '@/components/home/DeliveryConfirmedModal.vue';
 import GeneralSlider from '@/components/home/GeneralSlider.vue';
 
 import { onMounted, onUnmounted, computed, watch } from 'vue';
@@ -177,7 +173,6 @@ export default {
     InfoBlock,
     PhotoCollage,
     Bestsellers,
-    DeliveryConfirmedModal,
     GeneralSlider,
   },
   setup() {
@@ -220,16 +215,13 @@ export default {
   position: relative;
 }
 
-.margin-bottom--130px {
-  margin-bottom: 130px;
-}
-
 p {
   line-height: 2;
 }
 
 .bestsellers {
   padding-top: 80px;
+  margin-bottom: 75px;
 }
 
 .why-plant-house {
@@ -659,7 +651,7 @@ p {
 h1 {
   @include media('<=phone') {
     font-size: 32px;
-    margin-top: 75px !important;
+    margin-top: 75px;
     margin-bottom: 35px;
   }
 }

@@ -1,30 +1,7 @@
 <template class="app">
-  <div id="app">
-    <div class="container">
-      <header class="header">
-        <div
-          class="bgc"
-          v-show="$store.state.isHomePage && !$store.state.isTabletScreen"
-        >
-          <div class="gradient"></div>
-        </div>
-        <div v-show="$store.state.isHomePage && !$store.state.isTabletScreen">
-          <div class="logo" style="padding-bottom: 25px;">
-            ~ Flower Home ~
-          </div>
-        </div>
-        <Menu />
-      </header>
-
-      <main>
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
-        </router-view>
-      </main>
-    </div>
-
+  <Header class="app-header" />
+  <main>
+    <router-view></router-view>
     <div
       v-if="
         $store.state.isTabletScreen &&
@@ -37,13 +14,13 @@
     >
       <div class="shopping-bag"></div>
     </div>
-    <Footer />
-  </div>
+  </main>
+  <Footer class="app-footer" />
 </template>
 
 <script>
 import Footer from '@/components/page/Footer.vue';
-import Menu from '@/components/page/Menu.vue';
+import Header from '@/components/page/Header.vue';
 
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
@@ -51,7 +28,7 @@ import { useStore } from 'vuex';
 export default {
   components: {
     Footer,
-    Menu,
+    Header,
   },
 
   setup() {
@@ -61,8 +38,11 @@ export default {
       window.addEventListener('resize', () => {
         store.commit('changeIsTabletScreen', innerWidth <= 768);
         store.commit('changeIsMobileScreen', innerWidth <= 425);
+        store.commit('setInnerHeight', innerHeight);
       });
     });
+
+    return {};
   },
 };
 </script>
@@ -83,35 +63,19 @@ body {
   }
 }
 
-.header {
+#app {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  min-height: 100vh;
+}
 
-  .bgc,
-  .gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
+main {
+  flex: 1 0 auto;
+}
 
-    width: 100vw;
-    height: 180px;
-  }
-
-  .bgc {
-    background: url('../src/assets/img/back-flowers.jpeg') no-repeat;
-    z-index: -1;
-  }
-
-  .gradient {
-    background: rgb(238, 237, 233);
-    background: linear-gradient(
-      0deg,
-      rgba(238, 237, 233, 1) 11%,
-      rgba(238, 237, 233, 0.7441351540616247) 68%,
-      rgba(238, 237, 233, 0.5144432773109244) 100%
-    );
-  }
+.app-footer,
+.app-header {
+  flex: 0 0 auto;
 }
 
 .app--shopping-bag {
@@ -127,6 +91,7 @@ body {
 
   border-radius: 50%;
   background-color: $accent-color;
+  z-index: 100;
 
   .shopping-bag {
     width: 25px;
@@ -152,8 +117,14 @@ h1 {
 
       margin-right: 15px;
 
-      background-color: $accent-color;
+      background-color: $orange-color;
     }
   }
+}
+
+h3 {
+  color: $primary-color-dark;
+  font-weight: 300;
+  text-transform: uppercase;
 }
 </style>
