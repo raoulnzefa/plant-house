@@ -181,6 +181,8 @@ export default {
     let unwatch = null;
 
     onMounted(() => {
+      document.title = 'Plant House';
+
       let floatingBlock = document.querySelector('.floating-block'),
         floatingBlockInner = document.querySelector('.floating-block--inner');
 

@@ -53,7 +53,16 @@
 </template>
 
 <script>
-export default {};
+import { onMounted } from 'vue';
+
+export default {
+  name: 'About',
+  setup() {
+    onMounted(() => {
+      document.title = 'About us';
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped>

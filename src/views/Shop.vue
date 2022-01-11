@@ -44,6 +44,8 @@ export default {
   },
 
   setup() {
+    document.title = 'Shop';
+
     const store = useStore();
     const products = computed(() => store.state.products);
     let sortType = ref('No sort');

@@ -92,6 +92,8 @@ export default {
       accordeon = null;
 
     onMounted(() => {
+      document.title = 'Shop ' + props.productsType;
+
       if (store.state.isTabletScreen) {
         resetAccordeonVariables();
 

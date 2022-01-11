@@ -207,6 +207,8 @@ export default {
     };
 
     onMounted(() => {
+      document.title = title.toCapitalizeLetter();
+
       // QUERY PARAM SIZE
 
       if (route.query.size) {

@@ -159,7 +159,7 @@
 <script>
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
-import { computed, ref, watch, reactive } from 'vue';
+import { computed, ref, watch, reactive, onMounted } from 'vue';
 import BaseInput from '@/components/base_elements/BaseInput.vue';
 
 export default {
@@ -185,6 +185,8 @@ export default {
     const summary = computed(
       () => subtotal.value - (subtotal.value * discountSum.value) / 100
     );
+
+    onMounted(() => (document.title = 'Shopping cart'));
 
     watch(
       () => route.name,
