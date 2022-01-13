@@ -183,9 +183,15 @@ export default {
       isMenuOpen = !isMenuOpen;
 
       if (isMenuOpen) {
-        document.body.addEventListener('touchstart', onTouchStart);
-        document.body.addEventListener('touchmove', onTouchMove);
-        document.body.addEventListener('touchend', onTouchEnd);
+        document.body.addEventListener('touchstart', onTouchStart, {
+          passive: true,
+        });
+        document.body.addEventListener('touchmove', onTouchMove, {
+          passive: true,
+        });
+        document.body.addEventListener('touchend', onTouchEnd, {
+          passive: true,
+        });
       } else {
         removeListeners();
       }

@@ -3,9 +3,9 @@
     <h2>Our best products</h2>
     <div
       class="inner"
-      @touchstart="onTouchStart"
-      @touchmove="onTouchMove"
-      @touchend="onTouchEnd"
+      @touchstart.passive="onTouchStart"
+      @touchmove.passive="onTouchMove"
+      @touchend.passive="onTouchEnd"
     >
       <div class="shop-card--container">
         <ShopCard

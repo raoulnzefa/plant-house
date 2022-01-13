@@ -12,9 +12,9 @@
         <div class="slider-block">
           <div
             class="slider"
-            @touchstart="onTouchStart"
-            @touchmove="onTouchMove"
-            @touchend="onTouchEnd"
+            @touchstart.passive="onTouchStart"
+            @touchmove.passive="onTouchMove"
+            @touchend.passive="onTouchEnd"
           >
             <div class="slider--container">
               <div
@@ -171,7 +171,7 @@
 </template>
 
 <script>
-import { ref, watch, toRefs, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter, useRoute } from 'vue-router';
 import Breadcrumb from '@/components/page/Breadcrumb.vue';

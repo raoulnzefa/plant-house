@@ -1,9 +1,7 @@
 <template>
   <div class="info-block" :class="imgLocation">
     <div class="info-block--container container" :class="imgLocation">
-      <div class="img" :style="`background-image: url('${img}')`">
-        <!-- <img :src="img" /> -->
-      </div>
+      <div class="img" :style="`background-image: url('${img}')`"></div>
       <div class="description">
         <h3>{{ title }}</h3>
         <p>{{ description }}</p>
@@ -14,7 +12,7 @@
 </template>
 
 <script>
-import { computed, toRefs, onMounted, watch } from 'vue';
+import { computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -33,27 +31,8 @@ export default {
     const store = useStore();
 
     const info = computed(() => store.getters.getInfo(props.id));
-    const isTabletScreen = computed(() => store.state.isTabletScreen);
 
     const { img, description, title } = toRefs(info.value);
-
-    // let infoBlock = {};
-
-    // onMounted(() => {
-    //   infoBlock = document.querySelector('.info-block');
-    // });
-
-    // watch(
-    //   () => isTabletScreen.value,
-    //   (value) => {
-    //     console.log('into watch');
-    //     if (value) {
-    //       const infoBlockCoords = infoBlock.getBoundingClientRect();
-    //       infoBlock.style.left = -infoBlockCoords.x + 'px';
-    //       console.log(infoBlock.style.left, infoBlockCoords.x);
-    //     }
-    //   }
-    // );
 
     return {
       img,

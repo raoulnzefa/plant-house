@@ -421,14 +421,14 @@ p {
     z-index: 1;
 
     &-1 {
-      background-image: url('https://images.pexels.com/photos/8988966/pexels-photo-8988966.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+      background-image: url('../assets/img/home/how-to-use-1.jpeg');
     }
 
     &-2 {
-      background-image: url('https://images.pexels.com/photos/5825380/pexels-photo-5825380.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+      background-image: url('../assets/img/home/how-to-use-2.jpeg');
     }
     &-3 {
-      background-image: url('https://images.pexels.com/photos/5997975/pexels-photo-5997975.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+      background-image: url('../assets/img/home/how-to-use-3.jpeg');
     }
   }
 

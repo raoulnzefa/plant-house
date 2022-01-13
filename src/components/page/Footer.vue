@@ -11,6 +11,8 @@
             <img
               src="../../assets/icons/footer/footer-icon.png"
               alt="plant house icon"
+              width="45"
+              height="45"
             />
           </div>
         </div>
