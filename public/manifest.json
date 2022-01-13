@@ -1,0 +1,62 @@
+{
+  "short_name": "Plant House",
+  "name": "House of plants and flowers",
+  "icons": [
+    {
+      "src": "./images/icons-72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "./images/icons-196.png",
+      "type": "image/png",
+      "sizes": "196x196",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./images/icons-290.png",
+      "type": "image/png",
+      "sizes": "290x290"
+    },
+    {
+      "src": "./images/icons-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+
+  ],
+  "start_url": "/",
+  "background_color": "#eeede9",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#9ead6f",
+  "shortcuts": [
+    {
+      "name": "Open Shop",
+      "short_name": "Shop",
+      "description": "View Shop page",
+      "url": "/shop?source=pwa",
+      "icons": [{ "src": "./images/icons-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "View Shopping Cart",
+      "short_name": "Cart",
+      "description": "View selected plants in your shopping bag",
+      "url": "/my-cart?source=pwa",
+      "icons": [{ "src": "./images/icons-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "description": "Plants and flowers online shop",
+  "screenshots": [
+    {
+      "src": "./images/screenshot1.png",
+      "type": "image/png",
+      "sizes": "2048x1538"
+    },
+    {
+      "src": "./images/screenshot2.png",
+      "type": "image/png",
+      "sizes": "1125x2436"
+    }
+  ]
+}

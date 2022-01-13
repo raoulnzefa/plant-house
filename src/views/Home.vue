@@ -104,7 +104,11 @@
             </li>
           </ul>
         </div>
-        <img class="studies--image" src="../assets/png/plant-9473.png" />
+        <img
+          class="studies--image"
+          src="../assets/png/plant-9473.png"
+          alt="plant image"
+        />
       </div>
     </section>
 

@@ -45,7 +45,6 @@ export default {
       }
       if (innerWidth <= 930 && !isWidth930Point) {
         bestsellers.value = store.getters.getBestsellers(4);
-        console.log('here');
 
         isWidth930Point = true;
       }
