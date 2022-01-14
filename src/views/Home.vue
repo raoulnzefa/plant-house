@@ -106,7 +106,7 @@
         </div>
         <img
           class="studies--image"
-          src="../assets/png/plant-9473.png"
+          src="../assets/png/plant-9473.webp"
           alt="plant image"
         />
       </div>
@@ -421,14 +421,14 @@ p {
     z-index: 1;
 
     &-1 {
-      background-image: url('../assets/img/home/how-to-use-1.jpeg');
+      background-image: url('../assets/img/home/how-to-use-1.webp');
     }
 
     &-2 {
-      background-image: url('../assets/img/home/how-to-use-2.jpeg');
+      background-image: url('../assets/img/home/how-to-use-2.webp');
     }
     &-3 {
-      background-image: url('../assets/img/home/how-to-use-3.jpeg');
+      background-image: url('../assets/img/home/how-to-use-3.webp');
     }
   }
 
@@ -457,7 +457,7 @@ p {
     width: 100vw;
     height: 100vh;
 
-    background-image: url('../assets/img/home/1.jpg');
+    background-image: url('../assets/img/home/1.webp');
     background-size: cover;
     background-position: center;
 

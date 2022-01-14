@@ -288,7 +288,7 @@ h3 {
   .block-item--3 {
     grid-column: 2 / 3;
 
-    background-image: url('../../assets/img/home/general-4.jpg');
+    background-image: url('../../assets/img/home/general-4.webp');
 
     @include media('<800px') {
       grid-column: 1 / 2;
@@ -298,7 +298,7 @@ h3 {
   .block-item--4 {
     grid-column: 3 / 4;
 
-    background-image: url('../../assets/img/home/general-3.jpg');
+    background-image: url('../../assets/img/home/general-3.webp');
 
     @include media('<800px') {
       grid-column: 2 / 3;
@@ -350,7 +350,7 @@ h3 {
       height: 100%;
       width: 100%;
 
-      background-image: url('../../assets/img/home/general-4.jpg');
+      background-image: url('../../assets/img/home/general-4.webp');
       transition: all 0.2s linear;
     }
 
