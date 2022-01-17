@@ -73,14 +73,17 @@
 
           <div class="size">
             <span class="title">Choose size:</span>
-            <div
-              class="size-item"
-              v-for="(item, index) of product.details.size"
-              :key="index"
-              @click="onSetQuerySizeParam(item)"
-              :data-size="item"
-            >
-              {{ item }}
+
+            <div class="size-item--container">
+              <div
+                class="size-item"
+                v-for="(item, index) of product.details.size"
+                :key="index"
+                @click="onSetQuerySizeParam(item)"
+                :data-size="item"
+              >
+                {{ item }}
+              </div>
             </div>
           </div>
 
@@ -465,6 +468,26 @@ h1::before {
     margin-right: 15px;
 
     cursor: pointer;
+
+    @include media('<=788px', '>630px') {
+      margin-bottom: 8px;
+      margin-right: 0;
+    }
+  }
+
+  &-item:last-of-type {
+    @include media('<=788px', '>630px') {
+      margin-bottom: 0;
+    }
+  }
+
+  &-item--container {
+    display: flex;
+
+    @include media('<=788px', '>630px') {
+      max-width: 60px;
+      flex-wrap: wrap;
+    }
   }
 
   &-item::after {
@@ -516,6 +539,7 @@ h1::before {
   .description {
     margin-left: 65px;
     transition: all 0.2s linear;
+    width: 100%;
 
     @include media('<=630px') {
       margin-left: 0;
