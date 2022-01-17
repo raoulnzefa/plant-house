@@ -78,7 +78,7 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, from) {
     if (!store.state.isTabletScreen) {
       if (to.name === 'Delivery' || to.name === 'Order Confirmation') {
         return {
@@ -96,7 +96,8 @@ const router = createRouter({
           behavior: 'smooth'
         }
       }
-    }
+      
+    } 
   }
 });
 
@@ -131,15 +132,7 @@ router.afterEach((to, from) => {
       return true;
     }
 
-    if (to.name === 'Delivery' || to.name === 'Order Confirmation') {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-      return true;
-    }
-
-    window.scrollTo(0, 0);
+    document.getElementById("app").scrollIntoView({ behavior: "smooth" });
     return true;
   }
 })

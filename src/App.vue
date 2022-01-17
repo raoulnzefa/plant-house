@@ -53,9 +53,16 @@ export default {
 
 @import '../src/style/variables.scss';
 @import '@/style/media/breakpoints.scss';
+html {
+  height: 100%;
 
-html,
+  overflow: auto;
+}
+
 body {
+  // for window.scrollTo
+  height: 100%;
+
   @include media('<=phone') {
     position: relative;
 
