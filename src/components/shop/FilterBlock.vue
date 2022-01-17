@@ -164,13 +164,6 @@ export default {
 
       selected.value.push(optionValue);
 
-      // if (
-      //   optionQuery &&
-      //   store.state.selectedFilters[props.filterType].length !== 0
-      // ) {
-      //   return;
-      // }
-
       let currentSelectedFilter = Array.from(filters.value).find((item) =>
         item.options.includes(optionValue)
       );

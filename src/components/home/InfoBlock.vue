@@ -48,7 +48,7 @@ export default {
 @import '@/style/variables.scss';
 
 h2 {
-  @include media('<=phone') {
+  @include media('<=630px') {
     font-size: 18px;
     margin-bottom: 10px;
   }
@@ -57,9 +57,9 @@ h2 {
 .horizontal-line {
   display: none;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     position: absolute;
-    bottom: 90px;
+    top: 280px;
 
     display: block;
 
@@ -70,13 +70,13 @@ h2 {
 }
 
 .left .horizontal-line {
-  @include media('<=phone') {
+  @include media('<=630px') {
     left: -50%;
   }
 }
 
 .right .horizontal-line {
-  @include media('<=phone') {
+  @include media('<=630px') {
     right: -50%;
   }
 }
@@ -100,8 +100,11 @@ h2 {
     justify-content: space-between;
   }
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     position: relative;
+  }
+
+  @include media('<=phone') {
     margin-bottom: 35px;
   }
 
@@ -117,6 +120,10 @@ h2 {
     min-height: 200vw;
 
     background-color: $orange-color;
+
+    @include media('<=630px', '>phone') {
+      display: none;
+    }
   }
 
   &::before {
@@ -125,7 +132,7 @@ h2 {
 
     transform: rotate(80deg);
 
-    @include media('<=768px', '>phone') {
+    @include media('<=788px', '>630px') {
       top: -70%;
     }
   }
@@ -136,7 +143,7 @@ h2 {
 
     transform: rotate(-20deg);
 
-    @include media('<=768px', '>phone') {
+    @include media('<=788px', '>630px') {
       right: 60%;
     }
   }
@@ -147,7 +154,7 @@ h2 {
 
     transform: rotate(-80deg);
 
-    @include media('<=768px', '>phone') {
+    @include media('<=788px', '>630px') {
       top: -70%;
     }
   }
@@ -158,7 +165,7 @@ h2 {
 
     transform: rotate(20deg);
 
-    @include media('<=768px', '>phone') {
+    @include media('<=788px', '>630px') {
       left: 60%;
     }
   }
@@ -171,10 +178,10 @@ h2 {
 
   background-color: $background-color-light;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     padding: 25px 15px;
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 400px;
+    max-width: 400px;
 
     margin-left: 0;
 
@@ -183,12 +190,27 @@ h2 {
     backdrop-filter: blur(0.1rem);
     border: 1px solid $primary-color-light;
   }
+
+  @include media('<=615px') {
+    min-width: 350px;
+    max-width: 350px;
+  }
+
+  @include media('<=550px') {
+    min-width: 300px;
+    max-width: 300px;
+  }
+
+  @include media('<=phone') {
+    min-width: 250px;
+    max-width: 250px;
+  }
 }
 
 .left .description {
   margin: 0 0 0 45px;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     position: relative;
     top: 40px;
     left: -50%;
@@ -203,7 +225,7 @@ h2 {
   .description {
     margin: 0 45px 0 0;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       position: relative;
       top: 40px;
       left: -85px;
@@ -223,15 +245,7 @@ h2 {
   background-size: cover;
   background-position: center;
 
-  @include media('<=tablet', '>phone') {
-    min-width: 250px;
-    min-height: 250px;
-
-    max-width: 250px;
-    max-height: 250px;
-  }
-
-  @include media('<=phone') {
+  @include media('<=788px') {
     min-width: 250px;
     min-height: 250px;
 
@@ -241,7 +255,7 @@ h2 {
 }
 
 .left .img {
-  @include media('<=phone') {
+  @include media('<=630px') {
     position: relative;
     top: 0;
     left: -25%;
@@ -249,7 +263,7 @@ h2 {
 }
 
 .right .img {
-  @include media('<=phone') {
+  @include media('<=630px') {
     position: absolute;
     top: 0;
     right: -25%;

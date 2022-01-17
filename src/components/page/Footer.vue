@@ -27,15 +27,19 @@
               class="margin-bottom--15"
               href="https://pinterest.com"
               target="_blank"
+              rel="noopener"
               >Pinterest</a
             >
             <a
               class="margin-bottom--15"
               href="https://instagram.com"
               target="_blank"
+              rel="noopener"
               >Instagram</a
             >
-            <a href="https://facebook.com" target="_blank">Facebook</a>
+            <a href="https://facebook.com" target="_blank" rel="noopener"
+              >Facebook</a
+            >
           </div>
         </div>
         <div class="footer-item flex-grow">
@@ -111,7 +115,7 @@ export default {
   border-top: 1px solid lightgray;
   background-color: $green-color-light;
 
-  @include media('<=phone') {
+  @include media('<=630px') {
     height: 100%;
     background-size: cover;
     background-position: bottom;
@@ -127,7 +131,7 @@ export default {
 
       padding-top: 55px;
 
-      @include media('<=phone') {
+      @include media('<=630px') {
         flex-direction: column-reverse;
         align-items: center;
 
@@ -141,7 +145,7 @@ export default {
       flex-basis: 40px;
       margin-right: 65px;
 
-      @include media('<=phone') {
+      @include media('<=630px') {
         margin-top: 10px;
         margin-right: 0;
       }
@@ -153,14 +157,14 @@ export default {
       margin-bottom: 25px;
       padding: 0;
 
-      @include media('<=phone') {
+      @include media('<=630px') {
         margin-top: 0;
         text-align: center;
       }
     }
 
     .description {
-      @include media('<=phone') {
+      @include media('<=630px') {
         text-align: center;
       }
     }
@@ -178,7 +182,7 @@ export default {
       border-color: $green-color-dark;
       border-radius: 4px;
 
-      @include media('<=phone') {
+      @include media('<=630px') {
         margin: 0 auto;
       }
     }
@@ -196,7 +200,7 @@ export default {
 
     margin-right: 30px;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       margin: 0 0 20px 0;
       min-width: 80%;
     }
@@ -219,7 +223,7 @@ export default {
     flex-grow: 0;
     margin-left: 30px;
 
-    @include media('<=phone') {
+    @include media('<=630px') {
       margin-left: 0;
     }
   }
@@ -285,14 +289,14 @@ input::placeholder {
 }
 
 .phone-view {
-  @include media('<=phone') {
+  @include media('<=630px') {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
   }
 
   &--flex-order {
-    @include media('<=phone') {
+    @include media('<=630px') {
       order: 1;
     }
   }

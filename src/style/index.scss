@@ -67,9 +67,6 @@ h1 {
 
 .logo {
   font-size: 65px;
-  // padding: 55px 15px 40px;
-
-  // font-family: Italianno, cursive;
 
   @include media('<=phone') {
     font-size: 55px;
@@ -110,6 +107,7 @@ button {
   border-radius: 25px;
 
   color: $font-color;
+  font-size: 14px;
 
   padding: 10px 15px;
 

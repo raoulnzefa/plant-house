@@ -29,7 +29,7 @@
   "background_color": "#eeede9",
   "display": "standalone",
   "scope": "/",
-  "theme_color": "#9ead6f",
+  "theme_color": "#e9ca9166",
   "shortcuts": [
     {
       "name": "Open Shop",

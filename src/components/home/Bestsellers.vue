@@ -187,6 +187,10 @@ h2 {
 
   width: 100%;
 
+  @include media('<=930px') {
+    justify-content: space-around;
+  }
+
   @include media('<=phone') {
     min-width: 880px;
     transition: all 0.4s ease-in;

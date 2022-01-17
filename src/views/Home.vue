@@ -86,7 +86,7 @@
     <section class="container">
       <div class="studies">
         <div class="studies--list">
-          <h3>Studies have shown that indoor plants...</h3>
+          <h3>Studies have shown that indoor plants:</h3>
 
           <ul>
             <li>Boost your mood, productivity, concentration and creativity</li>
@@ -126,8 +126,6 @@
           </div>
         </div>
 
-        <div class="vertical-line"></div>
-
         <div class="service-details--block">
           <div class="image image--2"></div>
           <div class="info">
@@ -139,8 +137,6 @@
             </div>
           </div>
         </div>
-
-        <div class="vertical-line"></div>
 
         <div class="service-details--block">
           <div class="image image--3"></div>
@@ -246,7 +242,7 @@ p {
     justify-content: space-between;
     flex-wrap: wrap;
 
-    @include media('<=tablet', '>phone') {
+    @include media('<=788px', '>phone') {
       flex-direction: column;
       align-items: center;
     }
@@ -261,19 +257,19 @@ p {
   }
 
   &--item:first-of-type {
-    @include media('<=1124px', '>tablet') {
+    @include media('<=1124px', '>788px') {
       margin-left: 25px;
     }
   }
 
   &--item:nth-of-type(2) {
-    @include media('<=1124px', '>tablet') {
+    @include media('<=1124px', '>788px') {
       margin-right: 25px;
     }
   }
 
   &--item:last-of-type {
-    @include media('<=1124px', '>tablet') {
+    @include media('<=1124px', '>788px') {
       margin: 0 auto;
       padding-bottom: 0;
     }
@@ -317,7 +313,7 @@ p {
 
     margin-bottom: 0;
 
-    @include media('<=768px', '>632px') {
+    @include media('<=788px', '>632px') {
       grid-template-columns: 1fr 1fr;
       grid-template-rows: 1fr;
       gap: 20;
@@ -338,7 +334,7 @@ p {
       grid-column: 1 / 2;
       grid-row: 1 / 3;
 
-      @include media('<=768px') {
+      @include media('<=788px') {
         grid-column: 1 / 2;
         grid-row: 1 / 2;
       }
@@ -348,8 +344,8 @@ p {
       grid-column: 3 / 4;
       grid-row: 1 / 3;
 
-      @include media('<=768px', '>phone') {
-        grid-column: 2 / 3;
+      @include media('<=788px', '>phone') {
+        grid-column: 2 / 5;
         grid-row: 1 / 2;
       }
     }
@@ -357,17 +353,26 @@ p {
     &--3 {
       grid-column: 2 / 3;
       grid-row: 1 / 2;
+      @include media('<=788px', '>phone') {
+        grid-column: none;
+        grid-row: none;
+      }
     }
 
     &--4 {
       grid-column: 2 / 3;
       grid-row: 2 / 3;
+
+      @include media('<=788px', '>phone') {
+        grid-column: none;
+        grid-row: none;
+      }
     }
 
     &--2,
     &--3,
     &--4 {
-      @include media('<=phone') {
+      @include media('<=632px') {
         grid-column: none;
         grid-row: none;
       }
@@ -384,12 +389,23 @@ p {
     font-weight: bold;
 
     text-align: start;
+
+    @include media('<=632px') {
+      max-width: none;
+    }
   }
 
   h3 {
     margin: 0;
     margin-bottom: 45px;
     text-align: start;
+  }
+
+  h2,
+  h3 {
+    @include media('<=632px') {
+      text-align: center;
+    }
   }
 
   p {
@@ -400,11 +416,11 @@ p {
     margin-bottom: 85px;
     padding-right: 75px;
 
-    @include media('<=768px', '>phone') {
+    @include media('<=788px', '>632px') {
       padding-right: 25px;
     }
 
-    @include media('<=phone') {
+    @include media('<=632px') {
       margin-bottom: 0;
       padding-right: 0;
     }
@@ -430,17 +446,6 @@ p {
     &-3 {
       background-image: url('../assets/img/home/how-to-use-3.webp');
     }
-  }
-
-  .photo-viewer {
-    position: absolute;
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    background-color: $primary-color-light;
   }
 }
 
@@ -510,19 +515,37 @@ p {
   &--list {
     margin-left: 105px;
 
-    @include media('<=phone') {
+    @include media('<=930px') {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
       margin-left: 0;
+      padding: 0 45px;
+    }
+
+    @include media('<=phone') {
       padding: 0 35px;
     }
 
     li {
       list-style: circle;
       line-height: 2;
+
+      @include media('<=930px') {
+        margin-left: 35px;
+      }
     }
 
     h3 {
       margin: 0;
       margin-bottom: 25px;
+      line-height: 1.5;
+
+      @include media('<=930px') {
+        text-align: center;
+      }
     }
   }
 
@@ -564,6 +587,7 @@ p {
 
     @include media('<=930px') {
       margin-bottom: 15px;
+      text-align: center;
     }
   }
 
@@ -640,12 +664,6 @@ p {
   &--block:last-of-type {
     @include media('<=630px') {
       margin: 0 auto;
-    }
-  }
-
-  .vertical-line {
-    @include media('<=630px') {
-      display: none;
     }
   }
 }

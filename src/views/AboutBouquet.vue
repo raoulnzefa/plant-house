@@ -84,7 +84,10 @@
             </div>
           </div>
 
-          <div class="quantity" v-if="productQuantity !== 0">
+          <div
+            class="quantity"
+            v-if="productQuantity !== 0 && product.type === 'plants'"
+          >
             <div class="title">Plants left:</div>
             <span>
               {{
@@ -95,7 +98,10 @@
             </span>
           </div>
 
-          <div class="not-available" v-else>
+          <div
+            class="not-available"
+            v-if="productQuantity === 0 && product.type === 'plants'"
+          >
             Out of stock
           </div>
 
