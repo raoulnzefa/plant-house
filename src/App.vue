@@ -56,11 +56,10 @@ export default {
 html {
   height: 100%;
 
-  overflow: auto;
+  overflow-x: hidden;
 }
 
 body {
-  // for window.scrollTo
   height: 100%;
 
   @include media('<=phone') {
