@@ -189,6 +189,11 @@ export default {
       floatingBlock.style.height =
         1.5 * window.innerHeight + floatingBlockInner.clientHeight / 2 + 'px';
 
+      let floatingBlockBackgroundImage = document.querySelector(
+        '.floating-block--background-image'
+      );
+      floatingBlockBackgroundImage.style.height = innerHeight + 'px';
+
       unwatch = watch(
         () => windowHeight.value,
         () => {
@@ -196,6 +201,8 @@ export default {
             1.5 * window.innerHeight +
             floatingBlockInner.clientHeight / 2 +
             'px';
+
+          floatingBlockBackgroundImage.style.height = innerHeight + 'px';
         }
       );
     });
@@ -222,8 +229,13 @@ p {
 }
 
 .bestsellers {
-  padding-top: 80px;
-  margin-bottom: 75px;
+  padding-top: 60px;
+  margin-bottom: 70px;
+
+  @include media('<=930px') {
+    padding-top: 50px;
+    margin-bottom: 20px;
+  }
 }
 
 .why-plant-house {
@@ -460,7 +472,6 @@ p {
     left: 0;
 
     width: 100vw;
-    height: 100vh;
 
     background-image: url('../assets/img/home/1.webp');
     background-size: cover;

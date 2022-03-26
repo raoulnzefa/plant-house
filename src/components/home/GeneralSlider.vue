@@ -1,5 +1,5 @@
 <template>
-  <div class="general-slider">
+  <div id="general-slider" class="general-slider">
     <div class="block-item block-item--1" @click="moveSlide">
       <div class="block-item--1--container">
         <div
@@ -132,6 +132,9 @@ export default {
     };
 
     const resizeSlider = () => {
+      let generalSlider = document.querySelector('.general-slider');
+      generalSlider.style.height = innerHeight + 'px';
+
       const blockImages = document.querySelectorAll('.block-image');
       const infoBlockInners = document.querySelectorAll('.info-block--inner');
 
@@ -141,6 +144,9 @@ export default {
     };
 
     onMounted(() => {
+      let generalSlider = document.querySelector('.general-slider');
+      generalSlider.style.height = innerHeight + 'px';
+
       setSliderBlockPosition();
       window.addEventListener('resize', setSliderBlockPosition);
 
@@ -217,7 +223,7 @@ h3 {
   grid-template-rows: 60% 1fr;
 
   width: 100vw;
-  height: 100vh;
+  // height: 100vh;
 
   @include media('<=800px', '>371px') {
     grid-template-columns: 50% 1fr;
