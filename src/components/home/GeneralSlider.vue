@@ -92,8 +92,6 @@ export default {
         return item;
       });
 
-      console.dir(parentBlock);
-
       parentBlock.classList.contains('info-block')
         ? (imageWidthInfo = parentBlock.clientWidth)
         : (imageWidthSlider = parentBlock.clientWidth);
@@ -141,9 +139,6 @@ export default {
       let generalSlider = document.querySelector('.general-slider');
       generalSlider.style.height = innerHeight + 'px';
       generalSlider.style.width = innerWidth + 'px';
-
-      console.log('generalSlider.style.height', generalSlider.style.height);
-      console.log('w', generalSlider.style.width);
 
       const blockImages = document.querySelectorAll('.block-image');
       const infoBlockInners = document.querySelectorAll('.info-block--inner');
