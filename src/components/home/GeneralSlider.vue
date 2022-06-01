@@ -85,8 +85,9 @@ export default {
     const setSize = (blockImages, parentBlock) => {
       Array.from(blockImages).map((item) => {
         item.style.minWidth = parentBlock.clientWidth + 'px';
-        item.style.height = parentBlock.clientHeight + 'px';
-        console.log();
+        item.style.minHeight = parentBlock.clientHeight + 'px';
+        item.style.maxWidth = parentBlock.clientWidth + 'px';
+        item.style.maxHeight = parentBlock.clientHeight + 'px';
 
         return item;
       });
