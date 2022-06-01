@@ -133,10 +133,15 @@ export default {
       timerConterID = setInterval(moveSlide, 5000);
     };
 
+    let attemptResize = 0;
+
     const resizeSlider = () => {
       let generalSlider = document.querySelector('.general-slider');
       generalSlider.style.height = innerHeight + 'px';
       generalSlider.style.width = innerWidth + 'px';
+
+      console.log(generalSlider.style.height);
+      console.log(generalSlider.style.width);
 
       const blockImages = document.querySelectorAll('.block-image');
       const infoBlockInners = document.querySelectorAll('.info-block--inner');
@@ -144,8 +149,13 @@ export default {
       setSize(blockImages, document.querySelector('.block-item--1'));
       setSize(infoBlockInners, document.querySelector('.block-item--2'));
 
-      if (document.querySelector('.block-image').clientHeight <= 0) {
-        resizeSlider();
+      if (
+        document.querySelector('.block-image').clientHeight <= 0 &&
+        attemptResize <= 5
+      ) {
+        setTimeout(resizeSlider, 100);
+        attemptResize++;
+
         return;
       }
 
@@ -320,7 +330,8 @@ h3 {
       align-items: center;
       justify-content: center;
 
-      height: 100%;
+      height: 0;
+      width: 0;
 
       padding: 0 105px;
 
@@ -335,8 +346,8 @@ h3 {
     }
 
     .block-image {
-      height: 100%;
-      width: 100%;
+      height: 0;
+      width: 0;
     }
 
     p {
