@@ -134,26 +134,21 @@ export default {
     const resizeSlider = () => {
       let generalSlider = document.querySelector('.general-slider');
       generalSlider.style.height = innerHeight + 'px';
+      generalSlider.style.width = innerWidth + 'px';
 
       const blockImages = document.querySelectorAll('.block-image');
       const infoBlockInners = document.querySelectorAll('.info-block--inner');
 
       setSize(blockImages, document.querySelector('.block-item--1'));
       setSize(infoBlockInners, document.querySelector('.block-item--2'));
+
+      setSliderBlockPosition();
+
       moveSlide(--counter);
     };
 
     onMounted(() => {
       resizeSlider();
-
-      setSliderBlockPosition();
-      window.addEventListener('resize', setSliderBlockPosition);
-
-      const blockImages = document.querySelectorAll('.block-image');
-      setSize(blockImages, document.querySelector('.block-item--1'));
-
-      const infoBlockInners = document.querySelectorAll('.info-block--inner');
-      setSize(infoBlockInners, document.querySelector('.block-item--2'));
 
       window.addEventListener('resize', resizeSlider);
 
@@ -162,7 +157,6 @@ export default {
 
     onUnmounted(() => {
       window.removeEventListener('resize', resizeSlider);
-      window.removeEventListener('resize', setSliderBlockPosition);
 
       clearInterval(timerConterID);
     });
@@ -220,9 +214,6 @@ h3 {
   display: grid;
   grid-template-columns: 40% 1fr 1fr;
   grid-template-rows: 60% 1fr;
-
-  width: 100vw;
-  // height: 100vh;
 
   @include media('<=800px', '>371px') {
     grid-template-columns: 50% 1fr;
