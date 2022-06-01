@@ -75,6 +75,11 @@ export default {
     );
 
     const setSliderBlockPosition = () => {
+      if (document.querySelector('.block-item--1').clientWidth <= 0) {
+        resizeSlider();
+        return;
+      }
+
       document.querySelector('.slider-block').style.left =
         document.querySelector('.block-item--1').clientWidth -
         document.querySelector('.slider-block').clientWidth -
@@ -86,6 +91,7 @@ export default {
       Array.from(blockImages).map((item) => {
         item.style.minWidth = parentBlock.clientWidth + 'px';
         item.style.height = parentBlock.clientHeight + 'px';
+        console.log();
 
         return item;
       });
@@ -148,9 +154,8 @@ export default {
     };
 
     onMounted(() => {
-      resizeSlider();
-
       window.addEventListener('resize', resizeSlider);
+      resizeSlider();
 
       timerConterID = setInterval(moveSlide, 5000);
     });
@@ -211,6 +216,7 @@ h3 {
 
 .general-slider {
   position: relative;
+
   display: grid;
   grid-template-columns: 40% 1fr 1fr;
   grid-template-rows: 60% 1fr;
@@ -244,6 +250,7 @@ h3 {
 
     &--container {
       display: flex;
+      height: 100%;
 
       transition: all 0.4s ease-in-out;
     }
@@ -267,6 +274,7 @@ h3 {
 
     &--container {
       display: flex;
+      height: 100%;
 
       transition: all 0.4s ease-in-out;
     }
@@ -311,6 +319,8 @@ h3 {
       align-items: center;
       justify-content: center;
 
+      height: 100%;
+
       padding: 0 105px;
 
       @include media('<800px') {
@@ -321,6 +331,11 @@ h3 {
       @include media('<=phone') {
         padding: 10px 15px;
       }
+    }
+
+    .block-image {
+      height: 100%;
+      width: 100%;
     }
 
     p {
