@@ -75,11 +75,6 @@ export default {
     );
 
     const setSliderBlockPosition = () => {
-      if (document.querySelector('.block-item--1').clientWidth <= 0) {
-        resizeSlider();
-        return;
-      }
-
       document.querySelector('.slider-block').style.left =
         document.querySelector('.block-item--1').clientWidth -
         document.querySelector('.slider-block').clientWidth -
@@ -147,6 +142,11 @@ export default {
 
       setSize(blockImages, document.querySelector('.block-item--1'));
       setSize(infoBlockInners, document.querySelector('.block-item--2'));
+
+      if (document.querySelector('.block-image').clientHeight <= 0) {
+        resizeSlider();
+        return;
+      }
 
       setSliderBlockPosition();
 
