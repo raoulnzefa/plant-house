@@ -144,9 +144,6 @@ export default {
     };
 
     onMounted(() => {
-      // let generalSlider = document.querySelector('.general-slider');
-      // generalSlider.style.height = innerHeight + 'px';
-      // generalSlider.style.width = innerWidth + 'px';
       resizeSlider();
 
       setSliderBlockPosition();
