@@ -54,7 +54,7 @@ export const openOptions = (event) => {
 
 
 
-  const closeWithinDocument = (e) => {
+  function closeWithinDocument(e) {
     const targetItem = e.target.closest('.filter-item');
 
     if (targetItem) {
