@@ -178,8 +178,8 @@ export default {
     };
 
     const deleteSelected = ({ target }) => {
-      const selectedValue = target.closest('.applied-item').dataset
-        .selectedValue;
+      const selectedValue =
+        target.closest('.applied-item').dataset.selectedValue;
 
       let currentSelectedFilter = Array.from(filters.value).find((item) =>
         item.options.includes(selectedValue)

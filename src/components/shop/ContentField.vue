@@ -30,7 +30,7 @@
       <div
         class="products-area--card"
         :class="{ 'one-product': filteredProducts.length === 1 }"
-        v-for="(product, index) in filteredProducts"
+        v-for="(product, index) in products"
         :key="index"
       >
         <ShopCard :product="product" />
@@ -40,27 +40,34 @@
         class="products-area--filler"
         v-show="filteredProducts.length % 3 !== 0"
       ></div>
-
       <div v-if="!filteredProducts.length" class="not-found">
         No products found :(
       </div>
     </div>
+    <ObserverVue @intersecting="handleIntersecting" :options="{ threshold: 1 }">
+      <div class="observer--container" v-show="isLoading">
+        <span class="observer--loading">Loading</span>
+        <img src="../../assets/gifs/loader-60.gif" class="loader" />
+      </div>
+    </ObserverVue>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 
 import ShopCard from '@/components/shop/ShopCard.vue';
 import FilterBlock from '@/components/shop/FilterBlock.vue';
+import ObserverVue from '../page/ObserverVue.vue';
 
 export default {
   name: 'Content Field',
   components: {
     ShopCard,
     FilterBlock,
+    ObserverVue,
   },
 
   props: {
@@ -73,10 +80,6 @@ export default {
   setup(props) {
     const store = useStore();
     const route = useRoute();
-
-    const products = computed(() =>
-      store.getters.getProductsByType(props.productsType)
-    );
 
     // ACCORDEON SETUP
 
@@ -132,11 +135,12 @@ export default {
     const closeAccordeon = () => {
       isAccordeonOpen = false;
 
-      const appliedFiltersHeight = document.querySelector('.applied-filters')
-        .offsetHeight;
+      const appliedFiltersHeight =
+        document.querySelector('.applied-filters').offsetHeight;
 
-      accordeonBody.style.transform = `translateY(${-accordeonFilterBlockHeight -
-        appliedFiltersHeight}px)`;
+      accordeonBody.style.transform = `translateY(${
+        -accordeonFilterBlockHeight - appliedFiltersHeight
+      }px)`;
 
       accordeon.style.maxHeight =
         accordeonHeaderHeight + sortBlock.offsetHeight + 'px';
@@ -169,15 +173,55 @@ export default {
     const sortType = ref('No sort');
 
     let filteredProducts = computed(() =>
-      store.getters.getFilteredProducts(
-        sortType.value,
-        products.value,
-        props.productsType
-      )
+      store.getters.getFilteredProducts(sortType.value, props.productsType)
     );
 
     const getSortProducts = (sortTypeEmit) => {
       sortType.value = sortTypeEmit;
+    };
+
+    // INTERSECTION OBSERVER SETUP
+
+    const products = ref([]);
+
+    let productsCount = 0;
+    let isLoading = ref(false);
+
+    const isFiltersApplied = ref(
+      !!store.state.selectedFilters[props.productsType].length
+    );
+
+    watch(store.state.selectedFilters, (value) => {
+      isFiltersApplied.value = !!value[props.productsType].length;
+    });
+
+    watch(
+      () => filteredProducts.value,
+      () => {
+        productsCount = 6;
+        products.value = filteredProducts.value.slice(0, productsCount);
+        productsCount = 12;
+      }
+    );
+
+    const handleIntersecting = () => {
+      isLoading.value = true;
+      productsCount = products.value.length;
+
+      let uploadedProducts = filteredProducts.value.slice(
+        productsCount,
+        productsCount + 6
+      );
+
+      products.value = [...products.value, ...uploadedProducts];
+
+      if (productsCount + 6 >= filteredProducts.value.length) {
+        isLoading.value = false;
+
+        return;
+      }
+
+      productsCount = productsCount + 6;
     };
 
     return {
@@ -187,6 +231,9 @@ export default {
 
       openAccordeon,
       resetAccordeonVariables,
+
+      handleIntersecting,
+      isLoading,
     };
   },
 };
@@ -349,5 +396,24 @@ h1::after {
 .not-found {
   font-weight: bold;
   padding: 25px;
+}
+
+.observer--container {
+  margin-bottom: 35px;
+  margin-top: -35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loader {
+    width: 25px;
+  }
+}
+
+.observer--loading {
+  font-size: 20px;
+  color: $primary-color-dark;
+
+  padding: 15px 10px 15px 15px;
 }
 </style>

@@ -1227,19 +1227,8 @@ export default createStore({
       state.selectedFilters[classification] = state.selectedFilters[classification].filter(item => item.options.length);
     }
   },
-  
-  actions: {
-
-  },
-
   getters: {
-    //BOUQUETS AND PLANTS
-
-    getProductsByType: (state) => (type) => {
-      return state.products.filter(product => product.type.toLowerCase() === type);
-    },
-
-    //
+    // INFO
     getInfo: (state) => (id) => {
       return state.infoData.find((item) => item.id === id);
     },
@@ -1257,13 +1246,12 @@ export default createStore({
     },
 
      // FILTERS AND SORT
-
-    getFilteredProducts: (state) => (sortType = 'No sort', products = state.products, classification) => {
+    getFilteredProducts: (state) => (sortType = 'No sort', classification) => {
       if (state.selectedFilters[classification].length === 0 && sortType === 'No sort') {
-        return products;
+        return state.products.filter(product => product.type.toLowerCase() === classification);
       } 
 
-      let filteredProducts = products;
+      let filteredProducts = state.products.filter(product => product.type.toLowerCase() === classification);
 
       const filterByDetailsName = (detailsName, filter) => {
         filter.options.forEach((option) => {

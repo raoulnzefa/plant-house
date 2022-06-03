@@ -21,10 +21,6 @@
         </div>
       </div>
 
-      <!-- <p class="info">
-        The entire assortment of bouquets can be viewed on this page
-      </p> -->
-
       <router-view></router-view>
     </div>
   </div>
@@ -138,17 +134,9 @@ p {
     background-image: url('../assets/icons/shop/plant.svg');
   }
 
-  // .plants:hover .image {
-  //   background-image: url('../assets/icons/shop/plant-hover.png');
-  // }
-
   .bouquets .image {
     background-image: url('../assets/icons/shop/flower.svg');
   }
-
-  // .bouquets:hover .image {
-  //   background-image: url('../assets/icons/shop/flower-hover.png');
-  // }
 
   .plants:hover,
   .bouquets:hover {
