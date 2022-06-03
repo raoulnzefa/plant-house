@@ -4,9 +4,7 @@
     <div class="image--container">
       <div
         class="image"
-        :style="
-          `background: url(${product.image}) center center no-repeat; background-size: cover;`
-        "
+        :style="`background: url(${product.image}) center center no-repeat; background-size: cover;`"
         @click="
           $router.push({
             name: 'About Bouquet',
@@ -19,7 +17,7 @@
     <div class="info">
       <h3>{{ product.title.toUpperCase() }}</h3>
       <div class="price">
-        <span style="font-size: 14px;">From</span>
+        <span style="font-size: 14px">From</span>
         <span class="price--num">{{ ' ' + product.priceInfo[0].price }}$</span>
       </div>
       <div class="hover-line"></div>
