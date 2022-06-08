@@ -1,25 +1,25 @@
 <template>
   <nav class="nav nav-scroll">
-    <div class="nav--inner nav--inner--scroll">
-      <div class="display-flex">
+    <div class="nav__inner nav-scroll__inner">
+      <div class="nav-inner__container display-flex">
         <div class="logo" @click="$router.push({ name: 'Home' })">
           Plant House
         </div>
         <div
-          class="nav-item nav-item--scroll"
+          class="nav-item nav-scroll__item"
           v-for="(item, index) of menu"
           :key="index"
         >
           <router-link :to="{ name: item.name }">
-            <div class="nav-item--container">
+            <div class="nav-item__container">
               {{ item.name }}
               <div class="menu-arrow" v-if="item.submenu.length"></div>
             </div>
           </router-link>
           <div class="submenu" v-if="item.submenu.length">
-            <div class="submenu--inner">
+            <div class="submenu__inner">
               <div
-                class="submenu-item"
+                class="submenu__inner-item"
                 v-for="(subItem, subIndex) of menu[index].submenu"
                 :key="subIndex"
                 @click="$router.push({ name: `Shop ${subItem.toLowerCase()}` })"
@@ -31,13 +31,13 @@
         </div>
       </div>
 
-      <div class="nav-item nav-item--scroll">
+      <div class="nav-item nav-scroll__item">
         <router-link :to="{ name: 'My Cart' }">
           <div class="cart-menu display-flex">
             <span style="margin-right: 5px">Cart</span>
-            <div class="cart-icon--relative">
-              <div class="cart-icon-container"></div>
-              <div class="cart-menu--counter" v-show="cartMenuCounter">
+            <div class="cart-menu__icon">
+              <div class="cart-menu__icon-container"></div>
+              <div class="cart-menu__counter" v-show="cartMenuCounter">
                 {{ cartMenuCounter }}
               </div>
             </div>
@@ -82,7 +82,6 @@ export default {
   height: 15px;
   width: 15px;
   margin-left: 5px;
-
   background-image: url('../../assets/icons/arrow-right.png');
   background-size: contain;
 
@@ -112,7 +111,7 @@ export default {
     animation: fromToptoBottom 1s;
   }
 
-  &--inner--scroll {
+  &-scroll__inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -129,7 +128,7 @@ export default {
     display: flex;
     flex-direction: column;
 
-    &--container {
+    &__container {
       display: flex;
       align-items: center;
     }
@@ -139,7 +138,7 @@ export default {
     transform: rotate(-90deg);
   }
 
-  &-item--scroll {
+  &-scroll__item {
     align-items: center;
   }
 
@@ -193,13 +192,13 @@ export default {
 
   transition: max-height 0.2s;
 
-  &--inner {
+  &__inner {
     border: 2px solid $font-color;
     background-color: $background-color;
     border-radius: 2px;
   }
 
-  &-item {
+  &__inner-item {
     padding: 20px 25px;
     font-weight: normal;
 
@@ -214,53 +213,6 @@ export default {
 
 .nav-item:hover .submenu {
   max-height: 120px;
-}
-
-.menu-icon--block {
-  position: fixed;
-  top: 0;
-  left: 0;
-
-  backdrop-filter: blur(0.1rem);
-}
-
-.menu-icon--container {
-  position: relative;
-  top: 0;
-  left: 0;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  width: 100vw;
-
-  padding: 10px 15px;
-
-  transition: all 0.4s ease-out;
-}
-
-.menu-icon {
-  width: 35px;
-  height: 35px;
-
-  background-image: url('../../assets/icons/menu.png');
-
-  background-size: contain;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-
-  z-index: 1000;
-}
-
-.menu-icon--open {
-  left: $menu-width-tablet;
-}
-
-.open-menu {
-  left: 0px;
 }
 
 .cart-menu {
@@ -292,7 +244,7 @@ export default {
     animation: shake 3s infinite;
   }
 
-  .cart-icon-container {
+  .cart-menu__icon-container {
     height: 21px;
     width: 21px;
 
@@ -309,16 +261,8 @@ export default {
   line-height: 1;
   font-size: 22px;
   margin-right: 25px;
-}
 
-.horizontal-line {
-  margin-top: 15px;
-  background-color: $primary-color-light;
-}
-
-.horizontal-line--scroll {
-  margin-top: 0;
-  background-color: $primary-color-light;
+  cursor: pointer;
 }
 
 @keyframes fromToptoBottom {
