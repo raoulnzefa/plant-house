@@ -3,35 +3,7 @@
     <GeneralSlider />
 
     <section class="container">
-      <div class="why-plant-house">
-        <h2>Why Plant House?</h2>
-        <div class="why-plant-house--inner">
-          <div class="why-plant-house--item">
-            <div class="image image--1"></div>
-            <div class="title">Unbeatable quality</div>
-            <div class="description">
-              We source directly from top-rated growers, so we can sell the
-              finest quality plants at the very best prices.
-            </div>
-          </div>
-          <div class="why-plant-house--item">
-            <div class="image image--2"></div>
-            <div class="title">Delivery to your door</div>
-            <div class="description">
-              We’ll bring your plants to your door, anywhere in Ukraine. If
-              you’re not 100% happy, tell us within 30 days and we’ll sort it.
-            </div>
-          </div>
-          <div class="why-plant-house--item">
-            <div class="image image--3"></div>
-            <div class="title">All the help you need</div>
-            <div class="description">
-              We’ll send you a free plant-parenting course and our plant doctors
-              are always on call.
-            </div>
-          </div>
-        </div>
-      </div>
+      <WhyPlantHouse />
     </section>
 
     <section>
@@ -117,9 +89,7 @@
         <div class="service-details--block">
           <div class="image image--1"></div>
           <div class="info">
-            <h2>
-              Free delivery
-            </h2>
+            <h2>Free delivery</h2>
             <div class="description">
               Free shipping around the world for all orders over 100$
             </div>
@@ -129,9 +99,7 @@
         <div class="service-details--block">
           <div class="image image--2"></div>
           <div class="info">
-            <h2>
-              Secure payment
-            </h2>
+            <h2>Secure payment</h2>
             <div class="description">
               Secure payment services are faster, safer, more secure way to pay
             </div>
@@ -141,9 +109,7 @@
         <div class="service-details--block">
           <div class="image image--3"></div>
           <div class="info">
-            <h2>
-              Eco friendly
-            </h2>
+            <h2>Eco friendly</h2>
             <div class="description">
               Eco-friendly product keeps both environmental and human safe
             </div>
@@ -160,9 +126,9 @@
 
 <script>
 import InfoBlock from '@/components/home/InfoBlock.vue';
-import PhotoCollage from '@/components/home/PhotoCollage.vue';
 import Bestsellers from '@/components/home/Bestsellers.vue';
 import GeneralSlider from '@/components/home/GeneralSlider.vue';
+import WhyPlantHouse from '@/components/home/WhyPlantHouse.vue';
 
 import { onMounted, onUnmounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
@@ -171,9 +137,9 @@ export default {
   name: 'Home',
   components: {
     InfoBlock,
-    PhotoCollage,
     Bestsellers,
     GeneralSlider,
+    WhyPlantHouse,
   },
   setup() {
     const store = useStore();
@@ -235,79 +201,6 @@ p {
   @include media('<=930px') {
     padding-top: 50px;
     margin-bottom: 20px;
-  }
-}
-
-.why-plant-house {
-  margin-top: 50px;
-  padding: 80px 35px 100px;
-  border: 1px solid $green-color;
-
-  h2 {
-    text-align: center;
-    font-weight: bold;
-    color: $font-color;
-  }
-
-  &--inner {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    @include media('<=788px', '>phone') {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-  &--item {
-    width: 300px;
-    text-align: center;
-    line-height: 1.4;
-
-    padding-bottom: 25px;
-  }
-
-  &--item:first-of-type {
-    @include media('<=1124px', '>788px') {
-      margin-left: 25px;
-    }
-  }
-
-  &--item:nth-of-type(2) {
-    @include media('<=1124px', '>788px') {
-      margin-right: 25px;
-    }
-  }
-
-  &--item:last-of-type {
-    @include media('<=1124px', '>788px') {
-      margin: 0 auto;
-      padding-bottom: 0;
-    }
-  }
-
-  .image {
-    width: 150px;
-    height: 150px;
-
-    margin: 0 auto 10px;
-
-    background-size: contain;
-
-    &--1 {
-      background-image: url('../assets/img/home/why-1.svg');
-    }
-    &--2 {
-      background-image: url('../assets/img/home/why-2.svg');
-    }
-    &--3 {
-      background-image: url('../assets/img/home/why-3.svg');
-    }
-  }
-
-  .title {
-    font-weight: bold;
   }
 }
 

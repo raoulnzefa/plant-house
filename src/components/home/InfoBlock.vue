@@ -1,19 +1,31 @@
 <template>
-  <div class="info-block" :class="imgLocation">
-    <div class="info-block--container container" :class="imgLocation">
-      <div class="img" :style="`background-image: url('${img}')`"></div>
-      <div class="description">
+  <div class="info-block" :class="imgLocation" ref="infoBlock">
+    <div class="info-block__container container" :class="imgLocation">
+      <div
+        class="img observer"
+        :style="`background-image: url('${img}')`"
+        ref="imageBlock"
+      ></div>
+      <div class="description observer" ref="descriptionBlock">
         <h3>{{ title }}</h3>
         <p>{{ description }}</p>
       </div>
       <div class="horizontal-line"></div>
     </div>
   </div>
+  <ObserverVue
+    :options="{
+      threshold: 0.6,
+    }"
+    @intersecting="handleIntersection"
+    :targets="[infoBlock]"
+  />
 </template>
 
 <script>
-import { computed, toRefs } from 'vue';
+import { computed, toRefs, ref } from 'vue';
 import { useStore } from 'vuex';
+import ObserverVue from '../page/ObserverVue.vue';
 
 export default {
   name: 'InfoBlock',
@@ -27,8 +39,26 @@ export default {
       default: 1,
     },
   },
+  components: {
+    ObserverVue,
+  },
+
   setup(props) {
     const store = useStore();
+
+    const infoBlock = ref([]),
+      imageBlock = ref(null),
+      descriptionBlock = ref(null);
+
+    const handleIntersection = ({ observer }) => {
+      descriptionBlock.value.classList.remove('observer');
+
+      setTimeout(() => {
+        imageBlock.value.classList.remove('observer');
+      }, 500);
+
+      observer.disconnect();
+    };
 
     const info = computed(() => store.getters.getInfo(props.id));
 
@@ -38,6 +68,10 @@ export default {
       img,
       description,
       title,
+      infoBlock,
+      imageBlock,
+      descriptionBlock,
+      handleIntersection,
     };
   },
 };
@@ -92,7 +126,7 @@ h2 {
     margin-bottom: 0;
   }
 
-  &--container {
+  &__container {
     position: relative;
     z-index: 5;
 
@@ -178,6 +212,9 @@ h2 {
 
   background-color: $background-color-light;
 
+  opacity: 1;
+  transition: transform 0.5s linear, opacity 0.5s linear;
+
   @include media('<=630px') {
     padding: 25px 15px;
     min-width: 400px;
@@ -205,6 +242,11 @@ h2 {
     min-width: 250px;
     max-width: 250px;
   }
+}
+
+.description.observer {
+  transform: translateY(-15%);
+  opacity: 0;
 }
 
 .left .description {
@@ -245,6 +287,9 @@ h2 {
   background-size: cover;
   background-position: center;
 
+  transition: transform 0.5s linear, opacity 0.5s linear;
+  opacity: 1;
+
   @include media('<=788px') {
     min-width: 250px;
     min-height: 250px;
@@ -268,5 +313,15 @@ h2 {
     top: 0;
     right: -25%;
   }
+}
+
+.left .img.observer {
+  transform: translateX(-15%);
+  opacity: 0;
+}
+
+.right .img.observer {
+  transform: translateX(15%);
+  opacity: 0;
 }
 </style>
