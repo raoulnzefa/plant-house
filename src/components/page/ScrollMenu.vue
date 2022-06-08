@@ -206,7 +206,7 @@ export default {
     transition: background-color 0.2s linear;
   }
 
-  &-item:hover {
+  &__inner-item:hover {
     background-color: $green-color-light;
   }
 }
