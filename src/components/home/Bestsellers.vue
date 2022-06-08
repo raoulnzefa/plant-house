@@ -2,32 +2,36 @@
   <div class="bestsellers">
     <h2>Our best products</h2>
     <div
-      class="inner"
+      class="bestsellers__inner"
       @touchstart.passive="onTouchStart"
       @touchmove.passive="onTouchMove"
       @touchend.passive="onTouchEnd"
     >
-      <div class="shop-card--container">
+      <div class="shop-cards">
         <ShopCard
           v-for="(item, index) of bestsellers"
           :key="index"
           :product="item"
           class="shop-card"
+          withoutObserver
         />
       </div>
     </div>
+    <ObserverVue class="images-lazy-loading" withoutObserver />
   </div>
 </template>
 
 <script>
 import ShopCard from '@/components/shop/ShopCard.vue';
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import ObserverVue from '@/components/page/ObserverVue.vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   name: 'Bestsellers',
   components: {
     ShopCard,
+    ObserverVue,
   },
 
   setup() {
@@ -54,7 +58,7 @@ export default {
       width = 280;
 
     onMounted(() => {
-      shopCardContainer.value = document.querySelector('.shop-card--container');
+      shopCardContainer.value = document.querySelector('.shop-cards');
 
       if (innerWidth > 930) {
         bestsellers.value = store.getters.getBestsellers(3);
@@ -76,8 +80,9 @@ export default {
 
       counter++;
 
-      shopCardContainer.value.style.transform = `translate(-${width *
-        counter}px)`;
+      shopCardContainer.value.style.transform = `translate(-${
+        width * counter
+      }px)`;
     };
 
     const onToLeft = () => {
@@ -87,8 +92,9 @@ export default {
 
       counter--;
 
-      shopCardContainer.value.style.transform = `translate(-${width *
-        counter}px)`;
+      shopCardContainer.value.style.transform = `translate(-${
+        width * counter
+      }px)`;
     };
 
     let xStart = null,
@@ -168,7 +174,7 @@ h2 {
   text-transform: capitalize;
 }
 
-.inner {
+.bestsellers__inner {
   position: relative;
 
   display: flex;
@@ -180,7 +186,7 @@ h2 {
   }
 }
 
-.shop-card--container {
+.shop-cards {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

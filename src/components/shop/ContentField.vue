@@ -3,8 +3,8 @@
     <h1>All {{ productsType }}</h1>
 
     <div class="accordeon" v-if="$store.state.isTabletScreen">
-      <span class="accordeon-header" @click="openAccordeon">Filters</span>
-      <div class="accordeon-body">
+      <span class="accordeon__header" @click="openAccordeon">Filters</span>
+      <div class="accordeon__body">
         <FilterBlock
           @sort-products="getSortProducts"
           :filterType="productsType"
@@ -20,7 +20,7 @@
     />
 
     <div class="products-info">
-      <div class="count-of-products">
+      <div class="products-info__count">
         {{ filteredProducts.length + ' ' }}
         result{{ filteredProducts.length !== 1 ? 's' : '' }}
       </div>
@@ -28,28 +28,41 @@
 
     <div class="products-area">
       <div
-        class="products-area--card"
+        class="products-area__card"
         :class="{ 'one-product': filteredProducts.length === 1 }"
         v-for="(product, index) in products"
         :key="index"
       >
-        <ShopCard :product="product" />
+        <ShopCard :product="product" ref="shopCards" />
       </div>
 
       <div
-        class="products-area--filler"
+        class="products-area__filler"
         v-show="filteredProducts.length % 3 !== 0"
       ></div>
       <div v-if="!filteredProducts.length" class="not-found">
         No products found :(
       </div>
     </div>
-    <ObserverVue @intersecting="handleIntersecting" :options="{ threshold: 1 }">
-      <div class="observer--container" v-show="isLoading">
-        <span class="observer--loading">Loading</span>
+    <ObserverVue
+      @intersecting="applyPageLazyLoading"
+      :options="{ threshold: 1 }"
+      class="page-lazy-loading"
+    >
+      <div class="observer__container" v-show="isLoading">
+        <span class="observer__loading">Loading</span>
         <img src="../../assets/gifs/loader-60.gif" class="loader" />
       </div>
     </ObserverVue>
+    <ObserverVue
+      class="images-lazy-loading"
+      @intersecting="applyImagesLazyLoading"
+      :options="{
+        threschold: 0,
+        rootMargin: '0px 0px 200px 0px',
+      }"
+      :targets="shopCardsReactive"
+    />
   </div>
 </template>
 
@@ -60,7 +73,7 @@ import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 
 import ShopCard from '@/components/shop/ShopCard.vue';
 import FilterBlock from '@/components/shop/FilterBlock.vue';
-import ObserverVue from '../page/ObserverVue.vue';
+import ObserverVue from '@/components/page/ObserverVue.vue';
 
 export default {
   name: 'Content Field',
@@ -94,24 +107,10 @@ export default {
       sortBlock = null,
       accordeon = null;
 
-    onMounted(() => {
-      document.title = 'Shop ' + props.productsType;
-
-      if (store.state.isTabletScreen) {
-        resetAccordeonVariables();
-
-        window.addEventListener('resize', closeAccordeon);
-      }
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('resize', closeAccordeon);
-    });
-
     const resetAccordeonVariables = () => {
       accordeon = document.querySelector('.accordeon');
-      accordeonBody = document.querySelector('.accordeon-body');
-      accordeonHeader = document.querySelector('.accordeon-header');
+      accordeonBody = document.querySelector('.accordeon__body');
+      accordeonHeader = document.querySelector('.accordeon__header');
 
       filterBlock = document.querySelector('.filter-block');
       sortBlock = document
@@ -180,20 +179,20 @@ export default {
       sortType.value = sortTypeEmit;
     };
 
-    // INTERSECTION OBSERVER SETUP
+    // INTERSECTION OBSERVER SETUP (IMAGES AND PAGE)
+
+    //page variables
 
     const products = ref([]);
 
     let productsCount = 0;
     let isLoading = ref(false);
 
-    const isFiltersApplied = ref(
-      !!store.state.selectedFilters[props.productsType].length
-    );
+    // images variables
+    const shopCards = ref([]);
+    const shopCardsReactive = ref([]);
 
-    watch(store.state.selectedFilters, (value) => {
-      isFiltersApplied.value = !!value[props.productsType].length;
-    });
+    // pages
 
     watch(
       () => filteredProducts.value,
@@ -204,7 +203,15 @@ export default {
       }
     );
 
-    const handleIntersecting = () => {
+    const isFiltersApplied = ref(
+      !!store.state.selectedFilters[props.productsType].length
+    );
+
+    watch(store.state.selectedFilters, (value) => {
+      isFiltersApplied.value = !!value[props.productsType].length;
+    });
+
+    const applyPageLazyLoading = () => {
       isLoading.value = true;
       productsCount = products.value.length;
 
@@ -224,6 +231,45 @@ export default {
       productsCount = productsCount + 6;
     };
 
+    // images
+
+    const applyImagesLazyLoading = ({ entry, observer }) => {
+      const elem = shopCards.value.find((item) => item.$el === entry.target);
+
+      if (!elem?.$el || elem.$el.style.backgroundImage.includes('placeholder'))
+        return;
+
+      elem.handleImageDownloading();
+
+      observer.unobserve(elem.$el);
+    };
+
+    watch(products, () => {
+      setTimeout(() => {
+        shopCardsReactive.value = [...[]];
+
+        shopCards.value.forEach((item) => {
+          shopCardsReactive.value.push(item);
+        });
+      }, 0);
+    });
+
+    // LIFECYCLE HOOKS
+
+    onMounted(() => {
+      document.title = 'Shop ' + props.productsType;
+
+      if (store.state.isTabletScreen) {
+        resetAccordeonVariables();
+
+        window.addEventListener('resize', closeAccordeon);
+      }
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('resize', closeAccordeon);
+    });
+
     return {
       products,
       getSortProducts,
@@ -232,8 +278,11 @@ export default {
       openAccordeon,
       resetAccordeonVariables,
 
-      handleIntersecting,
+      applyPageLazyLoading,
       isLoading,
+      applyImagesLazyLoading,
+      shopCards,
+      shopCardsReactive,
     };
   },
 };
@@ -350,7 +399,7 @@ h1::after {
     border-top: 1px solid $primary-color-light;
   }
 
-  .count-of-products {
+  .products-info__count {
     font-weight: bold;
 
     @include media('<=930px') {
@@ -371,11 +420,11 @@ h1::after {
     justify-content: center;
   }
 
-  &--card {
+  &__card {
     margin-bottom: 45px;
   }
 
-  &--filler {
+  &__filler {
     min-width: 280px;
   }
 
@@ -398,7 +447,7 @@ h1::after {
   padding: 25px;
 }
 
-.observer--container {
+.observer__container {
   margin-bottom: 35px;
   margin-top: -35px;
   display: flex;
@@ -410,7 +459,7 @@ h1::after {
   }
 }
 
-.observer--loading {
+.observer__loading {
   font-size: 20px;
   color: $primary-color-dark;
 

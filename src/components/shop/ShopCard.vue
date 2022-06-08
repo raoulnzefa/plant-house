@@ -1,24 +1,29 @@
 <template>
   <div class="shop-card">
-    <div class="bestseller-tag" v-if="product.isBestseller">Bestseller</div>
-    <div class="image--container">
+    <div class="shop-card__bestseller-tag" v-if="product.isBestseller">
+      Bestseller
+    </div>
+    <div class="shop-card__image">
       <div
         class="image"
-        :style="`background: url(${product.image}) center center no-repeat; background-size: cover;`"
+        ref="imgBlock"
         @click="
           $router.push({
             name: 'About Bouquet',
             params: { bouquet: toKebabCase(product.title) },
           })
         "
+        :data-image-link="product.image"
       ></div>
     </div>
 
-    <div class="info">
+    <div class="shop-card__info">
       <h3>{{ product.title.toUpperCase() }}</h3>
       <div class="price">
         <span style="font-size: 14px">From</span>
-        <span class="price--num">{{ ' ' + product.priceInfo[0].price }}$</span>
+        <span class="price__number"
+          >{{ ' ' + product.priceInfo[0].price }}$</span
+        >
       </div>
       <div class="hover-line"></div>
     </div>
@@ -27,12 +32,17 @@
 
 <script>
 import { toKebabCase } from '@/modules/toKebabCase.js';
+import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   props: {
     product: {
       type: Object,
+    },
+    withoutObserver: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -50,10 +60,32 @@ export default {
       store.commit('addCartItem', payload);
     };
 
+    // lazy loading
+
+    let imgBlock = ref(null);
+
+    const handleImageDownloading = () => {
+      let img = new Image();
+
+      img.onload = function () {
+        imgBlock.value.style.backgroundImage = `url(${image})`;
+      };
+
+      img.src = image;
+    };
+
+    onMounted(() => {
+      if (prop.withoutObserver) {
+        handleImageDownloading();
+      }
+    });
+
     return {
       toKebabCase,
       onAddToCart,
       store,
+      imgBlock,
+      handleImageDownloading,
     };
   },
 };
@@ -90,7 +122,7 @@ export default {
     }
   }
 
-  .image--container {
+  .shop-card__image {
     overflow: hidden;
   }
 
@@ -98,17 +130,27 @@ export default {
     height: 280px;
     width: 100%;
     transition: all 0.2s linear;
+
+    background-image: url('../../assets/img/shop/placeholder.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
   }
 
   .price {
     margin-top: 15px;
 
-    .price--num {
+    .price__number {
       font-weight: bold;
     }
   }
 
-  .info {
+  .shop-card__info {
     position: relative;
 
     display: flex;
@@ -154,7 +196,7 @@ export default {
     }
   }
 
-  .bestseller-tag {
+  .shop-card__bestseller-tag {
     position: absolute;
     top: 15px;
     left: 0;

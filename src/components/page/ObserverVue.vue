@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 
 const emits = defineEmits(['intersecting']);
 const props = defineProps({
@@ -7,27 +7,60 @@ const props = defineProps({
     type: Object,
     default: {},
   },
+  targets: {
+    type: Array,
+    default: [],
+  },
 });
 
 // Observer setup
 
 const intersectionCallback = (entries, observer) => {
-  if (entries[0].isIntersecting) {
-    emits('intersecting', { entries, observer });
-  }
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      emits('intersecting', { entry, observer });
+    }
+  });
 };
 
 const observer = new IntersectionObserver(intersectionCallback, props.options);
 
-onUnmounted(() => {
-  observer.disconnect();
-});
-
 // Refer observer to observerBlock
+
 const observerBlock = ref(null);
 
+// if TARGETS not [] {
+watch(
+  () => props.targets,
+  () => {
+    if (props.targets === 0) return;
+
+    Array.from(props.targets).forEach((target) => {
+      if (target instanceof HTMLElement) {
+        observer.observe(target);
+      } else if (target.$el instanceof HTMLElement) {
+        observer.observe(target.$el);
+      }
+    });
+  }
+);
+
 onMounted(() => {
-  observer.observe(observerBlock.value);
+  if (props.targets.length) {
+    Array.from(props.targets).forEach((target) => {
+      if (target instanceof HTMLElement) {
+        observer.observe(target);
+      } else if (target.$el instanceof HTMLElement) {
+        observer.observe(target.$el);
+      }
+    });
+  } else {
+    observer.observe(observerBlock.value);
+  }
+});
+
+onUnmounted(() => {
+  observer.disconnect();
 });
 </script>
 
